@@ -14,7 +14,8 @@ import javax.faces.bean.SessionScoped;
  *
  * @author QuangVinh
  */
-@ManagedBean (name = "EstateMBean")
+
+@ManagedBean (name="EstateMBean")
 @SessionScoped
 public class EstateMBean {
     @EJB
@@ -63,6 +64,34 @@ public class EstateMBean {
         estateFacade.create(estate);
     }
     
+    public void editEstate(){    
+        
+        String str=estate.getEstateID();        
+        Estate est = estateFacade.getEstateID(str);
+        est.setEstateArea(estate.getEstateArea());
+        estate.setEstateTitle(estate.getEstateTitle());
+        estate.getEstateValue();
+        estate.getEstateAddress();
+        estate.getEstateArea();
+        estate.getEstateContent();
+        estate.getEstateDirection();
+        estate.getEstateDriveway();     
+        estate.getEstateNumOfView();
+        estate.getEstateNumberOfFloors();
+        estate.getEstateNumberOfRooms();
+        estate.getEstateNumberOfToilets();
+        estate.getEstateStartDay();
+        estate.getEstateEndDay();
+        estate.getIsPaid();
+        estate.getSumValue();
+        estate.getIsEnabled();
+        estate.getTypeOfEstateID();
+        estateFacade.edit(est);
+    }
     
-    
+    public void deleteEstate(){
+        String str = estate.getEstateID();
+        estate.setEstateID(str);
+        estateFacade.remove(estate);
+    }
 }
