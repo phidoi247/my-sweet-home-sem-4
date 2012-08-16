@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author long.vu
  */
-public class AuthenFilterAdmin implements Filter {
+public class AuthenFilterLogin implements Filter {
     
     private static final boolean debug = true;
     // The filter configuration object we are associated with.  If
@@ -29,13 +29,13 @@ public class AuthenFilterAdmin implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
     
-    public AuthenFilterAdmin() {
+    public AuthenFilterLogin() {
     }    
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AuthenFilterAdmin:DoBeforeProcessing");
+            log("AuthenFilterLogin:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -57,7 +57,7 @@ public class AuthenFilterAdmin implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AuthenFilterAdmin:DoAfterProcessing");
+            log("AuthenFilterLogin:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -93,16 +93,17 @@ public class AuthenFilterAdmin implements Filter {
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,FilterChain chain) throws IOException, ServletException {
-        // Get role session
+        // Get user and role session
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String roles = (String) req.getSession().getAttribute("role");
+        String user = (String) req.getSession().getAttribute("user");
         
-        // If admin already login
-        if(roles != null && roles.equals("admin")){
-            chain.doFilter(request, response);
+        // If user or role is null
+        if(user.equals("")|| roles.equals("")){
+            res.sendRedirect("../faces/login.xhtml");            
         }else{
-            res.sendRedirect("../faces/index.xhtml");
+            chain.doFilter(request, response);
         }
     }
 
@@ -135,7 +136,7 @@ public class AuthenFilterAdmin implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {                
-                log("AuthenFilterAdmin:Initializing filter");
+                log("AuthenFilterLogin:Initializing filter");
             }
         }
     }
@@ -146,9 +147,9 @@ public class AuthenFilterAdmin implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("AuthenFilterAdmin()");
+            return ("AuthenFilterLogin()");
         }
-        StringBuffer sb = new StringBuffer("AuthenFilterAdmin(");
+        StringBuffer sb = new StringBuffer("AuthenFilterLogin(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
