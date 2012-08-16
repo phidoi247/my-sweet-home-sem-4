@@ -35,7 +35,51 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Estate.findByEstateNumOfView", query = "SELECT e FROM Estate e WHERE e.estateNumOfView = :estateNumOfView"),
     @NamedQuery(name = "Estate.findByIsEnabled", query = "SELECT e FROM Estate e WHERE e.isEnabled = :isEnabled"),
     @NamedQuery(name = "Estate.findByIsPaid", query = "SELECT e FROM Estate e WHERE e.isPaid = :isPaid"),
-    @NamedQuery(name = "Estate.findBySumValue", query = "SELECT e FROM Estate e WHERE e.sumValue = :sumValue")})
+    @NamedQuery(name = "Estate.findBySumValue", query = "SELECT e FROM Estate e WHERE e.sumValue = :sumValue"),
+    
+    //search advance
+    @NamedQuery(name = "Estate.searchAdvance", 
+        query = "SELECT e FROM Category ct, TypeOfEstate type, City c, IN(c.districtList) d, IN(d.estateList) e"
+        + " WHERE c.cityName LIKE %:cityName% AND d.districtName LIKE %:districtName% AND"
+              + " ct.categoryName LIKE %:categoryName% AND type.typeOfEstateName LIKE %:typeOfEstateName% AND"
+              + " e.estateNumberOfRooms LIKE %:estateNumberOfRooms% AND e.estateNumberOfToilets LIKE %:estateNumberOfToilets% AND"
+              + " e.estateArea BETWEEN :firstArea AND :lastArea AND"
+              + " e.sumValue BETWEEN :firstValue AND :lastValue AND"
+              + " :dateNow BETWEEN e.estateStartDay AND e.estateEndDay AND"
+              + " e.isEnabled = 'true' AND e.isPaid = 'true'"
+              + " ORDER BY e.subscribeID DESC, e.estateStartDay DESC" ),
+    
+    //search estate of member: dang duoc dang va chua het han
+    @NamedQuery(name = "Estate.searchEstateOfMemberInPost", query = "SELECT e FROM Estate e WHERE e.userName = :userName"
+        + " :dateNow BETWEEN e.estateStartDay AND e.estateEndDay AND"
+        + " e.isEnabled = 'true' AND e.isPaid = 'true'"
+        + " ORDER BY e.subscribeID DESC, e.estateStartDay DESC"),
+    
+    //search estate of member: da het han
+    @NamedQuery(name = "Estate.searchEstateOfMemberExpired", query = "SELECT e FROM Estate e WHERE e.userName = :userName"
+        + " e.estateEndDay < :dateNow AND"
+        + " e.isEnabled = 'true' AND e.isPaid = 'true'"
+        + " ORDER BY e.subscribeID DESC, e.estateStartDay DESC"),
+    
+    //search estate of member: chua duoc dang
+    @NamedQuery(name = "Estate.searchEstateOfMemberNotPost", query = "SELECT e FROM Estate e WHERE e.userName = :userName"
+        + " e.isEnabled = 'false' OR e.isPaid = 'false'"
+        + " ORDER BY e.subscribeID DESC, e.estateStartDay DESC"),
+    
+    //search estate by type of estate
+    @NamedQuery(name = "Estate.searchEstateByType", query = "SELECT e FROM TypeOfEstate t, IN(t.estateList) e"
+        + " WHERE t.typeOfEstateName = :typeOfEstateName AND"
+        + " :dateNow BETWEEN e.estateStartDay AND e.estateEndDay AND"
+        + " e.isEnabled = 'true' AND e.isPaid = 'true'"
+        + " ORDER BY e.subscribeID DESC, e.estateStartDay DESC"),
+    
+    //search estate by category name
+    @NamedQuery(name = "Estate.searchEstateByCategory", query = "SELECT e FROM Category ct, IN(ct.estateList) e"
+        + " WHERE ct.categoryName = :categoryName AND"
+        + " :dateNow BETWEEN e.estateStartDay AND e.estateEndDay AND"
+        + " e.isEnabled = 'true' AND e.isPaid = 'true'"
+        + " ORDER BY e.subscribeID DESC, e.estateStartDay DESC")})
+
 public class Estate implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
