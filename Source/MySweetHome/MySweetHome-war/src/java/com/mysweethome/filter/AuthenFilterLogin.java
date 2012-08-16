@@ -100,7 +100,7 @@ public class AuthenFilterLogin implements Filter {
         String user = (String) req.getSession().getAttribute("user");
         
         // If user or role is null
-        if(user.equals("")|| roles.equals("")){
+        if(user == null|| roles == null){
             res.sendRedirect("../faces/login.xhtml");            
         }else{
             chain.doFilter(request, response);

@@ -18,7 +18,9 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>AuthenFilterLogin</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/faces/Admin/*</url-pattern>
+        <url-pattern>/faces/Buyer/*</url-pattern>
+        <url-pattern>/faces/Seller/*</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
