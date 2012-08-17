@@ -46,8 +46,8 @@ import javax.xml.bind.annotation.XmlRootElement;
               + " e.estateArea BETWEEN :firstArea AND :lastArea AND"
               + " e.sumValue BETWEEN :firstValue AND :lastValue AND"
               + " :dateNow BETWEEN e.estateStartDay AND e.estateEndDay AND"
-              + " e.isEnabled = 'true' AND e.isPaid = 'true'"
-              + " e MEMBER OF s.estateList AND"
+              + " e.isEnabled = 'true' AND e.isPaid = 'true' AND"
+              + " e MEMBER OF s.estateList"
               + " ORDER BY s.subscribeID DESC, e.estateStartDay DESC" ),
     
     //search estate of member: dang duoc dang va chua het han
