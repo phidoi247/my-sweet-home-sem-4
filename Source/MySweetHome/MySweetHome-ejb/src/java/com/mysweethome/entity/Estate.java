@@ -5,6 +5,7 @@
 package com.mysweethome.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -83,7 +84,7 @@ import javax.xml.bind.annotation.XmlRootElement;
         + " WHERE ct.categoryName = :categoryName AND"
         + " e MEMBER OF s.estateList AND"
 //        + " :dateNow BETWEEN e.estateStartDay AND e.estateEndDay AND"
-        + " e.estateStartDay < :dateMow AND e.estateEndDay > :dateNow AND"
+        + " e.estateStartDay < :dateNow AND e.estateEndDay > :dateNow AND"
         + " e.isEnabled = 'true' AND e.isPaid = 'true'"
         + " ORDER BY s.subscribeID DESC, e.estateStartDay DESC")
 })
@@ -101,10 +102,12 @@ public class Estate implements Serializable {
     private String estateTitle;
     @Size(max = 15)
     @Column(name = "Estate_Start_Day", length = 15)
-    private String estateStartDay;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date estateStartDay;
     @Size(max = 15)
     @Column(name = "Estate_End_Day", length = 15)
-    private String estateEndDay;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date estateEndDay;
     @Size(max = 200)
     @Column(name = "Estate_Address", length = 200)
     private String estateAddress;
@@ -192,19 +195,19 @@ public class Estate implements Serializable {
         this.estateTitle = estateTitle;
     }
 
-    public String getEstateStartDay() {
+    public Date getEstateStartDay() {
         return estateStartDay;
     }
 
-    public void setEstateStartDay(String estateStartDay) {
+    public void setEstateStartDay(Date estateStartDay) {
         this.estateStartDay = estateStartDay;
     }
 
-    public String getEstateEndDay() {
+    public Date getEstateEndDay() {
         return estateEndDay;
     }
 
-    public void setEstateEndDay(String estateEndDay) {
+    public void setEstateEndDay(Date estateEndDay) {
         this.estateEndDay = estateEndDay;
     }
 

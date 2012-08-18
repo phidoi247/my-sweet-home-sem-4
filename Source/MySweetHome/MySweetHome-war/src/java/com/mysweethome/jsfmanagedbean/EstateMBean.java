@@ -4,15 +4,18 @@
  */
 package com.mysweethome.jsfmanagedbean;
 
+import com.mysweethome.entity.Category;
 import com.mysweethome.entity.Estate;
-import com.mysweethome.entity.Member1;
 import com.mysweethome.session.EstateFacade;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -25,7 +28,16 @@ public class EstateMBean {
     @EJB
     private EstateFacade estateFacade;
     private Estate estate;
-   
+    private Category category;
+    
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+    
 
     public Estate getEstate() {
         return estate;
@@ -41,6 +53,8 @@ public class EstateMBean {
     public EstateMBean() {
         estate = new Estate();
         estateFacade = new EstateFacade();
+        category = new Category();
+        category_name=category.getCategoryName();  
     }
     
     
@@ -109,5 +123,14 @@ public class EstateMBean {
         String str = estate.getEstateID();
         estate.setEstateID(str);
         estateFacade.remove(estate);
+    }
+    
+    String category_name;
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    Date date;
+    
+    public List<Estate> getListEstateByCategory(){    
+        date =  new Date(sdf.format(Calendar.getInstance().getTime()));        
+        return estateFacade.getEstateByCategory(category_name, date);        
     }
 }

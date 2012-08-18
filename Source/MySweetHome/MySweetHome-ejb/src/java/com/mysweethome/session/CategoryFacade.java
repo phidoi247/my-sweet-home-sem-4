@@ -5,6 +5,9 @@
 package com.mysweethome.session;
 
 import com.mysweethome.entity.Category;
+import com.mysweethome.entity.Estate;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,6 +19,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class CategoryFacade extends AbstractFacade<Category> {
+
     @PersistenceContext(unitName = "MySweetHome-ejbPU")
     private EntityManager em;
 
@@ -27,7 +31,7 @@ public class CategoryFacade extends AbstractFacade<Category> {
     public CategoryFacade() {
         super(Category.class);
     }
-    
+
     @Override
     public void create(Category category) {
         em.persist(category);
@@ -68,5 +72,17 @@ public class CategoryFacade extends AbstractFacade<Category> {
         }
         
         return cate;
+    }
+
+    public List<Category> getAllCategory() {
+        List<Category> category = null;
+        try {
+            Query q = em.createNamedQuery("Category.findAll");
+                        
+            category = q.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return category;
     }
 }
