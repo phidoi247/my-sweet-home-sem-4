@@ -8,6 +8,7 @@ import com.mysweethome.entity.FAQs;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -40,5 +41,44 @@ public class FAQsFacade extends AbstractFacade<FAQs> {
     @Override
     public void remove(FAQs faq) {
         em.remove(em.merge(faq));
-    }  
+    }
+
+    public FAQs getFAQsID(String faqsID) {
+        FAQs fa=null;
+        try{
+        Query query=em.createNamedQuery("FAQs.findByFAQsID");
+        query.setParameter("fAQsID", faqsID);
+        fa=(FAQs) query.getSingleResult();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return fa;
+
+    }
+     public FAQs getAnswer(String faqsAnswer) {
+        FAQs fa=null;
+        try{
+        Query query=em.createNamedQuery("FAQs.findByAnswer");
+        query.setParameter("answer", faqsAnswer);
+        fa=(FAQs) query.getSingleResult();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return fa;
+
+    }
+      public FAQs getQuestion(String faqsQuestion) {
+        FAQs fa=null;
+        try{
+        Query query=em.createNamedQuery("FAQs.findByQuestion");
+        query.setParameter("question", faqsQuestion);
+        fa=(FAQs) query.getSingleResult();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return fa;
+
+    }
+
+
 }

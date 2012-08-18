@@ -8,6 +8,7 @@ import com.mysweethome.entity.City;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -41,4 +42,29 @@ public class CityFacade extends AbstractFacade<City> {
     public void remove(City city) {
         em.remove(em.merge(city));
     }
+
+    public City getCityID(String cityID){
+        City ct=null;
+        try{
+            Query query=em.createNamedQuery("City.findByCityID");
+            query.setParameter("cityID", cityID);
+            ct=(City) query.getSingleResult();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return ct;
+    }
+    public City getCityName(String cityName){
+        City ct=null;
+        try{
+            Query query=em.createNamedQuery("City.findByCityID");
+            query.setParameter("cityID", cityName);
+            ct=(City) query.getSingleResult();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return ct;
+    }
+    
+
 }

@@ -104,5 +104,7 @@ public class District implements Serializable {
     public String toString() {
         return "com.mysweethome.entity.District[ districtID=" + districtID + " ]";
     }
+
+   
     
 }
