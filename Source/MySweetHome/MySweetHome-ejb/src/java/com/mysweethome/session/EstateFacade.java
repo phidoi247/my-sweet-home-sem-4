@@ -5,6 +5,7 @@
 package com.mysweethome.session;
 
 import com.mysweethome.entity.Estate;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -249,6 +250,93 @@ public class EstateFacade extends AbstractFacade<Estate> {
         return estate;
     } 
     
+    
+    
+    
+    //search advanced
+    public List<Estate> searchEstateAdvanced(String strSearch) {
+        List<Estate> estates = null;
+        try{
+            Query q = em.createNamedQuery("Estate.searchAdvance");
+            q.setParameter("strSearch", strSearch);
+            estates = q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estates;
+    }
+    
+    
+    //search estate of member: dang duoc dang va chua het han
+    public List<Estate> searchEstatePosted(String strSearch) {
+        List<Estate> estates = null;
+        try{
+            Query q = em.createNamedQuery("Estate.searchEstateOfMemberInPost");
+            q.setParameter("strSearch", strSearch);
+            estates = q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estates;
+    }
+    
+   
+    //search estate of member: da het han
+    public List<Estate> searchEstateExpired(String strSearch) {
+        List<Estate> estates = null;
+        try{
+            Query q = em.createNamedQuery("Estate.searchEstateOfMemberExpired");
+            q.setParameter("strSearch", strSearch);
+            estates = q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estates;
+    }
+    
+    
+    //search estate of member: chua duoc dang
+    public List<Estate> searchEstateNotPosted(String strSearch) {
+        List<Estate> estates = null;
+        try{
+            Query q = em.createNamedQuery("Estate.searchEstateOfMemberNotPost");
+            q.setParameter("strSearch", strSearch);
+            estates = q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estates;
+    }
+    
+    
+    
+    //search estate by type of estate
+    public List<Estate> searchByTypeOfEstate(String strSearch) {
+        List<Estate> estates = null;
+        try{
+            Query q = em.createNamedQuery("Estate.searchEstateByType");
+            q.setParameter("strSearch", strSearch);
+            estates = q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estates;
+    }
+    
+    
+    
+    //search estate by category name
+    public List<Estate> searchByCategoryName(String strSearch) {
+        List<Estate> estates = null;
+        try{
+            Query q = em.createNamedQuery("Estate.searchEstateByCategory");
+            q.setParameter("strSearch", strSearch);
+            estates = q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estates;
+    }
     
     
     
