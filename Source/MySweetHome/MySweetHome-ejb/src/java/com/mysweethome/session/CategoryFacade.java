@@ -8,6 +8,7 @@ import com.mysweethome.entity.Category;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -40,5 +41,32 @@ public class CategoryFacade extends AbstractFacade<Category> {
     @Override
     public void remove(Category category) {
         em.remove(em.merge(category));
+    }
+    
+    public Category getCategoryID(String categoryID){
+        Category cate=null;
+        try{
+        Query query=em.createNamedQuery("Category.findByCategoryID");
+        query.setParameter("categoryID", categoryID);
+        cate=(Category) query.getSingleResult();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
+        return cate;
+    }
+    
+    
+    public Category getCategoryName(String categoryName){
+        Category cate=null;
+        try{
+        Query query=em.createNamedQuery("Category.findByCategoryName");
+        query.setParameter("categoryName", categoryName);
+        cate=(Category) query.getSingleResult();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
+        return cate;
     }
 }
