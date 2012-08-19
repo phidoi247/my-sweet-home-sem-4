@@ -9,7 +9,7 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 /**
  *
- * @author Huynh Kim Toan
+ * @author Ngo Quang Huy
  */
 public class messages {
  public static void taoTB(Severity s,String tieuDe,String noiDung){

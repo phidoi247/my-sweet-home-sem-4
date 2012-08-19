@@ -9,7 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 /**
  *
- * @author Huynh Kim Toan
+ * @author Ngo Quang Huy
  */
 public class MD5 {
 public static String getMD5(String input) {

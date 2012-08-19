@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Huynh Kim Toan
+ * @author Ngo Quang Huy
  */
 public class operationSession {
     public static void ganGiaTriChoSession(String name, Object value) {
