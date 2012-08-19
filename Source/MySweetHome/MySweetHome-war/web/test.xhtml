@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <h:form>
+                    <h1><h:outputText value="Create/Edit"/></h1>
+                    <h:panelGrid columns="2">
+                        
+<!--                        <h:outputLabel value="EstateStartDay:" for="estateStartDay" />
+                        <h:inputText id="estateStartDay" value="#{EstateMBean.estate.estateStartDay}" title="EstateStartDay" />
+                        <h:outputLabel value="EstateEndDay:" for="estateEndDay" />
+                        <h:inputText id="estateEndDay" value="#{EstateMBean.estate.estateEndDay}" title="EstateEndDay" />
+                       
+                       
+                        <h:outputLabel value="EstateArea:" for="estateArea" />
+                        <h:inputText id="estateArea" value="#{EstateMBean.estate.estateArea}" title="EstateArea" />
+                        <h:outputLabel value="EstateValue:" for="estateValue" />
+                        <h:inputText id="estateValue" value="#{EstateMBean.estate.estateValue}" title="EstateValue" />
+                       -->
+                        <h:outputLabel value="EstateNumberOfRooms:" for="estateNumberOfRooms" />
+                        <h:inputText id="estateNumberOfRooms" value="#{EstateMBean.estate.estateNumberOfRooms}" title="EstateNumberOfRooms" />
+                      
+                        <h:outputLabel value="EstateNumberOfToilets:" for="estateNumberOfToilets" />
+                        <h:inputText id="estateNumberOfToilets" value="#{EstateMBean.estate.estateNumberOfToilets}" title="EstateNumberOfToilets" />
+                      
+<!--                        <h:outputLabel value="TypeOfEstateName:" for="typeOfEstateName" />
+                        <h:selectOneMenu id="typeOfEstateName" value="#{EstateMBean.estate.typeOfEstateID.typeOfEstateName}" title="TypeOfEstate Name" >
+                             TODO: update below reference to list of available items
+                            <f:selectItem itemValue="Sell" id="sell"></f:selectItem>
+                            <f:selectItem itemValue="Rent" id="rent"></f:selectItem>
+                        </h:selectOneMenu>-->
+                        
+<!--                        <h:outputLabel value="SubscribeName:" for="subscribeName:" />
+                        <h:selectOneMenu id="SubscribeName:" value="#{EstateMBean}}" title="SubscribeName:" >
+                             TODO: update below reference to list of available items
+                            <f:selectItems value="#{fixme}"/>
+                        </h:selectOneMenu>-->
+                       
+<!--                        <h:outputLabel value="CityName:" for="cityName" />
+                        <h:selectOneMenu id="CityName:" value="#{EstateMBean.city.cityName}" title="CityName:" >
+                             TODO: update below reference to list of available items
+                            <f:selectItems value="#{fixme}"/>
+                        </h:selectOneMenu>-->
+                        
+<!--                        <h:outputLabel value="DistrictName:" for="districtName" />
+                        <h:selectOneMenu id="districtName" value="#{EstateMBean.estate.districtID.cityID.districtList}" title="DistrictName" >
+                             TODO: update below reference to list of available items
+                            <f:selectItems value="#{fixme}"/>
+                        </h:selectOneMenu>
+                       
+                        <h:outputLabel value="CategoryName:" for="categoryName" />
+                        <h:selectOneMenu id="categoryName" value="#{EstateMBean.estate.categoryID.categoryName}" title="CategoryName" >
+                             TODO: update below reference to list of available items
+                            <f:selectItems value="#{fixme}"/>
+                        </h:selectOneMenu>-->
+                        
+                        <h:commandButton action="#{EstateMBean.searchAdvance()}" value="Search advance"/>
+                    </h:panelGrid>
+                </h:form>
+
+            </h:form>
+        </f:view>
+
+    </h:body>
+</html>
+
