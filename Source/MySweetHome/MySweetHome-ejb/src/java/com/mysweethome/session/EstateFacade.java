@@ -348,16 +348,16 @@ public class EstateFacade extends AbstractFacade<Estate> {
     
     
     //search estate by category name
-    public List<Estate> searchByCategoryName(String strSearch) {
+    public List<Estate> searchByCategoryName(String categoryName, Date dateNow) {
         List<Estate> estates = null;
         try{
             Query q = em.createNamedQuery("Estate.searchEstateByCategory");
             q.setParameter("categoryName", categoryName);
             q.setParameter("dateNow", dateNow);
-            estate = q.getResultList();
+            estates = q.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return estate;
+        return estates;
     }
 }

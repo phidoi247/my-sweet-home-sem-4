@@ -135,7 +135,7 @@ public class EstateMBean {
         estate = new Estate();
         estateFacade = new EstateFacade();
         category = new Category();
-        category_name=category.getCategoryName();  
+        //category_name=category.getCategoryName();  
     }
     
     
