@@ -248,11 +248,109 @@ public class EstateFacade extends AbstractFacade<Estate> {
             e.printStackTrace();
         }
         return estate;
+    } 
+    
+    public List<Estate> searchAdvance(String cityName, String districtName, String categoryName, String typeOfEstateName,String estateNumberOfRooms, 
+            String estateNumberOfToilets, int firstArea, int lastArea,int firstValue, int lastValue, String dateNow){
+        List<Estate> estateList=null;
+        try{
+            Query q = em.createNamedQuery("Estate.searchAdvance");
+            q.setParameter("cityName", cityName);
+            q.setParameter("districtName", districtName);
+            q.setParameter("categoryName", categoryName);
+            q.setParameter("typeOfEstateName", typeOfEstateName);
+            q.setParameter("estateNumberOfRooms", estateNumberOfRooms);
+            q.setParameter("estateNumberOfToilets", estateNumberOfToilets);
+            q.setParameter("firstArea", firstArea);
+            q.setParameter("lastArea", lastArea);
+            q.setParameter("firstValue", firstValue);
+            q.setParameter("lastValue", lastValue);
+            q.setParameter("dateNow", dateNow);
+            
+            estateList = q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estateList;
     }
-
-    public List<Estate> getEstateByCategory(String categoryName, Date dateNow) {
-        List<Estate> estate = null;
-        try {
+    
+    
+    //search advanced
+//    public List<Estate> searchEstateAdvanced(String strSearch) {
+//        List<Estate> estates = null;
+//        try{
+//            Query q = em.createNamedQuery("Estate.searchAdvance");
+//            q.setParameter("strSearch", strSearch);
+//            estates = q.getResultList();
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return estates;
+//    }
+    
+    
+    //search estate of member: dang duoc dang va chua het han
+    public List<Estate> searchEstatePosted(String strSearch) {
+        List<Estate> estates = null;
+        try{
+            Query q = em.createNamedQuery("Estate.searchEstateOfMemberInPost");
+            q.setParameter("strSearch", strSearch);
+            estates = q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estates;
+    }
+    
+   
+    //search estate of member: da het han
+    public List<Estate> searchEstateExpired(String strSearch) {
+        List<Estate> estates = null;
+        try{
+            Query q = em.createNamedQuery("Estate.searchEstateOfMemberExpired");
+            q.setParameter("strSearch", strSearch);
+            estates = q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estates;
+    }
+    
+    
+    //search estate of member: chua duoc dang
+    public List<Estate> searchEstateNotPosted(String strSearch) {
+        List<Estate> estates = null;
+        try{
+            Query q = em.createNamedQuery("Estate.searchEstateOfMemberNotPost");
+            q.setParameter("strSearch", strSearch);
+            estates = q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estates;
+    }
+    
+    
+    
+    //search estate by type of estate
+    public List<Estate> searchByTypeOfEstate(String strSearch) {
+        List<Estate> estates = null;
+        try{
+            Query q = em.createNamedQuery("Estate.searchEstateByType");
+            q.setParameter("strSearch", strSearch);
+            estates = q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estates;
+    }
+    
+    
+    
+    //search estate by category name
+    public List<Estate> searchByCategoryName(String strSearch) {
+        List<Estate> estates = null;
+        try{
             Query q = em.createNamedQuery("Estate.searchEstateByCategory");
             q.setParameter("categoryName", categoryName);
             q.setParameter("dateNow", dateNow);
