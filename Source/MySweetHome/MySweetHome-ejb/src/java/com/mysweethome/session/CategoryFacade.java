@@ -5,8 +5,6 @@
 package com.mysweethome.session;
 
 import com.mysweethome.entity.Category;
-import com.mysweethome.entity.Estate;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -78,6 +76,18 @@ public class CategoryFacade extends AbstractFacade<Category> {
         List<Category> category = null;
         try {
             Query q = em.createNamedQuery("Category.findAll");
+                        
+            category = q.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return category;
+    }
+    
+    public List<String> getColumnCategoryName() {
+        List<String> category = null;
+        try {
+            Query q = em.createNamedQuery("Category.findColumnCategoryName");
                         
             category = q.getResultList();
         } catch (Exception e) {

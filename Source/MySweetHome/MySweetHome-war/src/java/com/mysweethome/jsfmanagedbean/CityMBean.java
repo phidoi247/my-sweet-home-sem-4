@@ -20,7 +20,7 @@ import javax.faces.bean.SessionScoped;
 public class CityMBean {
     @EJB
     private CityFacade cityFacade;
-
+    private City city;
     public City getCity() {
         return city;
     }
@@ -28,7 +28,7 @@ public class CityMBean {
     public void setCity(City city) {
         this.city = city;
     }
-    private City city;
+    
 
     /** Creates a new instance of CityMBean */
     public CityMBean() {
