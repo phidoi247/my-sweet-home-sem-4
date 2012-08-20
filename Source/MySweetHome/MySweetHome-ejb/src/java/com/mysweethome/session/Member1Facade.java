@@ -6,6 +6,8 @@ package com.mysweethome.session;
 
 import com.mysweethome.entity.Member1;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -66,6 +68,142 @@ public class Member1Facade extends AbstractFacade<Member1> {
             ex.printStackTrace();
         }
         return user;
-    }   
+    }
+    
+    public Member1 getEmail(String email) {
+        Member1 user = null;
+        try {
+            Query query = em.createNamedQuery("Member1.findByEmail");
+            query.setParameter("email", email);
+            user = (Member1) query.getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+        }
+        return user;
+    }
+    
+    public Member1 getFullName(String fullName) {
+        Member1 user = null;
+        try {
+            Query query = em.createNamedQuery("Member1.findByFullName");
+            query.setParameter("fullName", fullName);
+            user = (Member1) query.getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+        }
+        return user;
+    }
+    
+    
+    public Member1 getDateOfBirth(String dateOfBirth) {
+        Member1 user = null;
+        try {
+            Query query = em.createNamedQuery("Member1.findByDateOfBirth");
+            query.setParameter("dateOfBirth", dateOfBirth);
+            user = (Member1) query.getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+        }
+        return user;
+    }
+    
+    
+    public Member1 getGender(String gender) {
+        Member1 user = null;
+        try {
+            Query query = em.createNamedQuery("Member1.findByGender");
+            query.setParameter("gender", gender);
+            user = (Member1) query.getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+        }
+        return user;
+    }
+    
+    public Member1 getAddress(String address) {
+        Member1 user = null;
+        try {
+            Query query = em.createNamedQuery("Member1.findByAddress");
+            query.setParameter("address", address);
+            user = (Member1) query.getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+        }
+        return user;
+    }
+    
+    public Member1 getTelephone(String telephone) {
+        Member1 user = null;
+        try {
+            Query query = em.createNamedQuery("Member1.findByTelephone");
+            query.setParameter("telephone", telephone);
+            user = (Member1) query.getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+        }
+        return user;
+    }
+    
+    public Member1 getCompany(String company) {
+        Member1 user = null;
+        try {
+            Query query = em.createNamedQuery("Member1.findByCompany");
+            query.setParameter("company", company);
+            user = (Member1) query.getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+        }
+        return user;
+    }
+    
+    public Member1 getIsEnabled(String isEnabled) {
+        Member1 user = null;
+        try {
+            Query query = em.createNamedQuery("Member1.findByIsEnabled");
+            query.setParameter("isEnabled", isEnabled);
+            user = (Member1) query.getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+        }
+        return user;
+    }
+    
+    public Member1 getCode(String code) {
+        Member1 user = null;
+        try {
+            Query query = em.createNamedQuery("Member1.findByCode");
+            query.setParameter("code", code);
+            user = (Member1) query.getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+        }
+        return user;
+    }
+    
+    
+    public Member1 getImageUrl(String imageUrl) {
+        Member1 user = null;
+        try {
+            Query query = em.createNamedQuery("Member1.findByImageUrl");
+            query.setParameter("imageUrl", imageUrl);
+            user = (Member1) query.getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+        }
+        return user;
+    }
+    
+    public Member1 getRole(String role) {
+        Member1 user = null;
+        try {
+            Query query = em.createNamedQuery("Member1.findByRole");
+            query.setParameter("role", role);
+            user = (Member1) query.getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+        }
+        return user;
+    }
+    
     
 }
