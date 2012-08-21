@@ -21,6 +21,14 @@ public class CityMBean {
     @EJB
     private CityFacade cityFacade;
     private City city;
+
+    public CityFacade getCityFacade() {
+        return cityFacade;
+    }
+
+    public void setCityFacade(CityFacade cityFacade) {
+        this.cityFacade = cityFacade;
+    }
     public City getCity() {
         return city;
     }
@@ -36,27 +44,36 @@ public class CityMBean {
         cityFacade=new CityFacade();
     }
     
-    public void  createCity(){
-        city.getCityID();
-        city.getCityName();
-        city.getDistrictList();
+    public String createCity(){
+        City citytemp= new City();
         
-        cityFacade.create(city);
+        String result="False";
+        try{
+        int id= cityFacade.getLastRecordID();
+        citytemp.setCityID(String.valueOf(id+1));
+        citytemp.setCityName(getCity().getCityName());        
+        
+        cityFacade.create(citytemp);
+        result="True";
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return result;
     }
     public void editCity(){
         
-        String str=city.getCityID();
-        City ct=cityFacade.getCityID(str);
-        ct.setCityName(city.getCityName());
-        ct.setDistrictList(city.getDistrictList());
+        String str=getCity().getCityID();
+        City ct=getCityFacade().getCityID(str);
+        ct.setCityName(getCity().getCityName());
+        ct.setDistrictList(getCity().getDistrictList());
         
-        cityFacade.edit(ct);
+        getCityFacade().edit(ct);
     }
     
     public void removeCity(){
-        String str=city.getCityID();
-        city.setCityID(str);
-        cityFacade.remove(city);
+        String str=getCity().getCityID();
+        getCity().setCityID(str);
+        getCityFacade().remove(getCity());
     }
 
 

@@ -11,9 +11,11 @@
         <h:form id="form"> 
             <p:panel header="AutoComplete" toggleable="true" id="panel">  
                 <h:panelGrid columns="2" cellpadding="5">  
-                    <h:outputLabel value="DropDown :" for="dd" />  
-                    <p:autoComplete id="dd" dropdown="true" value="#{CategoryMBean.category.categoryName}"   
-                                    completeMethod="#{CategoryMBean.columnCategoryName}" />  
+                    <p:selectOneMenu id="type" value="#{typeOfEstateMBean.type}">  
+                        <f:selectItem itemLabel="Select City" itemValue="" />  
+                        <f:selectItems value="#{typeOfEstateMBean.typeEstateList}" var="typeestate" itemLabel="#{typeestate.typeOfEstateName}" itemValue="#{typeestate}"/>  
+                    </p:selectOneMenu>  
+                   
                 </h:panelGrid>
             </p:panel>
         </h:form>

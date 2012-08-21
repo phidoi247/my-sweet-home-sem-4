@@ -5,6 +5,8 @@
 package com.mysweethome.session;
 
 import com.mysweethome.entity.City;
+import java.util.Iterator;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -66,5 +68,15 @@ public class CityFacade extends AbstractFacade<City> {
         return ct;
     }
     
+    public int getLastRecordID(){
+        Query q= em.createNamedQuery("City.findAll");
+        List<City> citylist= q.getResultList();
+                
+        int i=citylist.size();
+        i=i-1;
+        
+        int j=Integer.parseInt(citylist.get(i).getCityID());
+        return j;
+    }
 
 }

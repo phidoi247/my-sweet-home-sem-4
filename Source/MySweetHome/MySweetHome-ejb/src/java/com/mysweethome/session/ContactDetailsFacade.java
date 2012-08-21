@@ -41,4 +41,6 @@ public class ContactDetailsFacade extends AbstractFacade<ContactDetails> {
     public void remove(ContactDetails ctdetails) {
         em.remove(em.merge(ctdetails));
     }    
+    
+    
 }

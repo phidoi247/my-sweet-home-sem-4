@@ -5,9 +5,11 @@
 package com.mysweethome.session;
 
 import com.mysweethome.entity.TypeOfEstate;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -41,4 +43,9 @@ public class TypeOfEstateFacade extends AbstractFacade<TypeOfEstate> {
     public void remove(TypeOfEstate typeofestate) {
         em.remove(em.merge(typeofestate));
     }  
+    
+    public List<TypeOfEstate> getAllTypeOfEstate(){
+        Query q= em.createNamedQuery("TypeOfEstate.findAll");
+        return q.getResultList();
+    }
 }
