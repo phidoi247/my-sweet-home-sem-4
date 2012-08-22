@@ -7,6 +7,7 @@ package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.City;
 import com.mysweethome.session.CityFacade;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -74,6 +75,10 @@ public class CityMBean {
         String str=getCity().getCityID();
         getCity().setCityID(str);
         getCityFacade().remove(getCity());
+    }
+    
+    public List<City> getAllCity(){
+        return cityFacade.findAll();
     }
 
 
