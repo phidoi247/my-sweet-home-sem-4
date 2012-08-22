@@ -13,8 +13,11 @@
                 <h1><h:outputText value="Create/Edit"/></h1>
                 <h:panelGrid columns="2">
                     <p:outputLabel value="CityName:" for="cityName" />
-                    <p:inputText id="cityName" value="#{CityMBean.city.cityName}" title="CityName" />
-                    
+                    <p:inputText id="cityName" value="#{CityMBean.city.cityName}" title="CityName" validatorMessage="Invalid email" onblur="changeCase(this)">
+                    <f:validateRegex pattern="@^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,7}$"/>
+                    <p:ajax event="blur" update="msg4" />
+                    </p:inputText>
+                    <p:message id="msg4" for="cityName"/>
                     <p:commandButton value="Create" action="#{CityMBean.createCity()}"/>
                 </h:panelGrid>
             </h:form>

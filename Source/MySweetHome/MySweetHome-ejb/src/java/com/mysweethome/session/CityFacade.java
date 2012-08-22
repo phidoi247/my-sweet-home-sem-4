@@ -20,7 +20,7 @@ import javax.persistence.Query;
 public class CityFacade extends AbstractFacade<City> {
     @PersistenceContext(unitName = "MySweetHome-ejbPU")
     private EntityManager em;
-
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -79,4 +79,5 @@ public class CityFacade extends AbstractFacade<City> {
         return j;
     }
 
+    
 }

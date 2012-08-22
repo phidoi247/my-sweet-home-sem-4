@@ -2,17 +2,47 @@
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
     <Scope Scope="Project">
-        <Node id="selling.xhtml" x="650" y="150" zoom="true"/>
-        <Node id="ViewEstate.xhtml" x="400" y="450" zoom="true"/>
-        <Node id="test.xhtml" x="70" y="225" zoom="true"/>
+        <Node id="selling.xhtml" x="689" y="35" zoom="true"/>
         <Node id="Admin/testFilter.xhtml" x="900" y="150" zoom="true"/>
-        <Node id="login.xhtml" x="169" y="123" zoom="true"/>
-        <Node id="index.xhtml" x="150" y="450" zoom="true"/>
-        <Node id="demoMember.xhtml" x="766" y="300" zoom="true"/>
-        <Node id="contact.xhtml" x="572" y="268" zoom="true"/>
-        <Node id="Seller/createEstate.xhtml" x="429" y="342" zoom="true"/>
-        <Node id="renting.xhtml" x="387" y="146" zoom="true"/>
+        <Node id="FAQs1.xhtml" x="1150" y="150" zoom="true"/>
+        <Node id="Admin/createCategory1.xhtml" x="1650" y="150" zoom="true"/>
+        <Node id="Seller/createEstate1.xhtml" x="900" y="750" zoom="true"/>
+        <Node id="Admin/manageEstate1.xhtml" x="150" y="600" zoom="true"/>
         <Node id="template/HomeTemplate.xhtml" x="146" y="296" zoom="true"/>
+        <Node id="register.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="test.xhtml" x="70" y="225" zoom="true"/>
+        <Node id="test/editCity.xhtml" x="446" y="1105" zoom="false"/>
+        <Node id="Admin/changePassAdmin1.xhtml" x="150" y="750" zoom="true"/>
+        <Node id="test/newjsf.xhtml" x="1150" y="300" zoom="true"/>
+        <Node id="Admin/createDistrict1.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="renting.xhtml" x="386" y="73" zoom="true"/>
+        <Node id="test/test.xhtml" x="1650" y="300" zoom="true"/>
+        <Node id="newjsf.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="Admin/manageUser1.xhtml" x="900" y="600" zoom="true"/>
+        <Node id="Seller/payment.xhtml" x="400" y="600" zoom="true"/>
+        <Node id="ViewEstate.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="Seller/createContactDetails.xhtml" x="1900" y="150" zoom="true"/>
+        <Node id="login.xhtml" x="169" y="123" zoom="true"/>
+        <Node id="searchEstate.xhtml" x="650" y="900" zoom="true"/>
+        <Node id="Admin/editCategory1.xhtml" x="351" y="215" zoom="true"/>
+        <Node id="demoMember.xhtml" x="766" y="300" zoom="true"/>
+        <Node id="Admin/editCity1.xhtml" x="1400" y="300" zoom="true"/>
+        <Node id="MemberDetails.xhtml" x="1400" y="450" zoom="true"/>
+        <Node id="Seller/editEstate1.xhtml" x="400" y="750" zoom="true"/>
+        <Node id="Seller/changePassUser.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="test2.xhtml" x="650" y="750" zoom="true"/>
+        <Node id="test/testTypeOfMemberMBean.xhtml" x="1400" y="150" zoom="true"/>
+        <Node id="index.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="test/demoMember.xhtml" x="404" y="852" zoom="true"/>
+        <Node id="contact.xhtml" x="572" y="268" zoom="true"/>
+        <Node id="test/testMBean.xhtml" x="1150" y="600" zoom="true"/>
+        <Node id="testTypeOfMemberMBean.xhtml" x="650" y="600" zoom="true"/>
+        <Node id="Guest/sendMailAdmin1.xhtml" x="900" y="450" zoom="true"/>
+        <Node id="test/createCity.xhtml" x="150" y="900" zoom="true"/>
+        <Node id="Admin/createCity.xhtml" x="150" y="1050" zoom="true"/>
+        <Node id="testMBean.xhtml" x="1150" y="450" zoom="true"/>
+        <Node id="Admin/managePayment1.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="test/test2.xhtml" x="650" y="300" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>

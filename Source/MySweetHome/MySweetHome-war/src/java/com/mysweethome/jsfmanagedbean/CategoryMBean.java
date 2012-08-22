@@ -25,12 +25,30 @@ public class CategoryMBean {
      * Creates a new instance of CategoryMBean
      */
     public CategoryMBean() {
+       
     }
     
     @EJB
     Category category;
     List<String> categoryName= new ArrayList<String>();
 
+    List<Category> catelist;
+
+    public CategoryFacade getCatefacade() {
+        return catefacade;
+    }
+
+    public void setCatefacade(CategoryFacade catefacade) {
+        this.catefacade = catefacade;
+    }
+
+    public List<Category> getCatelist() {
+        return catelist;
+    }
+
+    public void setCatelist(List<Category> catelist) {
+        this.catelist = catelist;
+    }
     public List<String> getCategoryName() {
         return categoryName;
     }
