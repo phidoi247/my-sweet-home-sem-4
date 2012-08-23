@@ -4,6 +4,7 @@
  */
 package com.mysweethome.session;
 
+import com.mysweethome.entity.City;
 import com.mysweethome.entity.Estate;
 import java.util.Date;
 import java.util.List;
@@ -359,5 +360,16 @@ public class EstateFacade extends AbstractFacade<Estate> {
             e.printStackTrace();
         }
         return estates;
+    }
+    
+       public int getLastRecordID(){
+        Query q= em.createNamedQuery("Estate.findAll");
+        List<Estate> estatelist= q.getResultList();
+                
+        int i=estatelist.size();
+        i=i-1;
+        
+        int j=Integer.parseInt(estatelist.get(i).getEstateID());
+        return j;
     }
 }

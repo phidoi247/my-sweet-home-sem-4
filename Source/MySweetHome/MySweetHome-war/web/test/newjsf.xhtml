@@ -7,23 +7,61 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
+       
         <f:view>
             <h:form>
-                <h1><h:outputText value="List"/></h1>
-                <h:dataTable value="#{CategoryMBean.listCategory}" var="item">
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="CategoryID"/>
-                        </f:facet>
-                        <h:outputText value="#{item.categoryID}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="CategoryName"/>
-                        </f:facet>
-                        <h:outputText value="#{item.categoryName}"/>
-                    </h:column>
-                </h:dataTable>
+                <h1><h:outputText value="Create/Edit"/></h1>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="EstateTitle:" for="estateTitle" />
+                    <h:inputText id="estateTitle" value="#{EstateMBean.estate.estateTitle}" title="EstateTitle" />
+                    <h:outputLabel value="EstateStartDay:" for="estateStartDay" />
+                    <h:inputText id="estateStartDay" value="#{EstateMBean.estate.estateStartDay}" title="EstateStartDay" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="EstateEndDay:" for="estateEndDay" />
+                    <h:inputText id="estateEndDay" value="#{EstateMBean.estate.estateEndDay}" title="EstateEndDay" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="EstateAddress:" for="estateAddress" />
+                    <h:inputText id="estateAddress" value="#{EstateMBean.estate.estateAddress}" title="EstateAddress" />
+                    <h:outputLabel value="EstateContent:" for="estateContent" />
+                    <h:inputText id="estateContent" value="#{EstateMBean.estate.estateContent}" title="EstateContent" />
+                    <h:outputLabel value="EstateArea:" for="estateArea" />
+                    <h:inputText id="estateArea" value="#{EstateMBean.estate.estateArea}" title="EstateArea" />
+                    <h:outputLabel value="EstateValue:" for="estateValue" />
+                    <h:inputText id="estateValue" value="#{EstateMBean.estate.estateValue}" title="EstateValue" />
+                    <h:outputLabel value="EstateDriveway:" for="estateDriveway" />
+                    <h:inputText id="estateDriveway" value="#{EstateMBean.estate.estateDriveway}" title="EstateDriveway" />
+                    <h:outputLabel value="EstateDirection:" for="estateDirection" />
+                    <h:inputText id="estateDirection" value="#{EstateMBean.estate.estateDirection}" title="EstateDirection" />
+                    <h:outputLabel value="EstateNumberOfRooms:" for="estateNumberOfRooms" />
+                    <h:inputText id="estateNumberOfRooms" value="#{EstateMBean.estate.estateNumberOfRooms}" title="EstateNumberOfRooms" />
+                    <h:outputLabel value="EstateNumberOfFloors:" for="estateNumberOfFloors" />
+                    <h:inputText id="estateNumberOfFloors" value="#{EstateMBean.estate.estateNumberOfFloors}" title="EstateNumberOfFloors" />
+                    <h:outputLabel value="EstateNumberOfToilets:" for="estateNumberOfToilets" />
+                    <h:inputText id="estateNumberOfToilets" value="#{EstateMBean.estate.estateNumberOfToilets}" title="EstateNumberOfToilets" />
+                    <h:outputLabel value="EstateNumOfView:" for="estateNumOfView" />
+                    <h:inputText id="estateNumOfView" value="#{EstateMBean.estate.estateNumOfView}" title="EstateNumOfView" />                                     
+                              <h:outputLabel value="CurrencyID" for="estateNumOfView" />
+                              <h:inputText id="estateNumOfView" value="#{EstateMBean.currency.currencyID}" title="EstateNumOfView" />                                     
+                    
+                              <h:outputLabel value="Subscribe ID" for="estateNumOfView" />
+                              <h:inputText id="estateNumOfView" value="#{EstateMBean.subscribe.subscribeID}" title="EstateNumOfView" />                                     
+                    
+                              <h:outputLabel value="type of estate" for="estateNumOfView" />
+                              <h:inputText id="estateNumOfView" value="#{EstateMBean.typeOfEstate.typeOfEstateID}" title="EstateNumOfView" />                                     
+                    
+                              <h:outputLabel value="category ID" for="estateNumOfView" />
+                              <h:inputText id="estateNumOfView" value="#{EstateMBean.category.categoryID}" title="EstateNumOfView" />                                                                                                            
+                    
+                              <h:outputLabel value="District ID" for="estateNumOfView" />
+                              <h:inputText id="estateNumOfView" value="#{EstateMBean.district.districtID}" title="EstateNumOfView" />                                     
+                    
+                              <h:outputLabel value="contact details: " for="estateNumOfView" />
+                              <h:inputText id="estateNumOfView" value="#{EstateMBean.contactdetail.contactDetailsID}" title="EstateNumOfView" />                                     
+                    
+                    
+                </h:panelGrid>
             </h:form>
         </f:view>
 
