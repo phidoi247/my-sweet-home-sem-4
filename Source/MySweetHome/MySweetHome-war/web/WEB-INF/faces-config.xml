@@ -12,6 +12,11 @@
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     <managed-bean>
+        <managed-bean-name>subscribeMBean</managed-bean-name>
+        <managed-bean-class>com.mysweethome.jsfmanagedbean.SubscribeMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
         <managed-bean-name>typeOfEstateMBean</managed-bean-name>
         <managed-bean-class>com.mysweethome.jsfmanagedbean.TypeOfEstateMBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
