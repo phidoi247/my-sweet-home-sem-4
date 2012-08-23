@@ -7,20 +7,21 @@
         <title>File Upload</title>
     </h:head>
     <h:body>
-        
-        
         <h:form enctype="multipart/form-data">
-            <p:messages showDetail="true"/>
-            <p:fileUpload value="#{fileUpload.file}" mode="simple" update="growl"
-                          sizeLimit="3145728"
-                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                          invalidSizeMessage="Maximum file size allowed: 3 MB" />
-            <p:commandButton value="Submit" ajax="false" actionListener="#{fileUpload.upload()}" />
+
+            <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload(event)}"
+                    mode="advanced" 
+                    update="messages"
+                    sizeLimit="100000" 
+                    allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+
+            <p:growl id="messages" showDetail="true"/>
+
         </h:form>
         
-        <h:form>
-            <p:growl id="growl" showDetail="true" />
-        </h:form>
+       
+        
+        
     </h:body>
 </html>
 
