@@ -22,7 +22,7 @@ h1 {margin-left:-7px;position:absolute;z-index:2;background:url(../images/logo_i
 h2 {font-size:37px;color:#87a310;line-height:1.2em;padding:28px 0 27px 0;letter-spacing:-1px}
 h2.pad_bot1 {padding-bottom:17px}
 h2.pad_top1 {padding-top:18px}
-h3 {font-size:24px;color:#fff;line-height:1.2em;padding:42px 0 19px 0}
+h3 {font-size:22px;color:#fff;line-height:1.2em;padding:42px 0 19px 0}
 h3.pad_top1 {padding-top:22px}
 h4 { font-size:27px;color:#fff;line-height:1.2em;padding:10px 0 23px 70px;letter-spacing:-1px}
 h4.img1 {background:url(../images/page1_img1.jpg) 0 0 no-repeat}
@@ -61,7 +61,7 @@ a.aToolTipCloseBtn {display:block;height:20px;width:20px;overflow:hidden;backgro
 /* content */
 #content {padding-top:20px;padding-bottom:32px}
 #content2 {padding-bottom:40px}
-.pad1 {padding:0 30px 0 33px}
+.pad1 {padding:0 30px 0 33px;}
 .pad2 {padding:0 28px 0 30px}
 .pad_left1 {padding-left:30px}
 .pad_bot1 {padding-bottom:5px}
@@ -75,7 +75,7 @@ a.aToolTipCloseBtn {display:block;height:20px;width:20px;overflow:hidden;backgro
 .color2 {color:#fff}
 .list1 {margin-top:-5px}
 .list1 li {line-height:29px}
-.list1 li a, .list2 li a {padding-left:14px;background:url(../images/marker_1.gif) 0 5px no-repeat}
+.list1 li a, .list2 li a {padding-left:14px;background:url(../images/marker_1.gif) 0 5px no-repeat; font-size: 15px;}
 .list1 li a:hover, .list2 li a:hover {background-position:0 -24px}
 .list2 {margin-top:-2px;margin-bottom:-2px}
 .list2 {line-height:27px}
@@ -132,3 +132,44 @@ a.jqTransformSelectOpen {display:block;position:absolute;top:1px;right:1px;width
  * Hidden - used to hide the original form elements
  * ------------- */
 .jqTransformHidden {display:none}
+
+#wrapper1
+{
+width:1062px;
+margin:auto; 
+background:#2e2e2e;
+
+}
+#contain1
+{
+width:1062px;
+float:left;
+/*background: url('../Application/Admin/Images/bg_contain.png') repeat-y center #dedede;*/
+margin-bottom:5px;
+}
+
+.slidebar{
+    width: 240px;
+    float: left;
+    background-color: #0d0c0c;
+}
+
+h5{
+    font-size:15.2px;color:#fff;line-height:1.2em;padding:25px 0 19px 0;font-weight: bold;
+}
+
+.contentAdmin{
+    width: 750px;
+    float: left;
+    background-color: #777777;
+    padding-left: 10px;
+}
+
+.contentAdmin p{
+    float: left;
+    background: url('./resouces/images/background-p.jpg') repeat-x scroll left bottom;
+    border-color: #777777;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 10px;
+}
