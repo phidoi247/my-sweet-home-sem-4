@@ -13,18 +13,18 @@ import javax.servlet.http.HttpSession;
  * @author Ngo Quang Huy
  */
 public class operationSession {
-    public static void ganGiaTriChoSession(String name, Object value) {
+    public static void createSession(String name, Object value) {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         session.setAttribute(name, value);
     }
-      public static Object layGTSession(String name) {
+      public static Object getSession(String name) {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         return session.getAttribute(name);
     }
 
-    public static void xoaGTsession(String name) {
+    public static void deleteGTsession(String name) {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         session.removeAttribute(name);

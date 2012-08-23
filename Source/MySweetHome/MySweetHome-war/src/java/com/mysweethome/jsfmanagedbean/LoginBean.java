@@ -5,6 +5,7 @@
 package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.Member1;
+import com.mysweethome.helper.operationSession;
 import com.mysweethome.session.Member1Facade;
 import java.io.IOException;
 import javax.ejb.EJB;
@@ -12,9 +13,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.Query;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -25,7 +26,9 @@ import javax.servlet.http.HttpSession;
 public class LoginBean {
     @EJB
     private Member1Facade member1Facade;
-    private Member1 member;
+    private Member1 member=new Member1();
+    private String username;
+    private String password;
 
     public Member1 getMember() {
         return member;
@@ -35,6 +38,21 @@ public class LoginBean {
         this.member = member;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
     /**
      * Creates a new instance of LoginBean
      */
@@ -43,43 +61,46 @@ public class LoginBean {
         member1Facade= new Member1Facade();
     }
     
-    public String doLogin() {
-        String result = "Login failed";        
+    public void doLogin(ActionEvent actionEvent) {
+        RequestContext context = RequestContext.getCurrentInstance();
+        FacesMessage msg = null;
+        boolean loggedIn = false;
         
-        String username=member.getUserName();
-        String password=member.getPassword();
-        
-        Member1 mem = member1Facade.getUserName(username);
-        if (mem != null) {            
-            if (mem.getPassword().equals(password)) {
-                FacesContext context = FacesContext.getCurrentInstance();
-                HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-                session.setAttribute("user", username);                
-
-                String role= mem.getRole();                                
-                session.setAttribute("role", role);
-                
-                result="Login succesful";
-            } else {
-                FacesContext face = FacesContext.getCurrentInstance();
-                face.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password incorect", "<span>Please input Password</span>"));
-                result = "Password incorrect";
-            }
+        if (username.length() == 0) {
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Username is not empty .");
+        } else if (password.length() == 0) {
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Password is not empty .");
         } else {
-            FacesContext face = FacesContext.getCurrentInstance();
-            face.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username incorect", "<span>Please input User Name</span>"));
-            result = "Username incorrect";
+            Member1 mem = member1Facade.getUserName(username);
+            if (mem != null) {    
+                if(mem.getIsEnabled().equalsIgnoreCase("true")){
+                    if (mem.getPassword().equals(password)) {
+                        loggedIn=true;
+                        operationSession.createSession("username", mem.getUserName());
+                        operationSession.createSession("role", mem.getRole());
+                        msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", mem.getUserName());                         
+                    } else {
+                        msg= new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password incorect", "Please input password");
+                    }
+                }
+                else{
+                    msg=new FacesMessage(FacesMessage.SEVERITY_ERROR,"Account hasn't actived jet.","Please active your account before.");
+                }
+            } else {
+                msg=new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username incorect", "Please input correct user name");
+            }
         }
-        return result;
+        
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        context.addCallbackParam("loggedIn", loggedIn);
     }
     
     public void doLogout() throws IOException{
-        FacesContext faces = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) faces.getExternalContext().getSession(false);
-        session.removeAttribute("user");
-        session.removeAttribute("role");
-        
+        operationSession.deleteGTsession("username");
+        operationSession.deleteGTsession("role");
+        this.username=null;
+        this.password=null;
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        response.sendRedirect("../faces/login.xhtml");
+        response.sendRedirect("../faces/index.xhtml");
     }
 }

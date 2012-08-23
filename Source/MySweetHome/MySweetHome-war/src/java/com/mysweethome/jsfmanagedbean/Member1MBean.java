@@ -23,58 +23,52 @@ import javax.faces.bean.SessionScoped;
 public class Member1MBean {
     @EJB
     private Member1Facade member1Facade;
-    private Member1 member;
+    private Member1 mem;
 
-    public Member1 getMember() {
-        return member;
+    List<Member1> filterList;
+    List<Member1> memberList;
+    
+    public List<Member1> getFilterList() {
+        return filterList;
     }
 
-    public void setMember(Member1 member) {
-        this.member = member;
+    public void setFilterList(List<Member1> filterList) {
+        this.filterList = filterList;
+    }
+
+    public Member1 getMem() {
+        return mem;
+    }
+
+    public void setMem(Member1 mem) {
+        this.mem = mem;
+    }
+
+    public void setMemberList(List<Member1> memberList) {
+        this.memberList = memberList;
+    }
+
+    public Member1Facade getMember1Facade() {
+        return member1Facade;
+    }
+
+    public void setMember1Facade(Member1Facade member1Facade) {
+        this.member1Facade = member1Facade;
     }
 
     /**
      * Creates a new instance of MemberMBean
      */
     public Member1MBean() {
-        member = new Member1();
+        mem = new Member1();
         member1Facade= new Member1Facade();
-//        cities.put("Istanbul");  
-//        cities.put("Ankara");  
-//        cities.put("Izmir");
-//        
-        members.add("daf");
-        members.add("daf");
-        members.add("daf");
-        
-        Map<String,String> suburbsIstanbul = new HashMap<String, String>();  
-        suburbsIstanbul.put("Kadikoy", "Kadikoy");  
-        suburbsIstanbul.put("Levent", "Levent");  
-        suburbsIstanbul.put("Cengelkoy", "Cengelkoy");  
-          
-        Map<String,String> suburbsAnkara = new HashMap<String, String>();  
-        suburbsAnkara.put("Kecioren", "Kecioren");  
-        suburbsAnkara.put("Cankaya", "Cankaya");  
-        suburbsAnkara.put("Yenimahalle", "Yenimahalle");  
-          
-        Map<String,String> suburbsIzmir = new HashMap<String, String>();  
-        suburbsIzmir.put("Cesme", "Cesme");  
-        suburbsIzmir.put("Gumuldur", "Gumuldur");  
-        suburbsIzmir.put("Foca", "Foca");  
-          
-        suburbsData.put("Istanbul", suburbsIstanbul);  
-        suburbsData.put("Ankara", suburbsAnkara);  
-        suburbsData.put("Izmir", suburbsIzmir);
     }
     
     
     public boolean insertMember(){
-        member.getAddress();
-        member.getUserName();
-        
-        member1Facade.create(member);
-        
-        
+        mem.getAddress();
+        mem.getUserName();
+        member1Facade.create(mem);
         return true;
     }
     
@@ -105,12 +99,4 @@ public class Member1MBean {
         this.suburbsData = suburbsData;
     }
     
-    
-    
-//    public void handleCityChange() {  
-//        if(city !=null && !city.equals(""))  
-//            suburbs = suburbsData.get(city);  
-//        else  
-//            suburbs = new HashMap<String, String>();  
-//    } 
 }
