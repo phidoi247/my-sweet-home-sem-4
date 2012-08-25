@@ -36,7 +36,7 @@ public class TypeOfMemberMBean {
     private List<TypeOfMember> typeList=new ArrayList<TypeOfMember>();
 
     public List<TypeOfMember> getTypeList() {
-        return typefacade.getAll();
+        return typefacade.findAll();
     }
 
     public void setTypeList(List<TypeOfMember> typeList) {
