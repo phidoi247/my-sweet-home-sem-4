@@ -1,12 +1,161 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-    </h:body>
-</html>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template/MemberTemplate.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
 
+    <ui:define name="title">
+        
+    </ui:define>
+
+    <ui:define name="content">
+        <f:view>
+            <h:form>
+                <h1><h:outputText value="List"/></h1>
+                <p:dataTable id="estates" value="#{EstateMBean.estateList}" var="estate"
+                             paginator="true" rows="6" rowsPerPageTemplate="1,2,3,5">
+                    <p:column headerText="Estate_ID" style="width: 100px" sortBy="#{estate.estateID}" filterBy="#{estate.estateID}">
+                        <h:outputText value="#{estate.estateID}"/>
+                    </p:column>
+                    <p:column headerText="Estate_Title" style="width: 100px" sortBy="#{estate.estateTitle}" filterBy="#{estate.estateTitle}">
+                        <h:outputText value="#{estate.estateTitle}"/>
+                    </p:column>
+                    <p:column headerText="Estate_Start_Day" style="width: 100px" sortBy="#{estate.estateStartDay}" filterBy="#{estate.estateStartDay}">
+                        <h:outputText value="#{estate.estateStartDay}"/>
+                    </p:column>
+                    <p:column headerText="Estate_End_Day" style="width: 100px" sortBy="#{estate.estateEndDay}" filterBy="#{estate.estateEndDay}">
+                        <h:outputText value="#{estate.estateEndDay}"/>
+                    </p:column>
+                    <p:column headerText="Estate_Address" style="width: 100px" sortBy="#{estate.estateAddress}" filterBy="#{estate.estateAddress}">
+                        <h:outputText value="#{estate.estateAddress}"/>
+                    </p:column>
+                    <p:column headerText="Estate_Content" style="width: 100px" sortBy="#{estate.estateContent}" filterBy="#{estate.estateContent}">
+                        <h:outputText value="#{estate.estateContent}"/>
+                    </p:column>
+                    <p:column headerText="Estate_Area" style="width: 100px" sortBy="#{estate.estateArea}" filterBy="#{estate.estateArea}">
+                        <h:outputText value="#{estate.estateArea}"/>
+                    </p:column>
+                    <p:column headerText="Estate_Driveway" style="width: 100px" sortBy="#{estate.estateDriveway}" filterBy="#{estate.estateDriveway}">
+                        <h:outputText value="#{estate.estateDriveway}"/>
+                    </p:column>
+                    <p:column headerText="Estate_Direction" style="width: 100px" sortBy="#{estate.estateDirection}" filterBy="#{estate.estateDirection}">
+                        <h:outputText value="#{estate.estateDirection}"/>
+                    </p:column>
+                    <p:column headerText="Estate_Number_Of_Rooms" style="width: 100px" sortBy="#{estate.estateNumberOfRooms}" filterBy="#{estate.estateNumberOfRooms}">
+                        <h:outputText value="#{estate.estateNumberOfRooms}"/>
+                    </p:column>
+                    <p:column headerText="Estate_Number_Of_Floors" style="width: 100px" sortBy="#{estate.estateNumberOfFloors}" filterBy="#{estate.estateNumberOfFloors}">
+                        <h:outputText value="#{estate.estateNumberOfFloors}"/>
+                    </p:column>
+                    <p:column headerText="Estate_Number_Of_Toilets" style="width: 100px" sortBy="#{estate.estateNumberOfToilets}" filterBy="#{estate.estateNumberOfToilets}">
+                        <h:outputText value="#{estate.estateNumberOfToilets}"/>
+                    </p:column>
+                    <p:column headerText="Estate_NumOfView" style="width: 100px" sortBy="#{estate.estateNumOfView}" filterBy="#{estate.estateNumOfView}">
+                        <h:outputText value="#{estate.estateNumOfView}"/>
+                    </p:column>
+                    <p:column headerText="Currency_ID" style="width: 100px" sortBy="#{estate.currencyID}" filterBy="#{estate.currencyID}">
+                        <h:outputText value="#{estate.currencyID}"/>
+                    </p:column>
+                    <p:column headerText="Is_Enabled" style="width: 100px" sortBy="#{estate.isEnabled}" filterBy="#{estate.isEnabled}">
+                        <h:outputText value="#{estate.isEnabled}"/>
+                    </p:column>
+                    <p:column headerText="Is_Paid" style="width: 100px" sortBy="#{estate.isPaid}" filterBy="#{estate.isPaid}">
+                        <h:outputText value="#{estate.isPaid}"/>
+                    </p:column>
+                    <p:column headerText="Subscribe_ID" style="width: 100px" sortBy="#{estate.subscribeID}" filterBy="#{estate.subscribeID}">
+                        <h:outputText value="#{estate.subscribeID}"/>
+                    </p:column>
+                    <p:column headerText="TypeOfEstate_ID" style="width: 100px" sortBy="#{estate.typeOfEstateID}" filterBy="#{estate.typeOfEstateID}">
+                        <h:outputText value="#{estate.typeOfEstateID}"/>
+                    </p:column>
+                    <p:column headerText="Category_ID" style="width: 100px" sortBy="#{estate.categoryID}" filterBy="#{estate.categoryID}">
+                        <h:outputText value="#{estate.categoryID}"/>
+                    </p:column>
+                    <p:column headerText="UserName" style="width: 100px" sortBy="#{estate.userName}" filterBy="#{estate.userName}">
+                        <h:outputText value="#{estate.userName}"/>
+                    </p:column>
+                    <p:column headerText="SumValue" style="width: 100px" sortBy="#{estate.sumValue}" filterBy="#{estate.sumValue}">
+                        <h:outputText value="#{estate.sumValue}"/>
+                    </p:column>
+                    <p:column headerText="District_ID" style="width: 100px" sortBy="#{estate.districtID}" filterBy="#{estate.districtID}">
+                        <h:outputText value="#{estate.districtID}"/>
+                    </p:column>
+                    <p:column headerText="Contact_Details_ID" style="width: 100px" sortBy="#{estate.contactDetailsID}" filterBy="#{estate.contactDetailsID}">
+                        <h:outputText value="#{estate.contactDetailsID}"/>
+                    </p:column>
+                    <p:column headerText="Image_Category_ID" style="width: 100px" sortBy="#{estate.imageCategoryID}" filterBy="#{estate.imageCategoryID}">
+                        <h:outputText value="#{estate.imageCategoryID}"/>
+                    </p:column>
+                    <p:column style="width: 40px">
+                        <h:panelGrid columns="24" styleClass="actions" cellpadding="2">
+                            <p:commandButton id="selectButton" update=":form:display" oncomplete="carDialog.show()" icon="ui-icon-search" title="View">
+                                <f:setPropertyActionListener value="#{estate}" target="#{EstateMBean.estate}"  />
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </p:column> 
+                </p:dataTable>
+                <p:dialog header="Car Detail" widgetVar="carDialog" resizable="false" id="carDlg" showEffect="fade" hideEffect="explode" modal="true"> 
+                    <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;" >
+                     <f:facet name="header">
+                         <h:outputText value=""/>
+                    </f:facet>
+                         <h:outputText value="Estate_ID:"/>
+                         <h:outputText value="#{EstateMBean.estate.estateID}" style="font-weight: bold"/>              
+                     <h:outputText value="Estate_Title:"/>
+                     <h:outputText value="#{EstateMBean.estate.estateTitle}" style="font-weight: bold"/>
+                     <h:outputText value="Estate_Start_Day:"/>
+                     <h:outputText value="#{EstateMBean.estate.estateStartDay}" style="font-weight: bold"/>
+                     <h:outputText value="Estate_End_Day:"/>
+                     <h:outputText value="#{EstateMBean.estate.estateEndDay}" style="font-weight: bold"/>              
+                     <h:outputText value="Estate_Address:"/>
+                     <h:outputText value="#{EstateMBean.estate.estateAddress}" style="font-weight: bold"/>
+                     <h:outputText value="Estate_Content:"/>
+                     <h:outputText value="#{EstateMBean.estate.estateContent}" style="font-weight: bold"/>
+                                 
+                     <h:outputText value="Estate_Area:"/>
+                     <h:outputText value="#{EstateMBean.estate.estateArea}" style="font-weight: bold"/>
+                     <h:outputText value="Estate_Driveway:"/>
+                     <h:outputText value="#{EstateMBean.estate.estateDriveway}" style="font-weight: bold"/>
+                     <h:outputText value="Estate_Direction:"/>
+                         <h:outputText value="#{EstateMBean.estate.estateDirection}" style="font-weight: bold"/>              
+                     <h:outputText value="Estate_Number_Of_Rooms:"/>
+                     <h:outputText value="#{EstateMBean.estate.estateNumberOfRooms}" style="font-weight: bold"/>
+                     <h:outputText value="Estate_Number_Of_Floors:"/>
+                     <h:outputText value="#{EstateMBean.estate.estateNumberOfFloors}" style="font-weight: bold"/>
+                      <h:outputText value="Estate_Number_Of_Toilets:"/>
+                     <h:outputText value="#{EstateMBean.estate.estateNumberOfToilets}" style="font-weight: bold"/>
+                     <h:outputText value="Estate_NumOfView:"/>
+                     <h:outputText value="#{EstateMBean.estate.estateNumOfView}" style="font-weight: bold"/>
+                     <h:outputText value="Currency_ID:"/>
+                         <h:outputText value="#{EstateMBean.estate.currencyID}" style="font-weight: bold"/>              
+                     <h:outputText value="Is_Enabled:"/>
+                     <h:outputText value="#{EstateMBean.estate.isEnabled}" style="font-weight: bold"/>
+                     <h:outputText value="Is_Paid:"/>
+                     <h:outputText value="#{EstateMBean.estate.isPaid}" style="font-weight: bold"/>
+                      <h:outputText value="Subscribe_ID:"/>
+                     <h:outputText value="#{EstateMBean.estate.subscribeID}" style="font-weight: bold"/>
+                     <h:outputText value="TypeOfEstate_ID:"/>
+                     <h:outputText value="#{EstateMBean.estate.typeOfEstateID}" style="font-weight: bold"/>
+                     <h:outputText value="Category_ID:"/>
+                         <h:outputText value="#{EstateMBean.estate.categoryID}" style="font-weight: bold"/>              
+                     <h:outputText value="UserName:"/>
+                     <h:outputText value="#{EstateMBean.estate.userName}" style="font-weight: bold"/>
+                     <h:outputText value="SumValue:"/>
+                     <h:outputText value="#{EstateMBean.estate.sumValue}" style="font-weight: bold"/>
+                     <h:outputText value="District_ID:"/>
+                         <h:outputText value="#{EstateMBean.estate.districtID}" style="font-weight: bold"/>              
+                     <h:outputText value="Contact_Details_ID:"/>
+                     <h:outputText value="#{EstateMBean.estate.contactDetailsID}" style="font-weight: bold"/>
+                     <h:outputText value="Image_Category_ID:"/>
+                     <h:outputText value="#{EstateMBean.estate.imageCategoryID}" style="font-weight: bold"/>
+                     
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>
