@@ -85,7 +85,7 @@ public class CityMBean {
         citytemp.setCityID(String.valueOf(id+1));
         citytemp.setCityName(getCity().getCityName());        
         
-            getCityFacade().create(citytemp);
+        getCityFacade().create(citytemp);
         result="True";
         }catch(Exception ex){
             ex.printStackTrace();

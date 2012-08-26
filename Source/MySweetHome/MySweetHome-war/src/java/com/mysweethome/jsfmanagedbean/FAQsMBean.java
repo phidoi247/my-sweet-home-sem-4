@@ -37,14 +37,11 @@ public class FAQsMBean {
         faq=new FAQs();
         faqsfacade=new FAQsFacade();
     }
-
-    public void createFAQs(){
-        faq.getFAQsID();
-        faq.getAnswer();
-        faq.getQuestion();
-
-        faqsfacade.create(faq);
+    public FAQsFacade getFAQsFacade(){
+        return  faqsfacade;
     }
+
+   
     public void editFAQs(){
         String str=faq.getFAQsID();
         FAQs fa=faqsfacade.getFAQsID(str);
@@ -59,4 +56,6 @@ public class FAQsMBean {
         faq.setFAQsID(str);
         faqsfacade.remove(faq);
     }
+    
+    
 }

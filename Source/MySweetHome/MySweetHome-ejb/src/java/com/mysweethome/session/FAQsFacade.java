@@ -5,6 +5,7 @@
 package com.mysweethome.session;
 
 import com.mysweethome.entity.FAQs;
+import java.awt.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -42,6 +43,8 @@ public class FAQsFacade extends AbstractFacade<FAQs> {
     public void remove(FAQs faq) {
         em.remove(em.merge(faq));
     }
+    
+    
 
     public FAQs getFAQsID(String faqsID) {
         FAQs fa=null;
@@ -79,6 +82,16 @@ public class FAQsFacade extends AbstractFacade<FAQs> {
         return fa;
 
     }
+      public int getLastRecordID(){
+          Query query=em.createNamedQuery("FAQs.findAll");
+          java.util.List faqsList= query.getResultList();
+          
+            int i=faqsList.size();
+            i=i-1;
+        
+            int j=Integer.parseInt(faqsList.get(i).toString());
+        return j;
+      }
 
 
 }
