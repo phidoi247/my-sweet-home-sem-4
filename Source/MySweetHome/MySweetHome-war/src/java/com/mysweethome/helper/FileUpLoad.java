@@ -76,7 +76,7 @@ public class FileUpLoad implements Serializable {
 
                         }
                     FacesContext context=FacesContext.getCurrentInstance();
-                    context.addMessage(null, new FacesMessage("Success", getFile().getFileName()+ "is upload. typecontent"+getFile().getContentType()+""+getFile().getSize()));
+                    context.addMessage(null, new FacesMessage("Success", getFile().getFileName()+ "is upload. typecontent"+getFile().getContentType()+"tamafio"+getFile().getSize()));
                     }else{
                         FacesContext context=FacesContext.getCurrentInstance();
                         context.addMessage(null, new FacesMessage("WRONG_ext","only extensiton .png or jpg"));
