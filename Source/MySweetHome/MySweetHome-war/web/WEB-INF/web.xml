@@ -12,17 +12,7 @@
         <filter-name>AuthenFilterAdmin</filter-name>
         <filter-class>com.mysweethome.filter.AuthenFilterAdmin</filter-class>
     </filter>
-    <filter-mapping>
-        <filter-name>AuthenFilterAdmin</filter-name>
-        <url-pattern>/faces/Admin/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>AuthenFilterLogin</filter-name>
-        <url-pattern>/faces/Admin/*</url-pattern>
-        <url-pattern>/faces/Buyer/*</url-pattern>
-        <url-pattern>/faces/Seller/*</url-pattern>
-    </filter-mapping>
-    <filter>
+     <filter>
         <filter-name>Primefaces FielUpload Filter</filter-name>
         <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
        
@@ -39,6 +29,17 @@
         <param-value>C:\tmp</param-value>
     </init-param>
      </filter>
+    <filter-mapping>
+        <filter-name>AuthenFilterAdmin</filter-name>
+        <url-pattern>/faces/Admin/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthenFilterLogin</filter-name>
+        <url-pattern>/faces/Admin/*</url-pattern>
+        <url-pattern>/faces/Buyer/*</url-pattern>
+        <url-pattern>/faces/Seller/*</url-pattern>
+    </filter-mapping>
+  
      <filter-mapping>
          <filter-name>Primefaces FielUpload Filter</filter-name>
          <servlet-name>Faces Servlet</servlet-name>
