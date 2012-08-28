@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../Template/TemplateAdmin.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui" >
+
+    <ui:define name="content">
+        <center>
+            <f:view>
+                <h:form id="form">
+
+                    <h:outputLabel value="MANAGE DEPARTMENT" style="color: #0099cc;font-size: large;font-weight: bold"/>
+                    <p:panelGrid id="list" columns="1" style="width: 780px" >
+                        <f:facet name="header">  
+                            List All Department 
+                        </f:facet>
+                        <p:dataTable id="datatable" value="#{departmentBean.departments}" var="item" selection="#{departmentBean.selectDepartment}" selectionMode="single"
+                                     rowKey="#{item.departmentID}" style="width: 770px ;font-size:12px;font-weight: 10px"
+                                     paginator="true" rows="10"  
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15">
+                            <p:ajax event="rowSelect"   
+                                    update=":form:form1:viewpanel" oncomplete="dlgView.show()" />  
+                            <p:column filterBy="#{item.departmentID}" sortBy="#{item.departmentID}">
+                                <f:facet name="header">
+                                    <h:outputText value="DepartmentID"/>
+                                </f:facet>
+                                <h:outputText value="#{item.departmentID}"/>
+                            </p:column>
+                            <p:column sortBy="#{item.departmentName}" filterBy="#{item.departmentName}" >
+                                <f:facet name="header">
+                                    <h:outputText value="DepartmentName"/>
+                                </f:facet>
+                                <h:outputText value="#{item.departmentName}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Description"/>
+                                </f:facet>
+                                <h:outputText value="#{item.description}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <p:dialog id="view" header="View Department" widgetVar="dlgView" showEffect="drop" hideEffect="explode" width="550" resizable="false" >
+                            <center>
+                                <h:form id="form1" >
+                                    <p:panelGrid id="viewpanel" columns="2" cellpadding="5" style="width: 500px">
+                                        <f:facet name="header">  
+                                            EDIT DEPARTMENT FORM 
+                                        </f:facet>
+                                        <p:outputLabel value="Department Id:" for="id" />
+                                        <p:inputText id="id" value="#{departmentBean.selectDepartment.departmentID}"/>
+                                        <p:outputLabel value="Department Name:" for="departmentName" />
+                                        <p:inputText id="departmentName" value="#{departmentBean.selectDepartment.departmentName}" title="DepartmentName" />
+                                        <p:outputLabel value="Description:" for="description" />
+                                        <p:inputTextarea rows="4" cols="30" id="description" value="#{departmentBean.selectDepartment.description}" title="Description" />
+                                        <f:facet name="footer">
+                                            <p:commandButton action="#{departmentBean.update()}" value="Update"  update=":form:datatable" />
+                                        </f:facet>
+                                    </p:panelGrid>
+                                </h:form>
+                            </center>
+                        </p:dialog>
+
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton id="createDialog" value="Create New" onclick="dlgNew.show();" type="button" style="margin:1"/>
+                                <p:commandButton id="delete" action="#{departmentBean.delete()}" value="Delete"  style="margin:1"/>
+                            </center>
+                        </f:facet>
+                    </p:panelGrid>
+
+                </h:form>
+                <p:dialog id="new" header="Create Department" widgetVar="dlgNew" showEffect="drop" hideEffect="explode" width="550">
+                    <center>
+                        <h:form>
+
+                            <p:panelGrid columns="2" cellpadding="5" >
+                                <f:facet name="header">  
+                                    CREATE DEPARTMENT FORM 
+                                </f:facet>
+                                <p:outputLabel value="Department Name:" for="departmentName1" />
+                                <p:inputText id="departmentName1" value="#{departmentBean.newDepartment.departmentName}" title="DepartmentName" />
+                                <p:outputLabel value="Description:" for="description1" />
+                                <p:inputTextarea rows="4" cols="30" id="description1" value="#{departmentBean.newDepartment.description}" title="Description" />
+                                <f:facet name="footer">
+                                    <center>
+                                        <p:commandButton action="#{departmentBean.createNew()}" value="Create" update="growl :form:datatable"/>
+                                        <p:commandButton value="Reset" type="reset"/>
+                                        <p:growl id="growl" showDetail="true" sticky="true" />
+                                    </center>
+                                </f:facet>
+
+                            </p:panelGrid>
+
+
+                        </h:form>
+                    </center>
+                </p:dialog>
+            </f:view>
+        </center>
+    </ui:define>
+
+</ui:composition>
