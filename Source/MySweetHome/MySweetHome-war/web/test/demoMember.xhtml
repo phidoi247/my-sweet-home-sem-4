@@ -9,118 +9,91 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <f:view>
-            <h:form>
-                <h1><h:outputText value="Create/Edit"/></h1>
-                <h:panelGrid columns="2" cellpadding="1" cellspacing="1">
-                    <h:outputLabel value="UserName:" for="userName" />
-                    <h:inputText id="userName" value="#{MemberMBean.member.userName}" title="UserName" required="true" requiredMessage="The UserName field is required."/>
-                    <h:outputLabel value="Password:" for="password" />
-                    <h:inputText id="password" value="#{MemberMBean.member.password}" title="Password" />
-                    <h:outputLabel value="Email:" for="email" />
-                    <h:inputText id="email" value="#{MemberMBean.member.email}" title="Email" />
-                    <h:outputLabel value="FullName:" for="fullName" />
-                    <h:inputText id="fullName" value="#{MemberMBean.member.fullName}" title="FullName" />
-                    
-                    <h:commandButton  value="Create" action="#{MemberMBean.insertMember()}" />
-                   
-                    <h:form>
-                        <h1><h:outputText value="List"/></h1>
-                        <p:dataTable value="#{MemberMBean.allMember}" var="item">
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="UserName"/>
-                                </f:facet>
-<!--                                <h:outputText value="#{item.userName}"/>-->
-                                <h:commandLink action="${MemberMBean.showDetails(item)} value=#{item.userName}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Password"/>
-                                </f:facet>
-                                <h:outputText value="#{item.password}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Email"/>
-                                </f:facet>
-                                <h:outputText value="#{item.email}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="FullName"/>
-                                </f:facet>
-                                <h:outputText value="#{item.fullName}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="DateOfBirth"/>
-                                </f:facet>
-                                <h:outputText value="#{item.dateOfBirth}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Gender"/>
-                                </f:facet>
-                                <h:outputText value="#{item.gender}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Address"/>
-                                </f:facet>
-                                <h:outputText value="#{item.address}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Telephone"/>
-                                </f:facet>
-                                <h:outputText value="#{item.telephone}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Company"/>
-                                </f:facet>
-                                <h:outputText value="#{item.company}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="IsEnabled"/>
-                                </f:facet>
-                                <h:outputText value="#{item.isEnabled}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Code"/>
-                                </f:facet>
-                                <h:outputText value="#{item.code}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="ImageUrl"/>
-                                </f:facet>
-                                <h:outputText value="#{item.imageUrl}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Role"/>
-                                </f:facet>
-                                <h:outputText value="#{item.role}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="TypeOfMemberID"/>
-                                </f:facet>
-                                <h:outputText value="#{item.typeOfMemberID.typeName}"/>
-                            </p:column>
-                        </p:dataTable>
-                        
-                       
-                    </h:form>
-
-                    
-                </h:panelGrid>
-            </h:form>
-        </f:view>
+         <h:form id="form">  
+  
+            <p:dataTable id="MemberTable" var="membervar" value="#{Member1MBean.allMember}" rowKey="#{membervar.userName}"  
+                         selection="#{Member1MBean.mem}" selectionMode="single">  
+  
+        <f:facet name="header">  
+            Click "EDIT" button after selecting a row to see details  
+        </f:facet>  
+  
+        <p:column headerText="User Name">  
+            #{membervar.userName}  
+        </p:column>  
+  
+        <p:column headerText="Address">  
+            #{membervar.address}  
+        </p:column>    
+  
+        <p:column headerText="Email">  
+            #{membervar.email}  
+        </p:column>
+                
+        <p:column headerText="Full Name">  
+            #{membervar.fullName}  
+        </p:column>
+                
+        <p:column headerText="Gender">  
+            #{membervar.gender}  
+        </p:column>
+                
+        <p:column headerText="Date Of Birth">  
+            #{membervar.dateOfBirth}  
+        </p:column>
+                
+        <p:column headerText="Telephone">  
+            #{membervar.telephone}  
+        </p:column>
+                
+        <p:column headerText="Company">  
+            #{membervar.company}  
+        </p:column>
+                
+        <p:column headerText="Role">  
+            #{membervar.role}  
+        </p:column>
+                
+        <f:facet name="footer">  
+            <p:commandButton id="editButton" value="EDIT" 
+                             update=":form:display" oncomplete="MemberDialog.show()"/>  
+        </f:facet>  
+  
+    </p:dataTable>  
+  
+    <p:dialog id="dialog" header="Member Detail" widgetVar="MemberDialog" resizable="true"  
+              showEffect="clip" hideEffect="fold">  
+  
+        <h:panelGrid id="display" columns="2" cellpadding="4">  
+  
+            <f:facet name="header">  
+               
+            </f:facet>  
+            <h:outputText value="User Name:" />  
+            <h:outputText id="ID" value="#{Member1MBean.mem.userName}" />              
+            <h:outputText value="Address:" />                    
+            <h:inputText id="addressUpdate" title="new address" value="#{Member1MBean.newAddress}" />
+            <h:outputText value="Email:" />                    
+            <h:inputText id="addressUpdate" title="new Email" value="#{Member1MBean.newEmail}" />
+            <h:outputText value="Full Name:" />                    
+            <h:inputText id="addressUpdate" title="new address" value="#{Member1MBean.newFullName}" />
+            <h:outputText value="Gender:" />                    
+            <h:inputText id="addressUpdate" title="new address" value="#{Member1MBean.newGender}" />
+            <h:outputText value="Date Of Birth:" />                    
+            <h:inputText id="addressUpdate" title="new address" value="#{Member1MBean.newDateOfBirth}" />
+            <h:outputText value="Telephone:" />                    
+            <h:inputText id="addressUpdate" title="new address" value="#{Member1MBean.newTelephone}" />
+            <h:outputText value="Company:" />                    
+            <h:inputText id="addressUpdate" title="new address" value="#{Member1MBean.newCompany}" />
+            <h:outputText value="Role:" />                    
+            <h:inputText id="addressUpdate" title="new address" value="#{Member1MBean.newRole}" />
+            
+            <p:commandButton value="Delete" action="#{Member1MBean.removeMember()}" oncomplete="MemberDialog.hide()" update="MemberTable"/>
+            <p:commandButton value="Update" action="#{Member1MBean.editMember()}" oncomplete="MemberDialog.hide()" update="MemberTable"/>            
+        </h:panelGrid>  
+    </p:dialog>  
+  
+</h:form> 
         
         
 
