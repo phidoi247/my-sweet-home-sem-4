@@ -5,6 +5,7 @@
 package com.mysweethome.session;
 
 import com.mysweethome.entity.Member1;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -203,6 +204,18 @@ public class Member1Facade extends AbstractFacade<Member1> {
             ex.printStackTrace();
         }
         return user;
+    }
+    
+    
+    public int getLastRecordID(){
+        Query q = em.createNamedQuery("Member1.findAll");
+        List<Member1> memlist= q.getResultList();
+                
+        int i=memlist.size();
+        i=i-1;
+        
+        int j=Integer.parseInt(memlist.get(i).getUserName());
+        return j;
     }
     
     
