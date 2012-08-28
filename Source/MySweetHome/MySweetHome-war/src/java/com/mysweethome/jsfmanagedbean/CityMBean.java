@@ -22,7 +22,8 @@ import javax.faces.bean.SessionScoped;
 public class CityMBean {
     @EJB
     private CityFacade cityFacade;
-    private City city, city2;
+    private City city;
+    private City city2;
     String name;
 
     public String getName() {
@@ -69,6 +70,7 @@ public class CityMBean {
     /** Creates a new instance of CityMBean */
     public CityMBean() {
         city=new City();
+        city2 = new City();
         cityFacade=new CityFacade();
         name=city.getCityName();
     }
@@ -83,14 +85,14 @@ public class CityMBean {
         try{
         int id= getCityFacade().getLastRecordID();
         citytemp.setCityID(String.valueOf(id+1));
-        citytemp.setCityName(getCity().getCityName());        
+        citytemp.setCityName(city2.getCityName());        
         
         getCityFacade().create(citytemp);
         result="True";
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        return result;
+        return result;       
     }
     public void editCity(){
         
