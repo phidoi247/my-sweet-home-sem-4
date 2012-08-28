@@ -27,7 +27,7 @@ public class Member1MBean {
     String newAddress, newEmail, newFullName, newDateOfBirth, newGender, newTelephone, newCompany, newRole;
 
     public String getNewAddress() {
-        return newAddress;
+        return mem.getAddress();
     }
 
     public void setNewAddress(String newAddress) {
@@ -35,7 +35,7 @@ public class Member1MBean {
     }
 
     public String getNewCompany() {
-        return newCompany;
+        return mem.getCompany();
     }
 
     public void setNewCompany(String newCompany) {
@@ -43,7 +43,7 @@ public class Member1MBean {
     }
 
     public String getNewDateOfBirth() {
-        return newDateOfBirth;
+        return mem.getDateOfBirth();
     }
 
     public void setNewDateOfBirth(String newDateOfBirth) {
@@ -51,7 +51,7 @@ public class Member1MBean {
     }
 
     public String getNewEmail() {
-        return newEmail;
+        return mem.getEmail();
     }
 
     public void setNewEmail(String newEmail) {
@@ -59,7 +59,7 @@ public class Member1MBean {
     }
 
     public String getNewFullName() {
-        return newFullName;
+        return mem.getFullName();
     }
 
     public void setNewFullName(String newFullName) {
@@ -67,7 +67,7 @@ public class Member1MBean {
     }
 
     public String getNewGender() {
-        return newGender;
+        return mem.getGender();
     }
 
     public void setNewGender(String newGender) {
@@ -75,7 +75,7 @@ public class Member1MBean {
     }
 
     public String getNewRole() {
-        return newRole;
+        return mem.getRole();
     }
 
     public void setNewRole(String newRole) {
@@ -83,7 +83,7 @@ public class Member1MBean {
     }
 
     public String getNewTelephone() {
-        return newTelephone;
+        return mem.getTelephone();
     }
 
     public void setNewTelephone(String newTelephone) {
