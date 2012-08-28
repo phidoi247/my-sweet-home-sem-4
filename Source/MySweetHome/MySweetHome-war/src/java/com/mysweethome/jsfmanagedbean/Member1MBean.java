@@ -24,6 +24,73 @@ public class Member1MBean {
     @EJB
     private Member1Facade member1Facade;
     private Member1 mem;
+    String newAddress, newEmail, newFullName, newDateOfBirth, newGender, newTelephone, newCompany, newRole;
+
+    public String getNewAddress() {
+        return newAddress;
+    }
+
+    public void setNewAddress(String newAddress) {
+        this.newAddress = newAddress;
+    }
+
+    public String getNewCompany() {
+        return newCompany;
+    }
+
+    public void setNewCompany(String newCompany) {
+        this.newCompany = newCompany;
+    }
+
+    public String getNewDateOfBirth() {
+        return newDateOfBirth;
+    }
+
+    public void setNewDateOfBirth(String newDateOfBirth) {
+        this.newDateOfBirth = newDateOfBirth;
+    }
+
+    public String getNewEmail() {
+        return newEmail;
+    }
+
+    public void setNewEmail(String newEmail) {
+        this.newEmail = newEmail;
+    }
+
+    public String getNewFullName() {
+        return newFullName;
+    }
+
+    public void setNewFullName(String newFullName) {
+        this.newFullName = newFullName;
+    }
+
+    public String getNewGender() {
+        return newGender;
+    }
+
+    public void setNewGender(String newGender) {
+        this.newGender = newGender;
+    }
+
+    public String getNewRole() {
+        return newRole;
+    }
+
+    public void setNewRole(String newRole) {
+        this.newRole = newRole;
+    }
+
+    public String getNewTelephone() {
+        return newTelephone;
+    }
+
+    public void setNewTelephone(String newTelephone) {
+        this.newTelephone = newTelephone;
+    }
+
+    
 
     List<Member1> filterList;
     List<Member1> memberList;
@@ -62,17 +129,44 @@ public class Member1MBean {
     public Member1MBean() {
         mem = new Member1();
         member1Facade= new Member1Facade();
+        newAddress = mem.getAddress();
+        newEmail = mem.getEmail();
+        newFullName = mem.getFullName();
+        newDateOfBirth = mem.getDateOfBirth();
+        newGender = mem.getGender();
+        newTelephone = mem.getTelephone();
+        newCompany = mem.getCompany();
+        newRole = mem.getRole();
     }
     
     
-    public boolean insertMember(){
-        mem.getAddress();
-        mem.getUserName();
-        member1Facade.create(mem);
-        return true;
+    public String createMember(){
+        Member1 memtemp= new Member1();
+        
+        String result="False";
+        try{
+            
+        int id= getMember1Facade().getLastRecordID();
+        memtemp.setUserName(String.valueOf(id+1));
+        memtemp.setPassword(getMem().getPassword());  
+        memtemp.setAddress(getMem().getAddress());        
+        memtemp.setEmail(getMem().getEmail());        
+        memtemp.setFullName(getMem().getFullName());        
+        memtemp.setDateOfBirth(getMem().getDateOfBirth());        
+        memtemp.setGender(getMem().getGender());        
+        memtemp.setCompany(getMem().getCompany());        
+        memtemp.setRole(getMem().getRole());        
+        memtemp.setTelephone(getMem().getTelephone());
+        
+        getMember1Facade().create(memtemp);
+        result="True";
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return result;
     }
     
-    public List<Member1> getMemberList()
+    public List<Member1> getAllMember()
     {
         return member1Facade.findAll();
     }
@@ -97,6 +191,36 @@ public class Member1MBean {
 
     public void setSuburbsData(Map<String, Map<String, String>> suburbsData) {
         this.suburbsData = suburbsData;
+    }
+    
+     
+    
+    public void removeMember(){
+        String str=getMem().getUserName();
+        getMem().setUserName(str);
+        getMember1Facade().remove(getMem());
+    }
+    
+    public void editMember(){
+        
+        String str=getMem().getUserName();
+        Member1 member1=getMember1Facade().getUserName(str);
+        member1.setAddress(newAddress);  
+        //getMember1Facade().edit(member1);
+        member1.setEmail(newEmail);  
+        //getMember1Facade().edit(member1);
+        member1.setFullName(newFullName);  
+        //getMember1Facade().edit(member1);
+        member1.setDateOfBirth(newDateOfBirth);  
+        //getMember1Facade().edit(member1);
+        member1.setGender(newGender);  
+        //getMember1Facade().edit(member1);
+        member1.setTelephone(newTelephone);  
+        //getMember1Facade().edit(member1);
+        member1.setCompany(newCompany);  
+        //getMember1Facade().edit(member1);
+        member1.setRole(newRole);  
+        getMember1Facade().edit(member1);
     }
     
 }
