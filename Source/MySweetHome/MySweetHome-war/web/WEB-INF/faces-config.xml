@@ -31,5 +31,10 @@
         <managed-bean-class>com.mysweethome.helper.CalendarBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>fileUploadControl</managed-bean-name>
+        <managed-bean-class>com.mysweethome.helper.FileUploadControl</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>
 
