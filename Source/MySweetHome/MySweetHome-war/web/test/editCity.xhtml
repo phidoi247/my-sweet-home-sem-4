@@ -10,15 +10,13 @@
     <h:body>
 
         <h:form id="form">  
-
-            <p:dataTable id="Cities" var="cityvar" value="#{CityMBean.allCity}" >  
-
-                <f:facet name="header">  
-                    Click "Add" button to add new City 
-                     <p:commandButton id="viewButton" value="Select" 
-                                     update=":form:display" oncomplete="addCityDialog.show()"/>  
-                </f:facet>  
-
+            <p:commandButton id="viewButton" value="Add new City" 
+                             update=":form:displayAdd" oncomplete="addCityDialog.show()"/> 
+            <p:dataTable id="Cities" var="cityvar" value="#{CityMBean.allCity}" 
+                         paginator="true" rows="10"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,15">  
+                
                 <p:column headerText="City ID" style="width:40px">  
                     #{cityvar.cityID}  
                 </p:column>  
@@ -26,14 +24,14 @@
                 <p:column headerText="City Name" style="width:40px">  
                     #{cityvar.cityName}  
                 </p:column> 
-                
+
                 <p:column headerText="Action" style="width:40px">
-                    <p:commandLink style="margin-right: 5px;" id="selectButton" update=":form:display" oncomplete="cityDialog.show()" >
+                    <p:commandLink style="margin-right: 5px;" id="selectButton" update=":form:displayEdit" oncomplete="cityDialog.show()" >
                         <p:graphicImage url="./../resources/images/edit.png" style="cursor: pointer; border: 0px"/>
                         <f:setPropertyActionListener value="#{cityvar}" target="#{CityMBean.city}" />
                     </p:commandLink>
                     <p:tooltip for="selectButton" value="Edit City"/>
-                    
+
                     <p:commandLink onclick="confirmation.show()" id="deleteButton"   >
                         <p:graphicImage url="./../resources/images/deleteicon.png" style="cursor: pointer; border: 0px"/>
                         <f:setPropertyActionListener value="#{cityvar}" target="#{CityMBean.city}" />
@@ -42,28 +40,22 @@
                 </p:column>
 
                 <f:facet name="footer">  
-                   
+
                 </f:facet>  
 
             </p:dataTable>  
             <p:confirmDialog id="confirmDialog" message="Do you want to delete this city?"
-                                     header="Delete City" severity="alert" widgetVar="confirmation">
+                             header="Delete City" severity="alert" widgetVar="confirmation">
 
-                        <p:commandButton id="confirm" value="Yes" update="Cities"
-                                         action="#{CityMBean.removeCity(CityMBean.city.cityID)}" oncomplete="confirmation.hide()" />
-                        <p:commandButton id="decline" value="No" onclick="confirmation.hide()" />
+                <p:commandButton id="confirm" value="Yes" update="Cities"
+                                 action="#{CityMBean.removeCity(CityMBean.city.cityID)}" oncomplete="confirmation.hide()" />
+                <p:commandButton id="decline" value="No" onclick="confirmation.hide()" />
 
-                    </p:confirmDialog>          
+            </p:confirmDialog>          
 
             <p:dialog id="dialogedit" header="City Detail" widgetVar="cityDialog" resizable="true"  
-                      showEffect="clip" hideEffect="fold">  
-
-                <h:panelGrid id="display" columns="2" cellpadding="4">  
-
-                    <f:facet name="header">  
-
-                    </f:facet>  
-
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayEdit" columns="2" cellpadding="4" >   
                     <h:outputText value="City ID:" />  
                     <h:outputText id="ID" value="#{CityMBean.city.cityID}" />              
                     <h:outputText value="City name :" />                    
@@ -72,25 +64,21 @@
                     <p:commandButton value="Update" action="#{CityMBean.editCity()}" oncomplete="cityDialog.hide()" update="Cities"/>            
                 </h:panelGrid>  
             </p:dialog>  
+            <p:dialog id="dialogadd" header="Add City" widgetVar="addCityDialog" resizable="false"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                    <p:outputLabel value="CityID:" for="cityID" />
+                    <p:inputText id="cityID" value="#{CityMBean.city2.cityID}" title="CityID" required="true"/>                    
+                    <p:message for="cityID"/>
 
-        </h:form>  
-          <p:dialog id="dialogadd" header="Add City" widgetVar="addCityDialog" resizable="true"  
-                      showEffect="clip" hideEffect="fold">  
-
-                <h:panelGrid id="display" columns="2" cellpadding="4">  
-
-                    <f:facet name="header">  
-
-                    </f:facet>  
-
-                    <p:outputLabel value="CityName:" for="cityNameID" />
-                    <p:inputText id="cityNameID" value="#{CityMBean.city2.cityName}" title="CityName" >                    
-                    
-                    </p:inputText>
-                    <p:message id="msg4" for="cityNameID"/>
-                    <p:commandButton value="Create" action="#{CityMBean.createCity()}"/>                      
+                    <p:outputLabel value="CityName:" for="cityName" />
+                    <p:inputText id="cityName" value="#{CityMBean.city2.cityName}" title="CityName" required="true" />                    
+                    <p:message for="cityName"/>
                 </h:panelGrid>  
-            </p:dialog>  
+                <p:commandButton value="Create" action="#{CityMBean.createCity()}" oncomplete="addCityDialog.hide()" update="Cities"/>                      
+            </p:dialog> 
+        </h:form>  
+
     </h:body>
 </html>
 
