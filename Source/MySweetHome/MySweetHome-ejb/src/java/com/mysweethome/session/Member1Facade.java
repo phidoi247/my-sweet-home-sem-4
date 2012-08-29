@@ -5,6 +5,7 @@
 package com.mysweethome.session;
 
 import com.mysweethome.entity.Member1;
+import com.mysweethome.entity.TypeOfMember;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
@@ -28,7 +29,7 @@ public class Member1Facade extends AbstractFacade<Member1> {
         return em;
     }
     
-        @Override
+    @Override
     public void create(Member1 member) {
         em.persist(member);
     }
@@ -206,7 +207,28 @@ public class Member1Facade extends AbstractFacade<Member1> {
         return user;
     }
     
+    public List<Member1> getAll()
+    {
+        List<Member1> users = null;
+        try {
+            Query query = em.createNamedQuery("Member1.findAll");
+            users=query.getResultList();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+        }
+        return users;
+    }
     
+    public TypeOfMember getTypeOfMemberFromID(String id){
+        TypeOfMember type = null;
+        try {
+            Query query = em.createNamedQuery("TypeOfMember.findByTypeOfMemberID");
+            query.setParameter("typeOfMemberID", id);
+            type=(TypeOfMember) query.getSingleResult();
+        } catch (NoResultException ex) {
+        }
+        return type;
+    }
     public int getLastRecordID(){
         Query q = em.createNamedQuery("Member1.findAll");
         List<Member1> memlist= q.getResultList();

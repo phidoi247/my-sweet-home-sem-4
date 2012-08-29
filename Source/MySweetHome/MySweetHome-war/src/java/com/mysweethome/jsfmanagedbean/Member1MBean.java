@@ -5,12 +5,17 @@
 package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.Member1;
+import com.mysweethome.helper.MD5;
+import com.mysweethome.helper.RandomCode;
+import com.mysweethome.helper.messages;
 import com.mysweethome.session.Member1Facade;
+import com.mysweethome.session.TypeOfMemberFacade;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -18,89 +23,122 @@ import javax.faces.bean.SessionScoped;
  *
  * @author LongVu
  */
-@ManagedBean(name="Member1MBean")
+@ManagedBean(name = "Member1MBean")
 @SessionScoped
 public class Member1MBean {
+
     @EJB
     private Member1Facade member1Facade;
     private Member1 mem;
-    String newAddress, newEmail, newFullName, newDateOfBirth, newGender, newTelephone, newCompany, newRole;
-
-    public String getNewAddress() {
-        return mem.getAddress();
-    }
-
-    public void setNewAddress(String newAddress) {
-        this.newAddress = newAddress;
-    }
-
-    public String getNewCompany() {
-        return mem.getCompany();
-    }
-
-    public void setNewCompany(String newCompany) {
-        this.newCompany = newCompany;
-    }
-
-    public String getNewDateOfBirth() {
-        return mem.getDateOfBirth();
-    }
-
-    public void setNewDateOfBirth(String newDateOfBirth) {
-        this.newDateOfBirth = newDateOfBirth;
-    }
-
-    public String getNewEmail() {
-        return mem.getEmail();
-    }
-
-    public void setNewEmail(String newEmail) {
-        this.newEmail = newEmail;
-    }
-
-    public String getNewFullName() {
-        return mem.getFullName();
-    }
-
-    public void setNewFullName(String newFullName) {
-        this.newFullName = newFullName;
-    }
-
-    public String getNewGender() {
-        return mem.getGender();
-    }
-
-    public void setNewGender(String newGender) {
-        this.newGender = newGender;
-    }
-
-    public String getNewRole() {
-        return mem.getRole();
-    }
-
-    public void setNewRole(String newRole) {
-        this.newRole = newRole;
-    }
-
-    public String getNewTelephone() {
-        return mem.getTelephone();
-    }
-
-    public void setNewTelephone(String newTelephone) {
-        this.newTelephone = newTelephone;
-    }
-
-    
-
-    List<Member1> filterList;
+    private TypeOfMemberFacade typeOfMemberFace;
+    List<String> members = new ArrayList<String>();
     List<Member1> memberList;
-    
-    public List<Member1> getFilterList() {
-        return filterList;
+
+    public List<Member1> getMemberList() {
+        return member1Facade.getAll();
     }
 
-    public void setFilterList(List<Member1> filterList) {
-        this.filterList = filterList;
+    public void setMemberList(List<Member1> memberList) {
+        this.memberList = memberList;
+    }
+    String username;
+    String password;
+    String confirmPass;
+    String fullName;
+    String email;
+    Date birthday;
+    String gender;
+    String address;
+    String phone;
+    String company;
+    String typeOfMemberID;
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getTypeOfMemberID() {
+        return typeOfMemberID;
+    }
+
+    public void setTypeOfMemberID(String typeOfMemberID) {
+        this.typeOfMemberID = typeOfMemberID;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getConfirmPass() {
+        return confirmPass;
+    }
+
+    public void setConfirmPass(String confirmPass) {
+        this.confirmPass = confirmPass;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public Member1 getMem() {
@@ -109,10 +147,6 @@ public class Member1MBean {
 
     public void setMem(Member1 mem) {
         this.mem = mem;
-    }
-
-    public void setMemberList(List<Member1> memberList) {
-        this.memberList = memberList;
     }
 
     public Member1Facade getMember1Facade() {
@@ -128,51 +162,13 @@ public class Member1MBean {
      */
     public Member1MBean() {
         mem = new Member1();
-        member1Facade= new Member1Facade();
-        newAddress = mem.getAddress();
-        newEmail = mem.getEmail();
-        newFullName = mem.getFullName();
-        newDateOfBirth = mem.getDateOfBirth();
-        newGender = mem.getGender();
-        newTelephone = mem.getTelephone();
-        newCompany = mem.getCompany();
-        newRole = mem.getRole();
+        typeOfMemberFace = new TypeOfMemberFacade();
+        member1Facade = new Member1Facade();
     }
-    
-    
-    public String createMember(){
-        Member1 memtemp= new Member1();
-        
-        String result="False";
-        try{
-            
-        int id= getMember1Facade().getLastRecordID();
-        memtemp.setUserName(String.valueOf(id+1));
-        memtemp.setPassword(getMem().getPassword());  
-        memtemp.setAddress(getMem().getAddress());        
-        memtemp.setEmail(getMem().getEmail());        
-        memtemp.setFullName(getMem().getFullName());        
-        memtemp.setDateOfBirth(getMem().getDateOfBirth());        
-        memtemp.setGender(getMem().getGender());        
-        memtemp.setCompany(getMem().getCompany());        
-        memtemp.setRole(getMem().getRole());        
-        memtemp.setTelephone(getMem().getTelephone());
-        
-        getMember1Facade().create(memtemp);
-        result="True";
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        return result;
-    }
-    
-    public List<Member1> getAllMember()
-    {
+
+    public List<Member1> getAllMember() {
         return member1Facade.findAll();
     }
-    
-    //private Map<String,String> members = new HashMap<String, String>();
-    private List<String> members=new ArrayList<String>();
 
     public List<String> getMembers() {
         return members;
@@ -181,46 +177,37 @@ public class Member1MBean {
     public void setMembers(List<String> members) {
         this.members = members;
     }
-    
-    private Map<String,Map<String,String>> suburbsData = new HashMap<String, Map<String,String>>();
-    private String city;  
-    
-    public Map<String, Map<String, String>> getSuburbsData() {
-        return suburbsData;
+
+    public void createMember() {
+        Member1 member = new Member1();
+        member = member1Facade.find(username);
+        if (member != null) {
+            messages.taoTB(FacesMessage.SEVERITY_WARN, "User name had already", "This username had already. Please select another username.");
+        } else {
+            mem.setUserName(username);
+            mem.setPassword(MD5.getMD5(password));
+            mem.setFullName(fullName);
+            mem.setEmail(email);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            mem.setDateOfBirth(dateFormat.format(birthday).toString());
+            mem.setGender(gender);
+            mem.setAddress(address);
+            mem.setTelephone(phone);
+            mem.setCompany(company);
+            mem.setIsEnabled("false");
+            //set randome code
+            String code = new RandomCode().createRandomString();
+            mem.setCode(code);
+            mem.setRole("Member");
+            mem.setTypeOfMemberID(member1Facade.getTypeOfMemberFromID(typeOfMemberID));
+            member1Facade.create(mem);
+            messages.taoTB(FacesMessage.SEVERITY_INFO, "Register success", "Registration success. Please check your email to active account before login to system.");
+        }
     }
 
-    public void setSuburbsData(Map<String, Map<String, String>> suburbsData) {
-        this.suburbsData = suburbsData;
-    }
-    
-     
-    
-    public void removeMember(){
-        String str=getMem().getUserName();
+    public void removeMember() {
+        String str = getMem().getUserName();
         getMem().setUserName(str);
         getMember1Facade().remove(getMem());
     }
-    
-    public void editMember(){
-        
-        String str=getMem().getUserName();
-        Member1 member1=getMember1Facade().getUserName(str);
-        member1.setAddress(newAddress);  
-        //getMember1Facade().edit(member1);
-        member1.setEmail(newEmail);  
-        //getMember1Facade().edit(member1);
-        member1.setFullName(newFullName);  
-        //getMember1Facade().edit(member1);
-        member1.setDateOfBirth(newDateOfBirth);  
-        //getMember1Facade().edit(member1);
-        member1.setGender(newGender);  
-        //getMember1Facade().edit(member1);
-        member1.setTelephone(newTelephone);  
-        //getMember1Facade().edit(member1);
-        member1.setCompany(newCompany);  
-        //getMember1Facade().edit(member1);
-        member1.setRole(newRole);  
-        getMember1Facade().edit(member1);
-    }
-    
 }
