@@ -152,6 +152,8 @@
                      <h:outputText value="#{EstateMBean.estate.imageCategoryID}" style="font-weight: bold"/>
                      
                     </h:panelGrid>
+                    <p:commandButton value="Estates" ajax="false" action="#{EstateMBean.estateList}"/>
+                    <p:commandButton value="reset" type="reset"/>
                 </p:dialog>
             </h:form>
         </f:view>
