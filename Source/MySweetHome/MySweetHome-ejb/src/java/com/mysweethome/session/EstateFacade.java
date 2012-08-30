@@ -4,8 +4,7 @@
  */
 package com.mysweethome.session;
 
-import com.mysweethome.entity.City;
-import com.mysweethome.entity.Estate;
+import com.mysweethome.entity.*;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -249,12 +248,12 @@ public class EstateFacade extends AbstractFacade<Estate> {
             e.printStackTrace();
         }
         return estate;
-    } 
-    
-    public List<Estate> searchAdvance(String cityName, String districtName, String categoryName, String typeOfEstateName,String estateNumberOfRooms, 
-            String estateNumberOfToilets, int firstArea, int lastArea,int firstValue, int lastValue, String dateNow){
-        List<Estate> estateList=null;
-        try{
+    }
+
+    public List<Estate> searchAdvance(String cityName, String districtName, String categoryName, String typeOfEstateName, String estateNumberOfRooms,
+            String estateNumberOfToilets, int firstArea, int lastArea, int firstValue, int lastValue, String dateNow) {
+        List<Estate> estateList = null;
+        try {
             Query q = em.createNamedQuery("Estate.searchAdvance");
             q.setParameter("cityName", cityName);
             q.setParameter("districtName", districtName);
@@ -267,15 +266,14 @@ public class EstateFacade extends AbstractFacade<Estate> {
             q.setParameter("firstValue", firstValue);
             q.setParameter("lastValue", lastValue);
             q.setParameter("dateNow", dateNow);
-            
+
             estateList = q.getResultList();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return estateList;
     }
-    
-    
+
     //search advanced
 //    public List<Estate> searchEstateAdvanced(String strSearch) {
 //        List<Estate> estates = null;
@@ -288,70 +286,62 @@ public class EstateFacade extends AbstractFacade<Estate> {
 //        }
 //        return estates;
 //    }
-    
-    
     //search estate of member: dang duoc dang va chua het han
     public List<Estate> searchEstatePosted(String strSearch) {
         List<Estate> estates = null;
-        try{
+        try {
             Query q = em.createNamedQuery("Estate.searchEstateOfMemberInPost");
             q.setParameter("strSearch", strSearch);
             estates = q.getResultList();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return estates;
     }
-    
-   
+
     //search estate of member: da het han
     public List<Estate> searchEstateExpired(String strSearch) {
         List<Estate> estates = null;
-        try{
+        try {
             Query q = em.createNamedQuery("Estate.searchEstateOfMemberExpired");
             q.setParameter("strSearch", strSearch);
             estates = q.getResultList();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return estates;
     }
-    
-    
+
     //search estate of member: chua duoc dang
     public List<Estate> searchEstateNotPosted(String strSearch) {
         List<Estate> estates = null;
-        try{
+        try {
             Query q = em.createNamedQuery("Estate.searchEstateOfMemberNotPost");
             q.setParameter("strSearch", strSearch);
             estates = q.getResultList();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return estates;
     }
-    
-    
-    
+
     //search estate by type of estate
     public List<Estate> searchByTypeOfEstate(String strSearch) {
         List<Estate> estates = null;
-        try{
+        try {
             Query q = em.createNamedQuery("Estate.searchEstateByType");
             q.setParameter("strSearch", strSearch);
             estates = q.getResultList();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return estates;
     }
-    
-    
-    
+
     //search estate by category name
     public List<Estate> searchByCategoryName(String categoryName, Date dateNow) {
         List<Estate> estates = null;
-        try{
+        try {
             Query q = em.createNamedQuery("Estate.searchEstateByCategory");
             q.setParameter("categoryName", categoryName);
             q.setParameter("dateNow", dateNow);
@@ -361,15 +351,55 @@ public class EstateFacade extends AbstractFacade<Estate> {
         }
         return estates;
     }
-    
-       public int getLastRecordID(){
-        Query q= em.createNamedQuery("Estate.findAll");
-        List<Estate> estatelist= q.getResultList();
-                
-        int i=estatelist.size();
-        i=i-1;
-        
-        int j=Integer.parseInt(estatelist.get(i).getEstateID());
+
+    public int getLastRecordID() {
+        Query q = em.createNamedQuery("Estate.findAll");
+        List<Estate> estatelist = q.getResultList();
+
+        int i = estatelist.size();
+        i = i - 1;
+
+        int j = Integer.parseInt(estatelist.get(i).getEstateID());
         return j;
+    }
+    
+    public List<Subscribe> getSubscribeList() {
+        Query q = em.createNamedQuery("Subscribe.findAll");
+        return q.getResultList();
+    }
+    
+    public Subscribe getSubscribeByID(String id) {
+        Query q = em.createNamedQuery("Subscribe.findBySubscribeID");
+        return (Subscribe) q.getSingleResult();
+    }
+    
+    public List<TypeOfEstate> getTypeOfEstateList() {
+        Query q = em.createNamedQuery("TypeOfEstate.findAll");
+        return q.getResultList();
+    }
+    
+    public TypeOfEstate getTypeOfEstateByID(String id) {
+        Query q = em.createNamedQuery("TypeOfEstate.findByTypeOfEstateID");
+        return (TypeOfEstate) q.getSingleResult();
+    }
+    
+    public List<Category> getCategoryList() {
+        Query q = em.createNamedQuery("Category.findAll");
+        return q.getResultList();
+    }
+    
+    public Category getCategoryByID(String id) {
+        Query q = em.createNamedQuery("Category.findByCategoryID");
+        return (Category) q.getSingleResult();
+    }
+    
+    public List<City> getCityList() {
+        Query q = em.createNamedQuery("City.findAll");
+        return q.getResultList();
+    }
+    
+    public City getCityByID(String id) {
+        Query q = em.createNamedQuery("City.findByCityID");
+        return (City) q.getSingleResult();
     }
 }
