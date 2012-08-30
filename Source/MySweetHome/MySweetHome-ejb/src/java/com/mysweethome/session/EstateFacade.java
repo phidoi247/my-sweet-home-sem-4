@@ -352,15 +352,10 @@ public class EstateFacade extends AbstractFacade<Estate> {
         return estates;
     }
 
-    public int getLastRecordID() {
+    public String getLastRecordID() {
         Query q = em.createNamedQuery("Estate.findAll");
         List<Estate> estatelist = q.getResultList();
-
-        int i = estatelist.size();
-        i = i - 1;
-
-        int j = Integer.parseInt(estatelist.get(i).getEstateID());
-        return j;
+        return estatelist.get(estatelist.size()-1).getEstateID();
     }
     
     public List<Subscribe> getSubscribeList() {
@@ -401,5 +396,30 @@ public class EstateFacade extends AbstractFacade<Estate> {
     public City getCityByID(String id) {
         Query q = em.createNamedQuery("City.findByCityID");
         return (City) q.getSingleResult();
+    }
+    
+    public List<District> getDistrictList() {
+        Query q = em.createNamedQuery("District.findAll");
+        return q.getResultList();
+    }
+    
+    public District getDistrictByID(String id) {
+        Query q = em.createNamedQuery("District.findByDistrictID");
+        return (District) q.getSingleResult();
+    }
+    
+    public List<Currency> getCurrencyList() {
+        Query q = em.createNamedQuery("Currency.findAll");
+        return q.getResultList();
+    }
+    
+    public Currency getCurrencyByID(String id) {
+        Query q = em.createNamedQuery("Currency.findByCurrencyID");
+        return (Currency) q.getSingleResult();
+    }
+    
+    public Member1 getMember(String username){
+        Query q=em.createNamedQuery("");
+        return (Member1)q.getSingleResult();
     }
 }
