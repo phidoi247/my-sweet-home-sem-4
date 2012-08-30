@@ -5,10 +5,12 @@
 package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.Subscribe;
+import com.mysweethome.helper.messages;
 import com.mysweethome.session.SubscribeFacade;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -21,12 +23,47 @@ import javax.faces.bean.SessionScoped;
 public class SubscribeMBean {
 
     @EJB
-    SubscribeFacade subface;
+    SubscribeFacade subfacade;
     Subscribe subscribe;
+    Subscribe other;
+    String subscribeID;
+    String subscribeName;
+    String feePerDay;
+
+    public String getFeePerDay() {
+        return subscribe.getFeePerDay();
+    }
+
+    public void setFeePerDay(String feePerDay) {
+        this.feePerDay = feePerDay;
+    }
+
+    public String getSubscribeID() {
+        return subscribe.getSubscribeID();
+    }
+
+    public void setSubscribeID(String subscribeID) {
+        this.subscribeID = subscribeID;
+    }
+
+    public String getSubscribeName() {
+        return subscribe.getSubscribeName();
+    }
+
+    public void setSubscribeName(String subscribeName) {
+        this.subscribeName = subscribeName;
+    }
     /**
      * Creates a new instance of SubscribeMBean
      */
     public SubscribeMBean() {
+        subfacade = new SubscribeFacade();
+        subscribe = new Subscribe();
+        other = new Subscribe();
+        subscribeID = subscribe.getSubscribeID();
+        subscribeName = subscribe.getSubscribeName();
+        feePerDay = subscribe.getFeePerDay();
+        
     }
     
     String name;
@@ -43,12 +80,12 @@ public class SubscribeMBean {
 
     List<Subscribe> subscribeList=new ArrayList<Subscribe>();
 
-    public SubscribeFacade getSubface() {
-        return subface;
+    public SubscribeFacade getSubfacade() {
+        return subfacade;
     }
 
-    public void setSubface(SubscribeFacade subface) {
-        this.subface = subface;
+    public void setSubface(SubscribeFacade subfacade) {
+        this.subfacade = subfacade;
     }
 
     public Subscribe getSubscribe() {
@@ -60,7 +97,7 @@ public class SubscribeMBean {
     }
 
     public List<Subscribe> getSubscribeList() {
-        return subface.findAll();
+        return subfacade.findAll();
     }
 
     public void setSubscribeList(List<Subscribe> subscribeList) {
@@ -85,5 +122,61 @@ public class SubscribeMBean {
     public void setResult(String result) {
         this.result = result;
     }
+    
+    
+    public void createSubscribe() {
+        
+        
+        try{
+            Subscribe newSub = new Subscribe();
+            //newSub = subfacade.find(subscribeID);
+        
+            int id= getSubfacade().getLastRecordID();
+            newSub.setSubscribeID(String.valueOf(id+1));
+            
+            newSub.setSubscribeName(other.getSubscribeName());
+            newSub.setFeePerDay(other.getFeePerDay());
+            
+            
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        
+        
+        
+        
+        
+//        if (newSub != null) {
+//            messages.taoTB(FacesMessage.SEVERITY_WARN, "User name had already", "This username had already. Please select another username.");
+//        } else {
+//            subscribe.setSubscribeID(subscribeID);
+//            subscribe.setSubscribeName(subscribeName);
+//            subscribe.setFeePerDay(feePerDay);
+//            subfacade.create(newSub);
+//            
+//            messages.taoTB(FacesMessage.SEVERITY_INFO, "Register success", "Registration success. Please check your email to active account before login to system.");
+//        }
+        
+    }
+    
+    
+    public void editSubscribe(){
+        
+        String str = getSubscribe().getSubscribeID();
+        Subscribe editSub = getSubfacade().getSubscribeID(str);
+        editSub.setSubscribeID(subscribeID);
+        editSub.setSubscribeName(subscribeName);
+        editSub.setFeePerDay(feePerDay);   
+        getSubfacade().edit(editSub);
+    }
+    
+    
+    public void removeSubscribe() {
+        String str = getSubscribe().getSubscribeID();
+        getSubscribe().setSubscribeID(str);
+        getSubfacade().remove(getSubscribe());
+    }
+    
     
 }

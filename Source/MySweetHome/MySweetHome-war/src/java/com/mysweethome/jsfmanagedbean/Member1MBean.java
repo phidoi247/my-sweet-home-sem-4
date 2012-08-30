@@ -31,27 +31,51 @@ public class Member1MBean {
     private Member1Facade member1Facade;
     private Member1 mem;
     private TypeOfMemberFacade typeOfMemberFace;
-    List<String> members = new ArrayList<String>();
-    List<Member1> memberList;
+    public List<Member1> memberList = new ArrayList<Member1>();
+   
+    public String username;
+    public String password;
+    public String confirmPass;
+    public String fullName;
+    public String email;
+    public Date birthday;
+    public String gender;
+    public String address;
+    public String phone;
+    public String company;
+    public String typeOfMemberID;
+    public String role;
+    public String telephone;
 
+    
+    
     public List<Member1> getMemberList() {
-        return member1Facade.getAll();
+        return member1Facade.findAll();
     }
 
     public void setMemberList(List<Member1> memberList) {
         this.memberList = memberList;
     }
-    String username;
-    String password;
-    String confirmPass;
-    String fullName;
-    String email;
-    Date birthday;
-    String gender;
-    String address;
-    String phone;
-    String company;
-    String typeOfMemberID;
+   
+    
+    
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+    
+    
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+    
 
     public Date getBirthday() {
         return birthday;
@@ -166,18 +190,9 @@ public class Member1MBean {
         member1Facade = new Member1Facade();
     }
 
-    public List<Member1> getAllMember() {
-        return member1Facade.findAll();
-    }
+   
 
-    public List<String> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<String> members) {
-        this.members = members;
-    }
-
+   
     public void createMember() {
         Member1 member = new Member1();
         member = member1Facade.find(username);
@@ -210,4 +225,27 @@ public class Member1MBean {
         getMem().setUserName(str);
         getMember1Facade().remove(getMem());
     }
+    
+    public void removeMember(String username){
+        Member1 memtemp=this.getMember1Facade().find(username);
+         
+        getMember1Facade().remove(memtemp);
+    }
+    
+    public void editMember(){
+        
+        String str=getMem().getUserName();
+        Member1 member1;
+        member1=getMember1Facade().getUserName(str);
+        member1.setEmail(email);
+        member1.setAddress(address);
+        member1.setFullName(fullName);
+        member1.setGender(gender);
+        member1.setCompany(company);
+        member1.setTelephone(phone);
+        member1.setRole(role);
+        
+        getMember1Facade().edit(member1);
+    }
+    
 }
