@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Create new estate</title>
+    </h:head>
+    <h:body>
+        <p:panel header="Input estate information to sell or rent">  
+            <h:outputText value="Title: " />
+            <p:inputText id="txtTitle" value="#{EstateMBean.title}" required="true" style="width: 350px;"/>
+            <p:message for="txtTitle"/>
+        </p:panel>  
+
+        <p:fieldset legend="Schedule of posting" toggleable="true" toggleSpeed="500" style="margin-top: 10px;">  
+            <h:panelGrid columns="4" cellpadding="10">  
+                <h:panelGrid columns="1" cellpadding="3">
+                    <h:outputText value="Start date: " />
+                    <p:calendar value="#{EstateMBean.startDay}" id="txtStartDay" pattern="dd/MM/yyyy" required="true"/>
+                    <p:message for="txtStartDay"/>
+                </h:panelGrid>
+                <h:panelGrid columns="1" cellpadding="3">
+                    <h:outputText value="End date: " />
+                    <p:calendar value="#{EstateMBean.endDay}" id="txtEndDay" pattern="dd/MM/yyyy" required="true"/>
+                    <p:message for="txtEndDay"/>
+                </h:panelGrid>
+                <h:panelGrid columns="1" cellpadding="3">
+                    <h:outputText value="Subscribe: " />
+                    <p:selectOneMenu id="txtSubscribe" value="#{EstateMBean.subscribeList}">  
+                        <f:selectItem itemLabel="--Select Subscribe--" itemValue="" />  
+                        <f:selectItems value="#{EstateMBean.subscribeList}" var="subscribe" itemLabel="#{subscribe.subscribeName}" itemValue="#{subscribe.subscribeID}"/>  
+                    </p:selectOneMenu>
+                    <p:message for="txtSubscribe"/>
+                </h:panelGrid>
+                <h:panelGrid columns="1" cellpadding="3">
+                    <h:outputText value="Value of posting: " />
+                    <p:inputText value="#{EstateMBean.value}" id="txtValue" readonly="true" />
+                    <p:message for="txtSubscribe"/>
+                </h:panelGrid>
+            </h:panelGrid>
+            <h:panelGrid columns="1" cellpadding="3" style="font-size: 13px;">
+                <h:outputText value="You should select Vip subscribe for posting estate effect " />
+            </h:panelGrid>
+        </p:fieldset> 
+
+        <p:fieldset legend="Description estate" toggleable="true" toggleSpeed="500" style="margin-top: 5px;">  
+            <h:panelGrid columns="2" cellpadding="10" style="vertical-align: top;">  
+                <h:outputText value="Content: " />
+                <h:panelGrid columns="1" cellpadding="3">
+                    <h:inputTextarea id="txtContent" value="#{EstateMBean.content}" rows="5" cols="80" required="true"/>
+                    <p:message for="txtContent"/>
+                </h:panelGrid>
+                <h:outputText value="Image: " />
+                <h:panelGrid columns="2" cellpadding="3">
+                    <h:panelGrid columns="1" cellpadding="3">
+                        <p:fileUpload value="#{EstateMBean.images}" mode="simple" update="growl"/>
+                        <h:commandButton value="Upload image" action="#{fileUpLoad.upLoad()}"/>
+                    </h:panelGrid>
+                    <p:graphicImage value="/images/#{EstateMBean.images}"/>
+                </h:panelGrid>
+            </h:panelGrid>
+            <h:panelGrid columns="1" cellpadding="3" style="font-size: 13px;">
+                <h:outputText value="You should input clear information of estate for posting estate effect " />
+            </h:panelGrid>
+        </p:fieldset>
+        <p:fieldset legend="Basic information" toggleable="true" toggleSpeed="500" style="margin-top: 5px;">  
+            <h:panelGrid columns="4" cellpadding="10">  
+                <h:outputText value="Type of estate: " />
+                <p:selectOneMenu id="txtTypeOfEstate" value="#{EstateMBean.typeOfEstateList}">  
+                    <f:selectItem itemLabel="--Select type--" itemValue="" />  
+                    <f:selectItems value="#{EstateMBean.typeOfEstateList}" var="typeOfEstate" itemLabel="#{typeOfEstate.typeOfEstateName}" itemValue="#{typeOfEstate.typeOfEstateID}"/>  
+                </p:selectOneMenu>
+                <h:outputText value="Category: " />
+                <p:selectOneMenu id="txtCategory" value="#{EstateMBean.categoryList}">  
+                    <f:selectItem itemLabel="--Select category--" itemValue="" />  
+                    <f:selectItems value="#{EstateMBean.categoryList}" var="category" itemLabel="#{category.categoryName}" itemValue="#{category.categoryID}"/>  
+                </p:selectOneMenu>
+                
+                <h:outputText value="City: " />
+                <p:selectOneMenu id="txtCity" value="#{EstateMBean.cityList}">  
+                    <f:selectItem itemLabel="--Select city--" itemValue="" />  
+                    <f:selectItems value="#{EstateMBean.cityList}" var="city" itemLabel="#{city.cityName}" itemValue="#{city.cityID}"/>  
+                </p:selectOneMenu>
+                <h:outputText value="District: " />
+                <p:selectOneMenu id="txtDistrict" value="#{EstateMBean.districtList}">  
+                    <f:selectItem itemLabel="--Select district--" itemValue="" />  
+                    <f:selectItems value="#{EstateMBean.districtList}" var="district" itemLabel="#{district.districtName}" itemValue="#{district.districtID}"/>  
+                </p:selectOneMenu>
+                
+                <h:outputText value="Area(m2): " />
+                <p:inputText value="#{EstateMBean.area}" id="txtArea" />
+                <h:outputText value="Value: " />
+                <p:inputText value="#{EstateMBean.value}" id="txtValue" />
+                
+                <h:outputText value="Currency: " />
+                <p:selectOneMenu id="txtCurrency" value="#{EstateMBean.currencyList}">  
+                    <f:selectItem itemLabel="--Select currency--" itemValue="" />  
+                    <f:selectItems value="#{EstateMBean.currencyList}" var="currency" itemLabel="#{currency.currencyName}" itemValue="#{currency.currencyID}"/>  
+                </p:selectOneMenu>
+                
+            </h:panelGrid>
+            <h:panelGrid columns="1" cellpadding="3" style="font-size: 13px;">
+                <h:outputText value="You should input clear information of estate for posting estate effect " />
+            </h:panelGrid>
+        </p:fieldset>
+        
+        <p:fieldset legend="Another information" toggleable="true" toggleSpeed="500" style="margin-top: 5px;">  
+            <h:panelGrid columns="4" cellpadding="10">  
+                <h:outputText value="Address: " />
+                <p:inputText value="#{EstateMBean.address}" id="txtAddress" />
+                <h:outputText value="DriverWay(m): " />
+                <p:inputText value="#{EstateMBean.driverWay}" id="txtDriverWay" />
+                
+                <h:outputText value="Direction: " />
+                <p:selectOneMenu id="txtDirection" value="#{EstateMBean.direction}">  
+                    <f:selectItem itemLabel="--Select direction--" />  
+                    <f:selectItems itemLabel="East" itemValue="East"/>  
+                    <f:selectItems itemLabel="West" itemValue="West"/>  
+                    <f:selectItems itemLabel="North" itemValue="North"/>  
+                    <f:selectItems itemLabel="South" itemValue="South"/>  
+                </p:selectOneMenu>
+                <h:outputText value="Num of floor: " />
+                <p:selectOneMenu id="txtnoOfFloor" value="#{EstateMBean.noFloor}">  
+                    <f:selectItem itemLabel="--Select--" itemValue="" />  
+                    <f:selectItems itemLabel="1" itemValue="1"/>  
+                    <f:selectItems itemLabel="1" itemValue="2"/>  
+                    <f:selectItems itemLabel="1" itemValue="3"/>  
+                    <f:selectItems itemLabel="1" itemValue="4"/>  
+                    <f:selectItems itemLabel="1" itemValue="5"/>  
+                    <f:selectItems itemLabel="1" itemValue="6"/>  
+                    <f:selectItems itemLabel="1" itemValue="7"/>  
+                    <f:selectItems itemLabel="1" itemValue="8"/>  
+                    <f:selectItems itemLabel="1" itemValue="9"/>  
+                    <f:selectItems itemLabel="1" itemValue="10"/>
+                    <f:selectItems itemLabel="1" itemValue="11"/>  
+                    <f:selectItems itemLabel="1" itemValue="12"/>  
+                    <f:selectItems itemLabel="1" itemValue="13"/>  
+                    <f:selectItems itemLabel="1" itemValue="14"/>  
+                    <f:selectItems itemLabel="1" itemValue="15"/>  
+                </p:selectOneMenu>
+                
+                <h:outputText value="Num of rooms: " />
+                <p:selectOneMenu id="txtnoOfRoom" value="#{EstateMBean.noRoom}">  
+                    <f:selectItem itemLabel="--Select--" itemValue="" />  
+                    <f:selectItems itemLabel="1" itemValue="1"/>  
+                    <f:selectItems itemLabel="1" itemValue="2"/>  
+                    <f:selectItems itemLabel="1" itemValue="3"/>  
+                    <f:selectItems itemLabel="1" itemValue="4"/>  
+                    <f:selectItems itemLabel="1" itemValue="5"/>  
+                    <f:selectItems itemLabel="1" itemValue="6"/>  
+                    <f:selectItems itemLabel="1" itemValue="7"/>  
+                    <f:selectItems itemLabel="1" itemValue="8"/>  
+                    <f:selectItems itemLabel="1" itemValue="9"/>  
+                    <f:selectItems itemLabel="1" itemValue="10"/>
+                    <f:selectItems itemLabel="1" itemValue="11"/>  
+                    <f:selectItems itemLabel="1" itemValue="12"/>  
+                    <f:selectItems itemLabel="1" itemValue="13"/>  
+                    <f:selectItems itemLabel="1" itemValue="14"/>  
+                    <f:selectItems itemLabel="1" itemValue="15"/>  
+                </p:selectOneMenu>
+                <h:outputText value="Num of toilet: " />
+                <p:selectOneMenu id="txtnoOfToilet" value="#{EstateMBean.noToilet}">  
+                    <f:selectItem itemLabel="--Select--" itemValue="" />  
+                    <f:selectItems itemLabel="1" itemValue="1"/>  
+                    <f:selectItems itemLabel="1" itemValue="2"/>  
+                    <f:selectItems itemLabel="1" itemValue="3"/>  
+                    <f:selectItems itemLabel="1" itemValue="4"/>  
+                    <f:selectItems itemLabel="1" itemValue="5"/>  
+                    <f:selectItems itemLabel="1" itemValue="6"/>  
+                    <f:selectItems itemLabel="1" itemValue="7"/>  
+                    <f:selectItems itemLabel="1" itemValue="8"/>  
+                    <f:selectItems itemLabel="1" itemValue="9"/>  
+                    <f:selectItems itemLabel="1" itemValue="10"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+            <h:panelGrid columns="1" cellpadding="3" style="font-size: 13px;">
+                <h:outputText value="You should input clear information of estate for posting estate effect " />
+            </h:panelGrid>
+        </p:fieldset>
+       
+        <p:fieldset legend="Contact information" toggleable="true" toggleSpeed="500" style="margin-top: 5px;">  
+            <h:panelGrid columns="2" cellpadding="10" style="vertical-align: top;">  
+                <h:outputText value="Contact Name: " />
+                <p:inputText value="#{EstateMBean.contactName}" id="txtContactName" />
+                <h:outputText value="Address: " />
+                <p:inputText value="#{EstateMBean.contactAddress}" id="txtContactAddress" />
+                <h:outputText value="Contact Email: " />
+                <p:inputText value="#{EstateMBean.contactEmail}" id="txtContactEmail" />
+                <h:outputText value="Telephone: " />
+                <p:inputText value="#{EstateMBean.contactTel}" id="txtContactTel" />
+            </h:panelGrid>
+            <h:panelGrid columns="1" cellpadding="3" style="font-size: 13px;">
+                <h:outputText value="You should input right information of contacter" />
+            </h:panelGrid>
+        </p:fieldset>
+        
+    </h:body>
+</html>
+
