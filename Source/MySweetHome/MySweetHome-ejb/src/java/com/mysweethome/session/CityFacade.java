@@ -78,6 +78,9 @@ public class CityFacade extends AbstractFacade<City> {
         int j=Integer.parseInt(citylist.get(i).getCityID());
         return j;
     }
-
+    public List<City> selectAllCity(){
+        Query q= em.createNamedQuery("City.findAll");
+        return q.getResultList();
+    }
     
 }
