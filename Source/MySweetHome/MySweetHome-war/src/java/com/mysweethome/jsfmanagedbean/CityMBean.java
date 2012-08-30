@@ -126,6 +126,6 @@ public class CityMBean {
         city2= cityFacade.find(str); 
         return city2.getCityName();
     }
-   
+
 
 }
