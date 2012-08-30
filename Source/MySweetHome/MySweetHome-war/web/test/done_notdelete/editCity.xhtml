@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+        <h:form id="form">  
+            <p:commandButton id="viewButton" value="Add new City" 
+                             update=":form:displayAdd" oncomplete="addCityDialog.show()"/> 
+            <p:dataTable id="Cities" var="cityvar" value="#{CityMBean.allCity}" 
+                         paginator="true" rows="10"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,15">  
+                
+                <p:column headerText="City ID" style="width:40px">  
+                    #{cityvar.cityID}  
+                </p:column>  
+
+                <p:column headerText="City Name" style="width:40px">  
+                    #{cityvar.cityName}  
+                </p:column> 
+
+                <p:column headerText="Action" style="width:40px">
+                    <p:commandLink style="margin-right: 5px;" id="selectButton" update=":form:displayEdit" oncomplete="cityDialog.show()" >
+                        <p:graphicImage url="./../resources/images/edit.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{cityvar}" target="#{CityMBean.city}" />
+                    </p:commandLink>
+                    <p:tooltip for="selectButton" value="Edit City"/>
+
+                    <p:commandLink onclick="confirmation.show()" id="deleteButton"   >
+                        <p:graphicImage url="./../resources/images/deleteicon.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{cityvar}" target="#{CityMBean.city}" />
+                    </p:commandLink>
+                    <p:tooltip for="deleteButton" value="Delete City"/>                    
+                </p:column>
+
+                <f:facet name="footer">  
+
+                </f:facet>  
+
+            </p:dataTable>  
+            <p:confirmDialog id="confirmDialog" message="Do you want to delete this city?"
+                             header="Delete City" severity="alert" widgetVar="confirmation">
+
+                <p:commandButton id="confirm" value="Yes" update="Cities"
+                                 action="#{CityMBean.removeCity(CityMBean.city.cityID)}" oncomplete="confirmation.hide()" />
+                <p:commandButton id="decline" value="No" onclick="confirmation.hide()" />
+
+            </p:confirmDialog>          
+
+            <p:dialog id="dialogedit" header="City Detail" widgetVar="cityDialog" resizable="true"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayEdit" columns="2" cellpadding="4" >   
+                    <h:outputText value="City ID:" />  
+                    <h:outputText id="ID" value="#{CityMBean.city.cityID}" />              
+                    <h:outputText value="City name :" />                    
+                    <h:inputText id="citynameupdate" title="cityname1" value="#{CityMBean.name}" />                    
+                    <p:commandButton value="Update" action="#{CityMBean.editCity()}" oncomplete="cityDialog.hide()" update="Cities"/>            
+                </h:panelGrid>  
+            </p:dialog>  
+            <p:dialog id="dialogadd" header="Add City" widgetVar="addCityDialog" resizable="false"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                    <p:outputLabel value="CityID:" for="cityID" />
+                    <p:inputText id="cityID" value="#{CityMBean.city2.cityID}" title="CityID" required="true"/>                    
+                    <p:message for="cityID"/>
+
+                    <p:outputLabel value="CityName:" for="cityName" />
+                    <p:inputText id="cityName" value="#{CityMBean.city2.cityName}" title="CityName" required="true" />                    
+                    <p:message for="cityName"/>
+                </h:panelGrid>  
+                <p:commandButton value="Create" action="#{CityMBean.createCity()}" oncomplete="addCityDialog.hide()" update="Cities"/>                      
+            </p:dialog> 
+        </h:form>  
+
+    </h:body>
+</html>
+
