@@ -5,7 +5,10 @@
 package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.*;
+import com.mysweethome.helper.operationSession;
+import com.mysweethome.session.ContactDetailsFacade;
 import com.mysweethome.session.EstateFacade;
+import com.mysweethome.session.ImageCategoryFacade;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,6 +30,24 @@ public class EstateMBean {
 
     @EJB
     private EstateFacade estateFacade;
+    private ContactDetailsFacade contactFacade;
+
+    public ContactDetailsFacade getContactFacade() {
+        return contactFacade;
+    }
+
+    public void setContactFacade(ContactDetailsFacade contactFacade) {
+        this.contactFacade = contactFacade;
+    }
+
+    public ImageCategoryFacade getImageFacade() {
+        return imageFacade;
+    }
+
+    public void setImageFacade(ImageCategoryFacade imageFacade) {
+        this.imageFacade = imageFacade;
+    }
+    private ImageCategoryFacade imageFacade;
     private Estate estate;
     private int firstArea = -1;
     private int lastArea = -1;
@@ -47,6 +68,69 @@ public class EstateMBean {
     String area;
     List<Currency> currencyList;
     String address;
+
+    public String getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(String categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    public String getCurrencyID() {
+        return currencyID;
+    }
+
+    public void setCurrencyID(String currencyID) {
+        this.currencyID = currencyID;
+    }
+
+    public String getDistrictID() {
+        return districtID;
+    }
+
+    public void setDistrictID(String districtID) {
+        this.districtID = districtID;
+    }
+
+    public String getSubscribeID() {
+        return subscribeID;
+    }
+
+    public void setSubscribeID(String subscribeID) {
+        this.subscribeID = subscribeID;
+    }
+
+    public String getSumvalue() {
+        return sumvalue;
+    }
+
+    public void setSumvalue(String sumvalue) {
+        this.sumvalue = sumvalue;
+    }
+
+    public String getTypeOfEstateID() {
+        return typeOfEstateID;
+    }
+
+    public void setTypeOfEstateID(String typeOfEstateID) {
+        this.typeOfEstateID = typeOfEstateID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    String subscribeID;
+    String currencyID;
+    String typeOfEstateID;
+    String categoryID;
+    String username;
+    String sumvalue;
+    String districtID;
 
     public String getContactAddress() {
         return contactAddress;
@@ -138,6 +222,7 @@ public class EstateMBean {
     }
 
     public List<Currency> getCurrencyList() {
+        currencyList = estateFacade.getCurrencyList();
         return currencyList;
     }
 
@@ -154,6 +239,7 @@ public class EstateMBean {
     }
 
     public List<District> getDistrictList() {
+        districtList = estateFacade.getDistrictList();
         return districtList;
     }
 
@@ -162,7 +248,7 @@ public class EstateMBean {
     }
 
     public List<City> getCityList() {
-        cityList=estateFacade.getCityList();
+        cityList = estateFacade.getCityList();
         return cityList;
     }
 
@@ -171,7 +257,7 @@ public class EstateMBean {
     }
 
     public List<Category> getCategoryList() {
-        categoryList=estateFacade.getCategoryList();
+        categoryList = estateFacade.getCategoryList();
         return categoryList;
     }
 
@@ -180,15 +266,13 @@ public class EstateMBean {
     }
 
     public List<TypeOfEstate> getTypeOfEstateList() {
-        typeOfEstateList=estateFacade.getTypeOfEstateList();
+        typeOfEstateList = estateFacade.getTypeOfEstateList();
         return typeOfEstateList;
     }
 
     public void setTypeOfEstateList(List<TypeOfEstate> typeOfEstateList) {
         this.typeOfEstateList = typeOfEstateList;
     }
-
-
 
     public String getImages() {
         return images;
@@ -213,6 +297,7 @@ public class EstateMBean {
     public void setValue(String value) {
         this.value = value;
     }
+
     public String getTitle() {
         return title;
     }
@@ -220,7 +305,6 @@ public class EstateMBean {
     public void setTitle(String title) {
         this.title = title;
     }
-    
 
     public Date getEndDay() {
         return endDay;
@@ -237,7 +321,6 @@ public class EstateMBean {
     public void setStartDay(Date startDay) {
         this.startDay = startDay;
     }
-    
 
     public List<Subscribe> getSubscribeList() {
         subscribeList = estateFacade.getSubscribeList();
@@ -304,20 +387,70 @@ public class EstateMBean {
         this.estate = estate;
     }
 
+    /**
+     * Create new estate
+     *
+     * @author Ngo Quang Huy
+     * @since 29-08-2012
+     */
     public void createEstate() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String id = estateFacade.getLastRecordID();
+        estate.setEstateID(id);
+        estate.setEstateTitle(title);
+        estate.setEstateStartDay(formatter.format(startDay));
+        estate.setEstateEndDay(formatter.format(endDay));
+        estate.setEstateAddress(address);
+        estate.setEstateContent(content);
+        estate.setEstateArea(area);
+        estate.setEstateValue(value);
+        estate.setEstateDriveway(driverWay);
+        estate.setEstateDirection(direction);
+        estate.setEstateNumberOfRooms(noRoom);
+        estate.setEstateNumberOfFloors(noFloor);
+        estate.setEstateNumberOfToilets(noToilet);
+        estate.setEstateNumOfView("0");
+        estate.setIsEnabled("false");
+        estate.setIsPaid("false");
+        estate.setCurrencyID(estateFacade.getCurrencyByID(currencyID));
+        estate.setSubscribeID(estateFacade.getSubscribeByID(subscribeID));
+        estate.setTypeOfEstateID(estateFacade.getTypeOfEstateByID(typeOfEstateID));
+        estate.setCategoryID(estateFacade.getCategoryByID(categoryID));
+        estate.setUserName(estateFacade.getMember((String) operationSession.getSession("username")));
+        estate.setDistrictID(estateFacade.getDistrictByID(districtID));
+
+        //create new contactDetail object
+        ContactDetails contactObj = new ContactDetails();
+        contactObj.setContactDetailsID(id);
+        contactObj.setContactName(contactName);
+        contactObj.setContactAddress(contactAddress);
+        contactObj.setContactEmail(contactEmail);
+        contactObj.setContactTelephone(contactTel);
+        contactFacade.create(contactObj);
+
+        //create image category
+        ImageCategory imageObj = new ImageCategory();
+        imageObj.setImageCategoryID(id);
+        if (images != null && !images.isEmpty()) {
+            imageObj.setImage1(images);
+        }
+        imageFacade.create(imageObj);
+
+        estate.setContactDetailsID(contactObj);
+        estate.setImageCategoryID(imageObj);
+
+        //create
+        estateFacade.create(estate);
     }
 
-    public void editEstate() {
+    public void editEstate(Estate estate) {
         estateFacade.edit(estate);
-        //setUserSession(admin);
         FacesContext face = FacesContext.getCurrentInstance();
         face.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Update Profile Success.", "Update Profile Success."));
 
     }
 
     public void deleteEstate() {
-        String str = estate.getEstateID();
-        estate.setEstateID(str);
         estateFacade.remove(estate);
     }
 
