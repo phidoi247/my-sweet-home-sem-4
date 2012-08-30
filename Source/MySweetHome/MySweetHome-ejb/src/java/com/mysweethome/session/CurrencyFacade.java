@@ -8,6 +8,7 @@ import com.mysweethome.entity.Currency;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -23,6 +24,43 @@ public class CurrencyFacade extends AbstractFacade<Currency> {
         return em;
     }
 
+    public Currency getCurrencyID(String currencyID){
+        Currency currency=null;
+        try{
+            Query query=em.createNamedQuery("Currency.findByCurrencyID");
+            query.setParameter("currencyID", currencyID);
+            currency=(Currency) query.getSingleResult();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return currency;
+    }
+    
+    public Currency getCurrencyName(String currencyName){
+        Currency currency=null;
+        try{
+            Query query=em.createNamedQuery("Currency.findByCurrencyName");
+            query.setParameter("currencyName", currencyName);
+            currency=(Currency) query.getSingleResult();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return currency;
+    }
+    
+    public Currency getCurrencyRate(String vndRate){
+        Currency currency=null;
+        try{
+            Query query=em.createNamedQuery("Currency.findByVNDRate");
+            query.setParameter("vndRate", vndRate);
+            currency=(Currency) query.getSingleResult();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return currency;
+    }
+    
+    
     public CurrencyFacade() {
         super(Currency.class);
     }
