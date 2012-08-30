@@ -5,7 +5,6 @@
 package com.mysweethome.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,7 +36,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Estate.findByIsEnabled", query = "SELECT e FROM Estate e WHERE e.isEnabled = :isEnabled"),
     @NamedQuery(name = "Estate.findByIsPaid", query = "SELECT e FROM Estate e WHERE e.isPaid = :isPaid"),
     @NamedQuery(name = "Estate.findBySumValue", query = "SELECT e FROM Estate e WHERE e.sumValue = :sumValue"),
-    
     //search advance
     @NamedQuery(name = "Estate.searchAdvance", 
         query = "SELECT e FROM Category ct, TypeOfEstate t, City c, Subscribe s, IN(c.districtList) d, IN(d.estateList) e"
@@ -102,12 +100,10 @@ public class Estate implements Serializable {
     private String estateTitle;
     @Size(max = 15)
     @Column(name = "Estate_Start_Day", length = 15)
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date estateStartDay;
+    private String estateStartDay;
     @Size(max = 15)
     @Column(name = "Estate_End_Day", length = 15)
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date estateEndDay;
+    private String estateEndDay;
     @Size(max = 200)
     @Column(name = "Estate_Address", length = 200)
     private String estateAddress;
@@ -195,19 +191,19 @@ public class Estate implements Serializable {
         this.estateTitle = estateTitle;
     }
 
-    public Date getEstateStartDay() {
+    public String getEstateStartDay() {
         return estateStartDay;
     }
 
-    public void setEstateStartDay(Date estateStartDay) {
+    public void setEstateStartDay(String estateStartDay) {
         this.estateStartDay = estateStartDay;
     }
 
-    public Date getEstateEndDay() {
+    public String getEstateEndDay() {
         return estateEndDay;
     }
 
-    public void setEstateEndDay(Date estateEndDay) {
+    public void setEstateEndDay(String estateEndDay) {
         this.estateEndDay = estateEndDay;
     }
 
