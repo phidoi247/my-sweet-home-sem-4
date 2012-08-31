@@ -5,18 +5,19 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
+        <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
         <title>Create new estate</title>
     </h:head>
     <h:body>
         <h:form id="form">
-            <p:panel header="Input estate information to sell or rent">  
+            <p:panel header="Input estate information to sell or rent" style="width: 500px;">  
                 <h:outputText value="Title: " />
                 <p:inputText id="txtTitle" value="#{EstateMBean.title}" required="true" style="width: 350px;"/>
                 <p:message for="txtTitle"/>
             </p:panel>
 
             <p:fieldset legend="Schedule of posting" toggleable="true" toggleSpeed="500" style="margin-top: 10px;">  
-                <h:panelGrid columns="4" cellpadding="10">  
+                <h:panelGrid columns="4" cellpadding="10" style="width: 500px;">  
                     <h:panelGrid columns="1" cellpadding="3">
                         <h:outputText value="Start date: " />
                         <p:calendar value="#{EstateMBean.startDay}" id="txtStartDay" pattern="dd/MM/yyyy" required="true"/>
