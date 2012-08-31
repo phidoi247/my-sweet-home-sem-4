@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template/HomeTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Register member
+    </ui:define>
+
+
+    <ui:define name="col1">
+        <h:form> 
+            <p:panel id="panel" header="Register new member" style="margin-bottom:10px; margin-top: 10px; ">  
+                <p:messages/>
+                <h:panelGrid columns="3" cellpadding="15px" style="font-size: 13px; width: 500px;">  
+                    <h:outputLabel for="username" value="Username*" />  
+                    <p:inputText value="#{Member1MBean.username}"  
+                                 id="username" required="true" label="username" style="width: 280px"/>  
+                    <p:message for="username" />
+
+                    <h:outputLabel for="password" value="Password*" />  
+                    <p:password value="#{Member1MBean.password}"   
+                                id="password" required="true" label="password" style="width: 280px"/>
+                    <p:message for="password" />
+
+                    <h:outputLabel for="confirmPassword" value="Confirm Password*" />  
+                    <p:password value="#{Member1MBean.confirmPass}"   
+                                id="confirmPassword" required="true" label="confirmPassword" style="width: 280px"/>
+                    <p:message for="confirmPassword" />
+
+                    <h:outputLabel for="fullName" value="Full Name*" />  
+                    <p:inputText value="#{Member1MBean.fullName}"   
+                                 id="fullName" required="true" label="fullName" style="width: 280px"/>
+                    <p:message for="fullName" />
+
+                    <h:outputLabel for="email" value="Email*" />  
+                    <p:inputText value="#{Member1MBean.email}"   
+                                 id="email" required="true" label="email" style="width: 280px"/>
+                    <p:message for="email" />
+
+                    <h:outputLabel for="birthday" value="Birthday" />  
+                    <p:calendar value="#{Member1MBean.birthday}" id="birthday" navigator="true" pattern="dd/MM/yyyy" yearRange="1950:2012" />
+
+                    <p:message for="birthday" />
+                    
+                    <h:outputLabel for="gender" value="Gender" />  
+                    <p:selectOneRadio id="gender" value="#{Member1MBean.gender}">  
+                        <f:selectItem itemLabel="Male" itemValue="Male" />  
+                        <f:selectItem itemLabel="Female" itemValue="Female" />  
+                    </p:selectOneRadio>
+                    <p:message for="gender" />
+
+                    <h:outputLabel for="address" value="Address" />  
+                    <p:inputText value="#{Member1MBean.address}"   
+                                 id="address" label="address" style="width: 280px"/>
+                    <p:message for="address" />
+                    
+                    <h:outputLabel for="phone" value="Telephone*" />  
+                    <p:inputText value="#{Member1MBean.phone}"   
+                                 id="phone" required="true" label="phone" style="width: 280px"/>
+                    <p:message for="phone" />
+
+                    <h:outputLabel for="company" value="Company:" />  
+                    <p:inputText value="#{Member1MBean.company}"   
+                                 id="company" label="company" style="width: 280px"/>
+                    <p:message for="company" />
+                    
+                    <h:outputLabel for="type" value="Type of member*" />  
+                    <p:selectOneMenu id="type" value="#{Member1MBean.typeOfMemberID}">  
+                        <f:selectItem itemLabel="Select type" itemValue="" />  
+                        <f:selectItems value="#{TypeOfMemberMBean.typeList}" var="typeOfMem" itemLabel="#{typeOfMem.typeName}" itemValue="#{typeOfMem.typeOfMemberID}"/>  
+                    </p:selectOneMenu>
+                    <p:message for="type" />
+                    
+                </h:panelGrid>  
+            </p:panel>
+
+            <p:commandButton id="register" value="Register" update="panel" actionListener="#{Member1MBean.createMember()}"/>  
+
+        </h:form> 
+    </ui:define>
+
+</ui:composition>
