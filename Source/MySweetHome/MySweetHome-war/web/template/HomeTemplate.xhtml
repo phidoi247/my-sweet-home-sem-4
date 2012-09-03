@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="./resources/css/reset.css" type="text/css" media="all"/>
         <link rel="stylesheet" href="./resources/css/layout.css" type="text/css" media="all"/>
         <link rel="stylesheet" href="./resources/css/style.css" type="text/css" media="all"/>
-        <script type="text/javascript" src="./resources/js/jquery-1.6.js" ></script>
+        <!--        <script type="text/javascript" src="./resources/js/jquery-1.6.js" ></script>-->
         <script type="text/javascript" src="./resources/js/cufon-yui.js"></script>
         <script type="text/javascript" src="./resources/js/cufon-replace.js"></script>
         <script type="text/javascript" src="./resources/js/Didact_Gothic_400.font.js"></script>
@@ -21,7 +21,7 @@
         <script type="text/javascript" src="./resources/js/jquery.jqtransform.js" ></script>
         <script type="text/javascript" src="./resources/js/script.js"></script>
         <script type="text/javascript" src="./resources/js/jquery.easing.1.3.js"></script>
-        
+
         <title id="title">
             <ui:insert name="title">
             </ui:insert>
@@ -32,7 +32,7 @@
 
         <div class="body1">
             <div class="main">
-<!-- header -->
+                <!-- header -->
                 <header>
                     <h1><a href="index.html" id="logo"></a></h1>
                     <div align="right" >
@@ -41,50 +41,59 @@
                                                     <li><a href="#" class="normaltip" title="Twitter"><img src="./../resources/images/icon2.jpg" alt=""/></a></li>
                                                     <li><a href="#" class="normaltip" title="Linkedin"><img src="./../resources/images/icon3.jpg" alt=""/></a></li>
                                                 </ul>-->
-                        <c:if test="#{empty LoginBean.username}">
-                            <h:outputLink id="loginLink" onclick="dlg.show()" title="Login" 
-                                          value="ViewListMember.jsf">
-                                <p:graphicImage value="./resources/images/Users-icon.png" />
+                        <c:if test="#{empty loginBean.username}">
+                            <h:outputLink id="loginLink" value="javascript:void(0)" onclick="dlg.show()" title="login">     
+                                <p:graphicImage value="./resources/images/Users-icon.png" />  
                             </h:outputLink>
                         </c:if>
-                        
-                        <c:if test="#{!empty LoginBean.username}">
+
+                        <c:if test="#{!empty loginBean.username}">
                             <br/>
-                            Welcome,#{LoginBean.username}<br/>
-                                <h:outputLink value="logOut.xhtml" title="Logout">
-                                    Log out
-                                </h:outputLink><br/><br/>
-                        </c:if>
-    
-                        <p:growl id="growl" showDetail="true" life="3000" />
-                        <p:dialog id="dialog" header="Login" widgetVar="dlg">
+                            Welcome,#{loginBean.username}<br/>
                             <h:form>
-                                <h:panelGrid columns="2" cellpadding="5">
-                                    <h:outputLabel for="username" value="Username:" />
-                                    <p:inputText value="#{LoginBean.username}" 
-                                    id="username" required="true" label="username" />
-
-                                    <h:outputLabel for="password" value="Password:" />
-                                    <h:inputSecret value="#{LoginBean.password}" 
-                                    id="password" required="true" label="password" />
-
-                                    <f:facet name="footer">
-                                        <p:commandButton id="loginButton" value="Login" update=":growl" 
-                                                        actionListener="#{LoginBean.login}" 
-                                                        oncomplete="handleLoginRequest(xhr, status, args)"/>
-                                    </f:facet>
-                                </h:panelGrid>
-
+                                <p:commandLink id="logout" ajax="false" actionListener="#{loginBean.doLogout}">
+                                    <h:outputText value="Log out" /><br/>
+                                </p:commandLink>
                             </h:form>
+                        </c:if>
+
+                        <p:growl id="growl" showDetail="true" life="3000" />  
+
+                        <p:dialog id="dialog" header="Login" widgetVar="dlg">  
+                            <h:form>  
+                                <h:panelGrid columns="2" cellpadding="5">  
+                                    <h:outputLabel for="username" value="Username:" />  
+                                    <p:inputText value="#{loginBean.username}"   
+                                                 id="username" required="true" label="username" />  
+
+                                    <h:outputLabel for="password" value="Password:" />  
+
+                                    <p:password value="#{loginBean.password}" id="password" required="true" label="password"/>
+                                    <f:facet name="footer">  
+                                        <p:commandButton id="loginButton" value="Login" update=":growl"   
+                                                         actionListener="#{loginBean.doLogin()}"   
+                                                         oncomplete="handleLoginRequest(xhr, status, args)"/>  
+                                    </f:facet>  
+                                </h:panelGrid>  
+                            </h:form>  
                         </p:dialog>
 
-                        
+                        <script type="text/javascript">  
+                            function handleLoginRequest(xhr, status, args) {  
+                                if(args.validationFailed || !args.loggedIn) {  
+                                    jQuery('#dialog').effect("shake", { times:3 }, 100);  
+                                } else {  
+                                    dlg.hide();  
+                                    jQuery('#loginLink').fadeOut();  
+                                }  
+                            }  
+                        </script> 
                     </div>
                     <nav>
                         <ul id="menu">
-                            <li id="menu_active"><a href="index.html">Main Page</a></li>
-                            <li><a href="Selling.html">Selling Estate</a></li>
-                            <li><a href="Renting.html">Renting Estate</a></li>
+                            <li id="menu_active"><a href="index.jsf">Main Page</a></li>
+                            <li><a href="selling.jsf">Selling Estate</a></li>
+                            <li><a href="renting.jsf">Renting Estate</a></li>
                             <li><a href="Finance.html">News</a></li>
                             <li><a href="Contacts.html">Contact Us</a></li>
                             <li class="end"><a href="Finance.html">About Us</a></li>
@@ -92,17 +101,17 @@
                     </nav>
                     <div class="ic">More Information about My Sweet Home</div>
                 </header>
-<!-- / header -->
+                <!-- / header -->
             </div>
         </div>
-<!-- content -->
+        <!-- content -->
         <div id="body2" class="body2">   
             <div class="main">
                 <section id="content">
                     <div class="wrapper">
                         <article id="col1" class="col1">
-                        <ui:insert name="col1">
-                        </ui:insert>
+                            <ui:insert name="col1">
+                            </ui:insert>
                         </article>
                         <article class="col2">
                             <form id="form_1" method="post">
@@ -128,7 +137,7 @@
                                             <select><option>&nbsp;</option><option>...</option><option>...</option></select>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row_select">
                                         Search Area:<br/>
                                         <select><option>&nbsp;</option><option>...</option><option>...</option></select>
@@ -158,81 +167,43 @@
                                             <a href="#" class="button" onClick="document.getElementById('form_1').submit()">Proposals</a>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </form>
                         </article>
                     </div>
                     <div class="wrapper">
                         <article id="col1_2" class="col1">
-                        <ui:insert name="col1_2">
-                        </ui:insert>
+                            <ui:insert name="col1_2">
+                            </ui:insert>
                         </article>
                         <article id="col2_2" class="col2">
-                        <ui:insert name="col2_2">
-                        </ui:insert>
+                            <ui:insert name="col2_2">
+                            </ui:insert>
                         </article>
                     </div>
                 </section>
             </div>
         </div>
         <div id="body3" class="body3">
-         <ui:insert name="body3">
-        </ui:insert>
+            <ui:insert name="body3">
+            </ui:insert>
         </div>
-<!-- / content -->
+        <!-- / content -->
         <div id="body4" class="body4">
             <div class="main">
-    <!-- footer -->
-    <footer>
-        <span class="call">Call Center: <span>1-800-567-8934</span></span>
-        <p><b>ACE-Danang1 - eProject SEM 4 - Group 3<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Huy - Long - Tan - Vinh - Trung<br/>
-            Website: <a href="http://www.softech.vn/">http://www.softech.vn</a> 
-        </b></p>
-            <!-- {%FOOTER_LINK} -->
-    </footer>
-    <!-- / footer -->
+                <!-- footer -->
+                <footer>
+                    <span class="call">Call Center: <span>1-800-567-8934</span></span>
+                    <p><b>ACE-Danang1 - eProject SEM 4 - Group 3<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Huy - Long - Tan - Vinh - Trung<br/>
+                            Website: <a href="http://www.softech.vn/">http://www.softech.vn</a> 
+                        </b></p>
+                    <!-- {%FOOTER_LINK} -->
+                </footer>
+                <!-- / footer -->
             </div>
         </div>
-<script type="text/javascript"> Cufon.now(); </script>
-<script type="text/javascript">
-    $(window).load(function() {
-        $('#slider').nivoSlider({
-            effect:'sliceUpDown', //Specify sets like: 'fold,fade,sliceDown, sliceDownLeft, sliceUp, sliceUpLeft, sliceUpDown, sliceUpDownLeft'
-            slices:17,
-            animSpeed:500,
-            pauseTime:6000,
-            startSlide:0, //Set starting Slide (0 index)
-            directionNav:false, //Next and Prev
-            directionNavHide:false, //Only show on hover
-            controlNav:true, //1,2,3...
-            controlNavThumbs:false, //Use thumbnails for Control Nav
-            controlNavThumbsFromRel:false, //Use image rel for thumbs
-            controlNavThumbsSearch: '.jpg', //Replace this with...
-            controlNavThumbsReplace: '_thumb.jpg', //...this in thumb Image src
-            keyboardNav:true, //Use left and right arrows
-            pauseOnHover:true, //Stop animation while hovering
-            manualAdvance:false, //Force manual transitions
-            captionOpacity:1, //Universal caption opacity
-            beforeChange: function(){$('.nivo-caption').animate({bottom:'-110'},400,'easeInBack')},
-            afterChange: function(){Cufon.refresh();$('.nivo-caption').animate({bottom:'-20'},400,'easeOutBack')},
-            slideshowEnd: function(){} //Triggers after all slides have been shown
-        });
-        Cufon.refresh();
-    });
-</script>
-
-<script type="text/javascript">
-                            function handleLoginRequest(xhr, status, args) {
-                                if(args.validationFailed || !args.loggedIn) {
-                                    jQuery('#dialog').effect("shake", { times:3 }, 100);
-                                } else {
-                                    dlg.hide();
-                                    jQuery('#loginLink').fadeOut();
-                                }
-                            }
-                        </script>
     </h:body>
 
 </html>
