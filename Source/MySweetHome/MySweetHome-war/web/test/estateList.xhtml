@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <title>Estalist Primefaces</title>
+    </head>
+    <body>
+        <h:form prependId="false">
+            <p:dataList value="#{EstateMBean.estateList}" var="estate"  id="estate" paginator="true" rows="5" effectSpeed="fast"  paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"  rowsPerPageTemplate="5,10,15" type="none">  
+             <f:facet name="header">  
+               EstateList 
+            </f:facet>  
+  
+            <p:commandButton icon="ui-icon-search" update=":form:carDetail" oncomplete="carDialog.show()" title="View Detail">  
+                <f:setPropertyActionListener value="#{estate}" target="#{EstateMBean.estateFacade}" />  
+            </p:commandButton> 
+                <h:outputText value="#{estate.categoryID}, #{estate.contactDetailsID}" style="margin-left:10px" />  
+                 <br /> 
+            </p:dataList>
+            <p:dialog header="Car Detail" widgetVar="carDialog" modal="true" showEffect="fade">
+		<p:outputPanel id="carDetail" style="text-align:center;" layout="block">
+		
+                    <p:graphicImage value="WEB-INF/resources/images/#{EstateMBean.imageFacade}.jpg"/>
+			
+			<h:panelGrid  columns="2" cellpadding="5">
+				<h:outputLabel for="CategoryID" value="CategoryID : " />
+                                <h:outputText id="modelNo" value="#{EstateMBean.getEstate.categoryID}" />
+				
+				<h:outputLabel for="ContactDetailsID" value="ContactDetailsID : " />
+                                <h:outputText id="year" value="#{EstateMBean.getEstate.contactDetailsID}" />
+				
+				
+			</h:panelGrid>
+		</p:outputPanel>
+	</p:dialog>
+        </h:form>
+    </body>
+</html>
