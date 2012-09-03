@@ -31,6 +31,7 @@ public class EstateMBean {
     @EJB
     private EstateFacade estateFacade;
     private ContactDetailsFacade contactFacade;
+    
 
     public ContactDetailsFacade getContactFacade() {
         return contactFacade;
@@ -53,7 +54,16 @@ public class EstateMBean {
     private int lastArea = -1;
     private int firstValue = -1;
     private int lastValue = -1;
+    private Estate getEstate;
     List<Estate> estateList;
+
+    public Estate getGetEstate() {
+        return getEstate;
+    }
+
+    public void setGetEstate(Estate getEstate) {
+        this.getEstate = getEstate;
+    }
     List<Subscribe> subscribeList;
     String title;
     Date startDay;
