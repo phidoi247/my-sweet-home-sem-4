@@ -78,6 +78,13 @@ public class EstateMBean {
     String area;
     List<Currency> currencyList;
     String address;
+    
+    
+    //call properties for estate details management table
+    
+    
+    
+    
 
     public String getCategoryID() {
         return categoryID;
@@ -143,7 +150,7 @@ public class EstateMBean {
     String districtID;
 
     public String getContactAddress() {
-        return contactAddress;
+        return estate.getEstateAddress();
     }
 
     public void setContactAddress(String contactAddress) {
@@ -183,7 +190,7 @@ public class EstateMBean {
     }
 
     public String getDriverWay() {
-        return driverWay;
+        return estate.getEstateDriveway();
     }
 
     public void setDriverWay(String driverWay) {
@@ -224,7 +231,7 @@ public class EstateMBean {
     String contactEmail;
 
     public String getAddress() {
-        return address;
+        return estate.getEstateAddress();
     }
 
     public void setAddress(String address) {
@@ -293,7 +300,7 @@ public class EstateMBean {
     }
 
     public String getContent() {
-        return content;
+        return estate.getEstateContent();
     }
 
     public void setContent(String content) {
@@ -309,7 +316,7 @@ public class EstateMBean {
     }
 
     public String getTitle() {
-        return title;
+        return estate.getEstateTitle();
     }
 
     public void setTitle(String title) {
@@ -350,7 +357,19 @@ public class EstateMBean {
     }
 
     public List<Estate> getEstateList() {
+        estateList=estateFacade.findAll();
         return estateList;
+    
+    }
+    
+
+    
+    public EstateMBean() {
+        estate = new Estate();
+        estateFacade = new EstateFacade();
+        //category = new Category();
+        estateList = new ArrayList<Estate>();
+        //category_name=category.getCategoryName();  
     }
 
     public void setEstateList(List<Estate> estateList) {
