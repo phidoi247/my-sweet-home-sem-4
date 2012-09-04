@@ -32,7 +32,6 @@ public class EstateMBean {
     @EJB
     private EstateFacade estateFacade;
     private ContactDetailsFacade contactFacade;
-    
 
     public ContactDetailsFacade getContactFacade() {
         return contactFacade;
@@ -65,6 +64,26 @@ public class EstateMBean {
     private int firstValue = -1;
     private int lastValue = -1;
     private Estate getEstate;
+    private Estate estateEdit;
+    private ContactDetails contactEdit;
+
+    public ContactDetails getContactEdit() {
+        contactEdit = estateFacade.getContactDetailsByID("Contact01");
+        return contactEdit;
+    }
+
+    public void setContactEdit(ContactDetails contactEdit) {
+        this.contactEdit = contactEdit;
+    }
+
+    public Estate getEstateEdit() {
+        estateEdit = estateFacade.find("Estate01");
+        return estateEdit;
+    }
+
+    public void setEstateEdit(Estate estateEdit) {
+        this.estateEdit = estateEdit;
+    }
     List<Estate> estateList;
 
     public Estate getGetEstate() {
@@ -369,14 +388,10 @@ public class EstateMBean {
     }
 
     public List<Estate> getEstateList() {
-<<<<<<< .mine        return estateFacade.findAll();
-=======        estateList=estateFacade.findAll();
+        estateList = estateFacade.findAll();
         return estateList;
->>>>>>> .theirs    
     }
-    
 
-    
     public EstateMBean() {
         estate = new Estate();
         estateFacade = new EstateFacade();
@@ -438,7 +453,7 @@ public class EstateMBean {
     public void createEstate() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String id = estateFacade.getLastRecordID();
-        Estate estateNew=new Estate();
+        Estate estateNew = new Estate();
         estateNew.setEstateID(id);
         estateNew.setEstateTitle(title);
         estateNew.setEstateStartDay(formatter.format(startDay));
@@ -539,45 +554,50 @@ public class EstateMBean {
         Date date3 = new Date(result);
         return date3.toString();
     }
-    
-    public void goToAddEstate() throws IOException{
+
+    public void goToAddEstate() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Seller/createNewEstate.jsf");
     }
-    
-    public int calculatePayment(String subscibe, Date startDay, Date endDay){
-        int total=0;
-        int noDate=endDay.compareTo(startDay);
-        if(noDate>0){
-            Subscribe sub=new Subscribe();
-            sub=estateFacade.getSubscribeByID(subscribeID);
-            if(sub!=null){
-                int fee=Integer.parseInt(sub.getFeePerDay());
-                total=fee*noDate;
+
+    public int calculatePayment(String subscibe, Date startDay, Date endDay) {
+        int total = 0;
+        int noDate = endDay.compareTo(startDay);
+        if (noDate > 0) {
+            Subscribe sub = new Subscribe();
+            sub = estateFacade.getSubscribeByID(subscribeID);
+            if (sub != null) {
+                int fee = Integer.parseInt(sub.getFeePerDay());
+                total = fee * noDate;
             }
         }
         return total;
     }
-    
-    public void handleSubcribeChange() {  
-        if(subscribeID !=null && !subscribeID.equals("") && startDay!=null && endDay!=null)  
+
+    public void handleSubcribeChange() {
+        if (subscribeID != null && !subscribeID.equals("") && startDay != null && endDay != null) {
             value = String.valueOf(calculatePayment(subscribeID, startDay, endDay));
-        else  
-            value = "0";  
-    } 
-    
-    public List<District> getDistrictListOfCity(String cityID){
-        List<District> districts=new ArrayList<District>();
-        if(!cityID.equals("")){
-            districts=estateFacade.getDistrictList(cityID);
+        } else {
+            value = "0";
+        }
+    }
+
+    public List<District> getDistrictListOfCity(String cityID) {
+        List<District> districts = new ArrayList<District>();
+        if (!cityID.equals("")) {
+            districts = estateFacade.getDistrictList(cityID);
         }
         return districts;
     }
+
+    public void handleCityChange() {
+        if (cityID != null && !cityID.equals("")) {
+            districtList = getDistrictListOfCity(cityID);
+        } else {
+            districtList = new ArrayList<District>();
+        }
+    }
     
-    public void handleCityChange() {  
-        if(cityID !=null && !cityID.equals(""))  
-            districtList=getDistrictListOfCity(cityID);
-        else  
-            districtList = new ArrayList<District>();  
-    } 
-    
+    public void goToEstateDetails() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/estateDetails.jsf");
+    }
 }
