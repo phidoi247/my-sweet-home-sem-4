@@ -9,6 +9,7 @@ import com.mysweethome.helper.operationSession;
 import com.mysweethome.session.ContactDetailsFacade;
 import com.mysweethome.session.EstateFacade;
 import com.mysweethome.session.ImageCategoryFacade;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,6 +51,15 @@ public class EstateMBean {
     }
     private ImageCategoryFacade imageFacade;
     private Estate estate;
+    private Estate selectedEstate;
+
+    public Estate getSelectedEstate() {
+        return selectedEstate;
+    }
+
+    public void setSelectedEstate(Estate selectedEstate) {
+        this.selectedEstate = selectedEstate;
+    }
     private int firstArea = -1;
     private int lastArea = -1;
     private int firstValue = -1;
@@ -78,13 +88,15 @@ public class EstateMBean {
     String area;
     List<Currency> currencyList;
     String address;
-    
-    
-    //call properties for estate details management table
-    
-    
-    
-    
+    String cityID;
+
+    public String getCityID() {
+        return cityID;
+    }
+
+    public void setCityID(String cityID) {
+        this.cityID = cityID;
+    }
 
     public String getCategoryID() {
         return categoryID;
@@ -256,7 +268,7 @@ public class EstateMBean {
     }
 
     public List<District> getDistrictList() {
-        districtList = estateFacade.getDistrictList();
+        //districtList = estateFacade.getDistrictList();
         return districtList;
     }
 
@@ -357,9 +369,10 @@ public class EstateMBean {
     }
 
     public List<Estate> getEstateList() {
-        estateList=estateFacade.findAll();
+<<<<<<< .mine        return estateFacade.findAll();
+=======        estateList=estateFacade.findAll();
         return estateList;
-    
+>>>>>>> .theirs    
     }
     
 
@@ -425,28 +438,29 @@ public class EstateMBean {
     public void createEstate() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String id = estateFacade.getLastRecordID();
-        estate.setEstateID(id);
-        estate.setEstateTitle(title);
-        estate.setEstateStartDay(formatter.format(startDay));
-        estate.setEstateEndDay(formatter.format(endDay));
-        estate.setEstateAddress(address);
-        estate.setEstateContent(content);
-        estate.setEstateArea(area);
-        estate.setEstateValue(value);
-        estate.setEstateDriveway(driverWay);
-        estate.setEstateDirection(direction);
-        estate.setEstateNumberOfRooms(noRoom);
-        estate.setEstateNumberOfFloors(noFloor);
-        estate.setEstateNumberOfToilets(noToilet);
-        estate.setEstateNumOfView("0");
-        estate.setIsEnabled("false");
-        estate.setIsPaid("false");
-        estate.setCurrencyID(estateFacade.getCurrencyByID(currencyID));
-        estate.setSubscribeID(estateFacade.getSubscribeByID(subscribeID));
-        estate.setTypeOfEstateID(estateFacade.getTypeOfEstateByID(typeOfEstateID));
-        estate.setCategoryID(estateFacade.getCategoryByID(categoryID));
-        estate.setUserName(estateFacade.getMember((String) operationSession.getSession("username")));
-        estate.setDistrictID(estateFacade.getDistrictByID(districtID));
+        Estate estateNew=new Estate();
+        estateNew.setEstateID(id);
+        estateNew.setEstateTitle(title);
+        estateNew.setEstateStartDay(formatter.format(startDay));
+        estateNew.setEstateEndDay(formatter.format(endDay));
+        estateNew.setEstateAddress(address);
+        estateNew.setEstateContent(content);
+        estateNew.setEstateArea(area);
+        estateNew.setEstateValue(value);
+        estateNew.setEstateDriveway(driverWay);
+        estateNew.setEstateDirection(direction);
+        estateNew.setEstateNumberOfRooms(noRoom);
+        estateNew.setEstateNumberOfFloors(noFloor);
+        estateNew.setEstateNumberOfToilets(noToilet);
+        estateNew.setEstateNumOfView("0");
+        estateNew.setIsEnabled("false");
+        estateNew.setIsPaid("false");
+        estateNew.setCurrencyID(estateFacade.getCurrencyByID(currencyID));
+        estateNew.setSubscribeID(estateFacade.getSubscribeByID(subscribeID));
+        estateNew.setTypeOfEstateID(estateFacade.getTypeOfEstateByID(typeOfEstateID));
+        estateNew.setCategoryID(estateFacade.getCategoryByID(categoryID));
+        estateNew.setUserName(estateFacade.getMember((String) operationSession.getSession("username")));
+        estateNew.setDistrictID(estateFacade.getDistrictByID(districtID));
 
         //create new contactDetail object
         ContactDetails contactObj = new ContactDetails();
@@ -465,11 +479,11 @@ public class EstateMBean {
         }
         imageFacade.create(imageObj);
 
-        estate.setContactDetailsID(contactObj);
-        estate.setImageCategoryID(imageObj);
+        estateNew.setContactDetailsID(contactObj);
+        estateNew.setImageCategoryID(imageObj);
 
         //create
-        estateFacade.create(estate);
+        estateFacade.create(estateNew);
     }
 
     public void editEstate(Estate estate) {
@@ -479,8 +493,8 @@ public class EstateMBean {
 
     }
 
-    public void deleteEstate() {
-        estateFacade.remove(estate);
+    public void deleteEstate(Estate selectedEstate) {
+        estateFacade.remove(selectedEstate);
     }
 
     public String searchAdvance() {
@@ -525,4 +539,45 @@ public class EstateMBean {
         Date date3 = new Date(result);
         return date3.toString();
     }
+    
+    public void goToAddEstate() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Seller/createNewEstate.jsf");
+    }
+    
+    public int calculatePayment(String subscibe, Date startDay, Date endDay){
+        int total=0;
+        int noDate=endDay.compareTo(startDay);
+        if(noDate>0){
+            Subscribe sub=new Subscribe();
+            sub=estateFacade.getSubscribeByID(subscribeID);
+            if(sub!=null){
+                int fee=Integer.parseInt(sub.getFeePerDay());
+                total=fee*noDate;
+            }
+        }
+        return total;
+    }
+    
+    public void handleSubcribeChange() {  
+        if(subscribeID !=null && !subscribeID.equals("") && startDay!=null && endDay!=null)  
+            value = String.valueOf(calculatePayment(subscribeID, startDay, endDay));
+        else  
+            value = "0";  
+    } 
+    
+    public List<District> getDistrictListOfCity(String cityID){
+        List<District> districts=new ArrayList<District>();
+        if(!cityID.equals("")){
+            districts=estateFacade.getDistrictList(cityID);
+        }
+        return districts;
+    }
+    
+    public void handleCityChange() {  
+        if(cityID !=null && !cityID.equals(""))  
+            districtList=getDistrictListOfCity(cityID);
+        else  
+            districtList = new ArrayList<District>();  
+    } 
+    
 }
