@@ -3,7 +3,8 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="./template/HomeTemplate.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="title">
         Contact Us
@@ -16,87 +17,35 @@
                 <div>
                     <div  class="wrapper">
                         <span>Your Name:</span>
-                        <input type="text" class="input"/>
+                        <h:inputText value="#{ContacDetailsMBean.contactName}" />
+                        
                     </div>
                     <div  class="wrapper">
                         <span>Your E-mail:</span>
-                        <input type="text" class="input" />
+                        <h:inputText value="#{ContacDetailsMBean.contactEmail}" />
                     </div>
                     <div  class="textarea_box">
                         <span>Your Message:</span>
-                        <textarea name="textarea" cols="1" rows="1"></textarea>
+                        <h:inputTextarea value="#{ContacDetailsMBean.messages}" />
                     </div>
                     <span>&nbsp;</span>
-                    <a href="#" class="button" onClick="document.getElementById('ContactForm').reset()">Clear</a>
-                    <a href="#" class="button" onClick="document.getElementById('ContactForm').submit()">Send</a>
+                    <p:commandButton value="Send" action="#{ContacDetailsMBean.sendEmail()}" />                      
+                                     
+                    
                 </div>
+                
             </form>
         </div>
     </ui:define>
 
     
     <ui:define name="col1_2">
-        <div class="pad2">
-            <h2 class="pad_bot1">Useful Links</h2>
-            <p class="pad_bot1"><strong>Integer dui leo, dignissim ut interdum ac, ultricies a risus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dignissim nunc sit amet odio pharetra hendrerit. </strong></p>
-            <p class="pad_bot2">Nulla justo ante, posuere sed hendrerit et, lacinia ultricies ligula. Integer ac lacus vel massa venenatis suscipit in vel nulla. Donec quis placerat erat. Nam id lectus at lacus ullamcorper viverra. Mauris lacinia rutrum purus quis pretium. Pellentesque in tortor quam. Quisque et risus dolor, in consequat nunc. Vivamus sagittis consectetur nisi eget luctus. Maecenas pellentesque placerat dui in iaculis.</p>
-        </div>
-        <div class="pad_left1">
-            <div class="wrapper pad_bot3">
-                <article class="cols">
-                    <ul class="list2">
-                        <li><a href="#">Maecenas mattis venenatis</a></li>
-                        <li><a href="#">Nam accumsan miac</a></li>
-                        <li><a href="#">Rhoncus luctus erat nisl</a></li>
-                        <li><a href="#">Ultrices neque, vel placerat</a></li>
-                        <li><a href="#">Morbi ut augue ut risus</a></li>
-                    </ul>
-                </article>
-                <article class="cols pad_left1">
-                    <ul class="list2">
-                        <li><a href="#">Quisque eget erat eget</a></li>
-                        <li><a href="#">Laoreet pharetra eget sed</a></li>
-                        <li><a href="#">Vestibulum scelerisque</a></li>
-                        <li><a href="#">Integerros massa viverra quis</a></li>
-                        <li><a href="#">Pharetra ultrices mauris </a></li>
-                    </ul>
-                </article>
-                <article class="cols pad_left1">
-                    <ul class="list2">
-                        <li><a href="#">Phasellus purus sapien</a></li>
-                        <li><a href="#">Adipiscing et tempus eget</a></li>
-                        <li><a href="#">Faucibus vel leo pellentesque</a></li>
-                        <li><a href="#">Ullamcorper ac dignissim</a></li>
-                        <li><a href="#">Malesuada eget augue</a></li>
-                    </ul>
-                </article>
-            </div>
-        </div>
-        <div class="pad2">
-            <a href="#" class="button">Read more</a>
-        </div>
+        
     </ui:define>
 
     
     <ui:define name="col2_2">
-        <div class="pad1">
-            <h3>Our Contacts</h3>
-            <div class="address">
-                15 Quang Trung,<br/>
-                Da Nang Viet Nam.<br/>
-                <span>
-                    Freephone:<br/>
-                    Telephone:<br/>
-                    E-mail:
-                </span>
-                +1 800 559 6580<br/>
-                +1 959 603 6035<br/>
-                <a href="mailto:">group3@softech.vn</a>
-            </div>
-            <h3 class="pad_top1">Information</h3>
-            <p>We provide selling or renting posting services for everybody. They can posting new house for selling or for renting to many people all over Viet Name</p>
-            <a href="#" class="button">Read more</a>
-        </div>
+        
     </ui:define>
 
 </ui:composition>
