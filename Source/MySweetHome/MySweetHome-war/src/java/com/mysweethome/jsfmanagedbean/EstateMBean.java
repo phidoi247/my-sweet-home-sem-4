@@ -52,19 +52,12 @@ public class EstateMBean {
     private Estate estate;
     private Estate selectedEstate;
 
-    public Estate getSelectedEstate() {
-        return selectedEstate;
-    }
-
-    public void setSelectedEstate(Estate selectedEstate) {
-        this.selectedEstate = selectedEstate;
-    }
+    
     private int firstArea = -1;
     private int lastArea = -1;
     private int firstValue = -1;
     private int lastValue = -1;
     private Estate getEstate;
-    private Estate estateEdit;
     private ContactDetails contactEdit;
 
     public ContactDetails getContactEdit() {
@@ -76,13 +69,13 @@ public class EstateMBean {
         this.contactEdit = contactEdit;
     }
 
-    public Estate getEstateEdit() {
-        estateEdit = estateFacade.find("Estate01");
-        return estateEdit;
+    public Estate getSelectedEstate() {
+        selectedEstate = estateFacade.find("Estate01");
+        return selectedEstate;
     }
 
-    public void setEstateEdit(Estate estateEdit) {
-        this.estateEdit = estateEdit;
+    public void setSelectedEstate(Estate selectedEstate) {
+        this.selectedEstate = selectedEstate;
     }
     List<Estate> estateList;
 
