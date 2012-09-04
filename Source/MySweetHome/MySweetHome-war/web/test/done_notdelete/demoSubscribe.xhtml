@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Subscribe Management</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">  
+            <p:commandButton id="viewButton" value="Add type of Subscribe" 
+                             update=":form:displayAdd" oncomplete="addSubscribeDialog.show()"/> 
+            <p:dataTable id="Subscribes" var="subvar" value="#{subscribeMBean.subscribeList}" 
+                         paginator="true" rows="10"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,15">  
+                
+                <p:column headerText="Subscribe ID" style="width:40px">  
+                    #{subvar.subscribeID}  
+                </p:column>  
+
+                <p:column headerText="Subscribe Name" style="width:40px">  
+                    #{subvar.subscribeName}  
+                </p:column>
+                
+                <p:column headerText="Fee Per Day" style="width:40px">  
+                    #{subvar.feePerDay}  
+                </p:column>
+
+                <p:column headerText="Action" style="width:40px">
+                    <p:commandLink style="margin-right: 5px;" id="selectButton" update=":form:displayEdit" oncomplete="subscribeDialog.show()" >
+                        <p:graphicImage url="./../resources/images/edit.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{subvar}" target="#{subscribeMBean.subscribe}" />
+                    </p:commandLink>
+                    <p:tooltip for="selectButton" value="Edit Subscribe"/>
+
+                    <p:commandLink onclick="confirmation.show()" id="deleteButton"   >
+                        <p:graphicImage url="./../resources/images/deleteicon.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{subvar}" target="#{subscribeMBean.subscribe}" />
+                    </p:commandLink>
+                    <p:tooltip for="deleteButton" value="Delete Subscribe"/>                    
+                </p:column>
+
+                <f:facet name="footer">  
+
+                </f:facet>  
+
+            </p:dataTable>  
+            <p:confirmDialog id="confirmDialog" message="Do you want to delete type of this subscribe?"
+                             header="Delete Subscribe" severity="alert" widgetVar="confirmation">
+
+                <p:commandButton id="confirm" value="Yes" update=":form:Subscribes"
+                                 action="#{subscribeMBean.removeSubscribe()}" oncomplete="confirmation.hide()" />
+                <p:commandButton id="decline" value="No" onclick="confirmation.hide()" />
+
+            </p:confirmDialog>          
+
+            <p:dialog id="dialogedit" header="Subscribe Detail" widgetVar="subscribeDialog" resizable="true"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayEdit" columns="2" cellpadding="4" >   
+                    <h:outputText value="Subscribe ID:" />  
+                    <h:outputText id="SubscribeIDUpdate" value="#{SubscribeMBean.subscribe.subscribeID}" />              
+                    
+                    <h:outputText value="Subscribe Name :" />                    
+                    <h:inputText id="subscribeNameUpdate" title="subscribeName1" value="#{SubscribeMBean.subscribeName}" />
+                    
+                    <h:outputText value="Fee Per Day :" />                    
+                    <h:inputText id="feeUpdate" title="fee1" value="#{subscribeMBean.feePerDay}" />
+                    
+                    <p:commandButton value="Delete" action="#{subscribeMBean.removeSubscribe()}" oncomplete="subscribeDialog.hide()" update=":form:Subscribes"/>
+                    <p:commandButton value="Update" action="#{subscribeMBean.editSubscribe()}" oncomplete="subscribeDialog.hide()" update=":form:Subscribes"/>            
+                </h:panelGrid>  
+            </p:dialog>  
+            <p:dialog id="dialogadd" header="Add New Type of Subscribe" widgetVar="addSubscribeDialog" resizable="false"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                    <p:outputLabel value="SubscribeID:" for="subscribeID" />
+                    <p:inputText id="subscribeID" value="#{subscribeMBean.subscribe.subscribeID}" title="SubscribeID" required="true"/>                    
+                    <p:message for="subscribeID"/>
+
+                    <p:outputLabel value="Subscribe Name" for="subscribeName" />
+                    <p:inputText id="subscribeName" value="#{subscribeMBean.subscribe.subscribeName}" title="Subscribe Name" required="true" />                    
+                    <p:message for="subscribeName"/>
+                    
+                    <p:outputLabel value="Fee Per Day:" for="fee" />
+                    <p:inputText id="fee" value="#{subscribeMBean.subscribe.feePerDay}" title="Fee Per Day" required="true" />                    
+                    <p:message for="fee"/>
+                </h:panelGrid>  
+                <p:commandButton value="Create" action="#{subscribeMBean.createSubscribe()}" oncomplete="addSubscribeDialog.hide()" update=":form:Subscribes"/>                      
+            </p:dialog> 
+        </h:form>
+    </h:body>
+</html>
+

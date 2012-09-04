@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+        
+    <h:head>
+        <title>Member Details</title>
+    </h:head>
+    <h:body>
+         <h:form id="form">  
+     
+             
+            <p:commandButton oncomplete="addDialog.show()" id="viewButton" value="Add new member" 
+                             update=":form:displayAdd" /> 
+            <p:dataTable id="Members" var="membervar" value="#{Member1MBean.memberList}" 
+                         paginator="true" rows="10"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,15">  
+                
+                <p:column headerText="User Name" style="width:40px">  
+                    #{membervar.userName}  
+                </p:column>  
+
+                <p:column headerText="Email" style="width:40px">  
+                    #{membervar.email}  
+                </p:column> 
+
+                <p:column headerText="Address" style="width:40px">  
+                    #{membervar.address}  
+                </p:column> 
+                
+                <p:column headerText="Full Name" style="width:40px">  
+                    #{membervar.fullName}  
+                </p:column> 
+                
+                <p:column headerText="Gender" style="width:40px">  
+                    #{membervar.gender}  
+                </p:column> 
+                
+                <p:column headerText="Company" style="width:40px">  
+                    #{membervar.company}  
+                </p:column> 
+                
+                <p:column headerText="Telephone" style="width:40px">  
+                    #{membervar.telephone}  
+                </p:column> 
+                
+                <p:column headerText="Role" style="width:40px">  
+                    #{membervar.role}  
+                </p:column> 
+                
+                <p:column headerText="Action" style="width:40px">
+                    <p:commandLink style="margin-right: 5px;" id="selectButton" oncomplete="editDialog.show()" update=":form:displayEdit" >
+                        <p:graphicImage url="./../resources/images/edit.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{membervar}" target="#{Member1MBean.mem}" />
+                    </p:commandLink>
+                    <p:tooltip for="selectButton" value="Edit Member"/>
+
+                    <p:commandLink onclick="confirmation.show()" id="deleteButton"   >
+                        <p:graphicImage url="./../resources/images/deleteicon.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{membervar}" target="#{Member1MBean.mem}" />
+                    </p:commandLink>
+                    <p:tooltip for="deleteButton" value="Delete Member"/>                    
+                </p:column>
+
+                <f:facet name="footer">  
+
+                </f:facet>  
+
+            </p:dataTable>  
+            
+            
+            <p:confirmDialog id="confirmDialog" message="Do you want to delete this member?"
+                             header="Delete Member" severity="alert" widgetVar="confirmation">
+
+                <p:commandButton id="confirm" value="Yes" update=":form:Members"
+                                 action="#{Member1MBean.removeMember()}" oncomplete="confirmation.hide()" />
+                <p:commandButton id="decline" value="No" onclick="confirmation.hide();" />
+
+            </p:confirmDialog>          
+
+            <p:dialog id="dialogedit" header="Member Detail" widgetVar="editDialog" resizable="true"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayEdit" columns="2" cellpadding="4" >   
+                    <h:outputText value="User Name:" />  
+                    <h:outputText id="ID" value="#{membervar.userName}" />              
+                    
+                    <h:outputText value="Email :" />                    
+                    <h:inputText id="emailUpdate" title="email update" value="#{membervar.email}" />
+                    
+                    <h:outputText value="Address :" />                    
+                    <h:inputText id="addressUpdate" title="address update" value="#{membervar.address}" />
+                    
+                    <h:outputText value="Full Name :" />                    
+                    <h:inputText id="fullNameUpdate" title="FullName update" value="#{membervar.fullName}" />
+                    
+                    <h:outputText value="Gender :" />                    
+                    <h:inputText id="genderUpdate" title="Gender update" value="#{membervar.gender}" />
+                    
+                    <h:outputText value="Telephone :" />                    
+                    <h:inputText id="telephoneUpdate" title="telephone update" value="#{membervar.telephone}" />
+                    
+                    <h:outputText value="Company :" />                    
+                    <h:inputText id="companyUpdate" title="company update" value="#{membervar.company}" />
+                    
+                    <h:outputText value="Role :" />                    
+                    <h:inputText id="roleUpdate" title="role update" value="#{membervar.role}" />
+                    
+                    
+                    <p:commandButton value="Update" action="#{Member1MBean.editMember()}" oncomplete="editDialog.hide()" update=":form:Members"/>            
+                </h:panelGrid>  
+            </p:dialog>  
+            
+            <p:dialog id="dialogadd" header="Add New Member" resizable="false" widgetVar="addDialog"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                    <p:outputLabel value="User Name:" for="username" />
+                    <p:inputText id="newUsername" value="#{Member1MBean.mem.userName}" title="User name" required="true"/>                    
+                    <p:message for="username"/>
+
+                    <p:outputLabel value="Email:" for="email" />
+                    <p:inputText id="newEmail" value="#{Member1MBean.mem.email}" title="Email" required="true" />
+                    <p:message for="email"/> 
+                    
+                    <p:outputLabel value="Address:" for="address" />
+                    <p:inputText id="newAddress" value="#{Member1MBean.mem.address}" title="Address" required="true" />
+                    <p:message for="address"/> 
+                    
+                    <p:outputLabel value="Full Name::" for="fullName" />
+                    <p:inputText id="newFullName" value="#{Member1MBean.mem.fullName}" title="Full Name" required="true" />
+                    <p:message for="fullName"/>
+                    
+                    <p:outputLabel value="Gender:" for="Gender" />
+                    <p:inputText id="newGender" value="#{Member1MBean.mem.gender}" title="Gender" required="true" />
+                    <p:message for="Gender"/>
+                    
+                    <p:outputLabel value="Telephone" for="telephone" />
+                    <p:inputText id="newTelephone" value="#{Member1MBean.mem.telephone}" title="Telephone" required="true" />
+                    <p:message for="telephone"/>
+                    
+                    <p:outputLabel value="Company:" for="Company" />
+                    <p:inputText id="newCompany" value="#{Member1MBean.mem.company}" title="Company" required="true" />
+                    <p:message for="company"/>
+                    
+                    <p:outputLabel value="Role:" for="Role" />
+                    <p:inputText id="newRole" value="#{Member1MBean.mem.role}" title="Role" required="true" />
+                    <p:message for="role"/>
+                </h:panelGrid>  
+                <p:commandButton value="Create" action="#{Member1MBean.createMember()}"  oncomplete="addDialog.hide()" update=":form:Members"/>                      
+            </p:dialog>
+            
+       
+        </h:form>
+        
+        
+       
+        
+        
+        
+        
+            
+        
+    </h:body>
+</html>
+

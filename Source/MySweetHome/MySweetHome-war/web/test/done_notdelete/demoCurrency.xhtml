@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Currency Management</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">  
+            <p:commandButton id="viewButton" value="Add type of Currency" 
+                             update=":form:displayAdd" oncomplete="addCurrencyDialog.show()"/> 
+            <p:dataTable id="Currencies" var="currencyvar" value="#{currencyMBean.currencyList}" 
+                         paginator="true" rows="10"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,15">  
+                
+                <p:column headerText="CurrencyID" style="width:40px">  
+                    #{currencyvar.currencyID}  
+                </p:column>  
+
+                <p:column headerText="Currency Name" style="width:40px">  
+                    #{currencyvar.currencyName}  
+                </p:column>
+                
+                <p:column headerText="VND Rate" style="width:40px">  
+                    #{currencyvar.VNDRate}  
+                </p:column>
+
+                <p:column headerText="Action" style="width:40px">
+                    <p:commandLink style="margin-right: 5px;" id="selectButton" update=":form:displayEdit" oncomplete="currencyDialog.show()" >
+                        <p:graphicImage url="./../resources/images/edit.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{currencyvar}" target="#{currencyMBean.currency}" />
+                    </p:commandLink>
+                    <p:tooltip for="selectButton" value="Edit Currency"/>
+
+                    <p:commandLink onclick="confirmation.show()" id="deleteButton"   >
+                        <p:graphicImage url="./../resources/images/deleteicon.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{currencyvar}" target="#{currencyMBean.currency}" />
+                    </p:commandLink>
+                    <p:tooltip for="deleteButton" value="Delete Currency"/>                    
+                </p:column>
+
+                <f:facet name="footer">  
+
+                </f:facet>  
+
+            </p:dataTable>  
+            <p:confirmDialog id="confirmDialog" message="Do you want to delete type of this currency?"
+                             header="Delete Currency" severity="alert" widgetVar="confirmation">
+
+                <p:commandButton id="confirm" value="Yes" update="form:Currencies"
+                                 action="#{currencyMBean.removeCurrency()}" oncomplete="confirmation.hide()" />
+                <p:commandButton id="decline" value="No" onclick="confirmation.hide()" />
+
+            </p:confirmDialog>          
+
+            <p:dialog id="dialogedit" header="Currency Detail" widgetVar="currencyDialog" resizable="true"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayEdit" columns="2" cellpadding="4" >   
+                    <h:outputText value="Currency ID:" />  
+                    <h:outputText id="CurrencyIDUpdate" value="#{currencyMBean.currency.currencyID}" />              
+                    
+                    <h:outputText value="Currency Name :" />                    
+                    <h:inputText id="currencyNameUpdate" title="currencyName1" value="#{currencyMBean.currencyName}" />
+                    
+                    <h:outputText value="VND Rate :" />                    
+                    <h:inputText id="rateUpdate" title="rate1" value="#{currencyMBean.rate}" />
+                    
+                    <p:commandButton value="Delete" action="#{currencyMBean.removeCurrency()}" oncomplete="currencyDialog.hide()" update="form:Currencies"/>
+                    <p:commandButton value="Update" action="#{currencyMBean.editCurrency()}" oncomplete="currencyDialog.hide()" update="form:Currencies"/>            
+                </h:panelGrid>  
+            </p:dialog>  
+            <p:dialog id="dialogadd" header="Add New Type of Currency" widgetVar="addCurrencyDialog" resizable="false"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                    <p:outputLabel value="CurrencyID:" for="currencyID" />
+                    <p:inputText id="currencyID" value="#{currencyMBean.currency.currencyID}" title="CurrencyID" required="true"/>                    
+                    <p:message for="currencyID"/>
+
+                    <p:outputLabel value="CurrencyName:" for="currencyName" />
+                    <p:inputText id="currencyName" value="#{currencyMBean.currency.currencyName}" title="Currency Name" required="true" />                    
+                    <p:message for="currencyName"/>
+                    
+                    <p:outputLabel value="Rate:" for="rate" />
+                    <p:inputText id="rate" value="#{currencyMBean.currency.VNDRate}" title="Rate" required="true" />                    
+                    <p:message for="rate"/>
+                </h:panelGrid>  
+                <p:commandButton value="Create" action="#{currencyMBean.createCurrency()}" oncomplete="addCurrencyDialog.hide()" update="form:Currencies"/>                      
+            </p:dialog> 
+        </h:form>
+    </h:body>
+</html>
+

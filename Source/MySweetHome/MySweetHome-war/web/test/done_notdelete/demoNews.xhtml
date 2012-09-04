@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>News Management</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">  
+            <p:commandButton id="viewButton" value="Add News" 
+                             update=":form:displayAdd" oncomplete="addNewsDialog.show()"/> 
+            <p:dataTable id="NewsTable" var="newsvar" value="#{newsMBean.getNewsList}" 
+                         paginator="true" rows="10"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,15">  
+                
+                <p:column headerText="News ID" style="width:40px">  
+                    #{newsvar.newsID}  
+                </p:column>  
+
+                <p:column headerText="News Title" style="width:40px">  
+                    #{newsvar.newsTitle}  
+                </p:column>
+                
+                <p:column headerText="News Content" style="width:40px">  
+                    #{newsvar.newsContents}  
+                </p:column>
+
+                <p:column headerText="Action" style="width:40px">
+                    <p:commandLink style="margin-right: 5px;" id="selectButton" update=":form:displayEdit" oncomplete="newsDialog.show()" >
+                        <p:graphicImage url="./../resources/images/edit.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{newsvar}" target="#{newsMBean.news}" />
+                    </p:commandLink>
+                    <p:tooltip for="selectButton" value="Edit News"/>
+
+                    <p:commandLink onclick="confirmation.show()" id="deleteButton"   >
+                        <p:graphicImage url="./../resources/images/deleteicon.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{newsvar}" target="#{newsMBean.news}" />
+                    </p:commandLink>
+                    <p:tooltip for="deleteButton" value="Delete News"/>                    
+                </p:column>
+
+                <f:facet name="footer">  
+
+                </f:facet>  
+
+            </p:dataTable>  
+            <p:confirmDialog id="confirmDialog" message="Do you want to delete this news?"
+                             header="Delete News" severity="alert" widgetVar="confirmation">
+
+                <p:commandButton id="confirm" value="Yes" update=":form:NewsTable"
+                                 action="#{newsMBean.removeNews()}" oncomplete="confirmation.hide()" />
+                <p:commandButton id="decline" value="No" onclick="confirmation.hide()" />
+
+            </p:confirmDialog>          
+
+            <p:dialog id="dialogedit" header="News Detail" widgetVar="newsDialog" resizable="true"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayEdit" columns="2" cellpadding="4" >   
+                    <h:outputText value="News ID:" />  
+                    <h:outputText id="SubscribeIDUpdate" value="#{newsMBean.news.newsID}" />              
+                    
+                    <h:outputText value="News Title :" />                    
+                    <h:inputText id="subscribeNameUpdate" title="subscribeName1" value="#{newsMBean.newsTitle}" />
+                    
+                    <h:outputText value="News Content :" />                    
+                    <h:inputText id="feeUpdate" title="fee1" value="#{newsMBean.newsContent}" />
+                    
+                    <p:commandButton value="Delete" action="#{newsMBean.removeNews()}" oncomplete="newsDialog.hide()" update=":form:NewsTable"/>
+                    <p:commandButton value="Update" action="#{newsMBean.editNews()}" oncomplete="newsDialog.hide()" update=":form:NewsTable"/>            
+                </h:panelGrid>  
+            </p:dialog>  
+            <p:dialog id="dialogadd" header="Add News" widgetVar="addNewsDialog" resizable="false"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                    <p:outputLabel value="NewsID:" for="newsID" />
+                    <p:inputText id="newsID" value="#{newsMBean.news.newsID}" title="NewsID" required="true"/>                    
+                    <p:message for="newsID"/>
+
+                    <p:outputLabel value="News Title:" for="title" />
+                    <p:inputText id="title" value="#{newsMBean.news.newsTitle}" title="Title" required="true" />                    
+                    <p:message for="title"/>
+                    
+                    <p:outputLabel value="Content:" for="content" />
+                    <p:inputText id="content" value="#{newsMBean.news.newsContents}" title="Content" required="true" />                    
+                    <p:message for="content"/>
+                </h:panelGrid>  
+                <p:commandButton value="Create" action="#{newsMBean.createNews()}" oncomplete="addNewsDialog.hide()" update=":form:NewsTable"/>                      
+            </p:dialog> 
+        </h:form>
+    </h:body>
+</html>
+

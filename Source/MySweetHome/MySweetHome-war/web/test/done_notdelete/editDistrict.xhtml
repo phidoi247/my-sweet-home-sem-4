@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../template/AdminTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="content">
+           <h:form id="form">  
+            <p:dataTable id="Districts" var="districtvar" value="#{DistrictMBean.districtList}" 
+                         paginator="true" rows="10"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,15">  
+                
+                <p:column headerText="District ID" style="width:10px">  
+                    #{districtvar.districtID} 
+                    
+                </p:column>  
+                
+                <p:column headerText="District Name" style="width:30px">  
+                    #{districtvar.districtName}  
+                </p:column> 
+                
+                <p:column headerText="City Name" style="width:30px">  
+                    #{DistrictMBean.selectCityNameByID(districtvar.cityID)}  
+                </p:column> 
+
+                <p:column headerText="Action" style="width:40px">
+                    <p:commandLink style="margin-right: 2px;" id="selectButton" update=":form:displayEdit" oncomplete="districtDialog.show()" >
+                        <p:graphicImage url="./../resources/images/edit.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{districtvar}" target="#{DistrictMBean.districtedit}" />
+                    </p:commandLink>
+                    <p:tooltip for="selectButton" value="Edit District"/>
+
+                    <p:commandLink onclick="confirmation.show()" id="deleteButton"   >
+                        <p:graphicImage url="./../resources/images/deleteicon.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{districtvar}" target="#{DistrictMBean.districtedit}" />
+                    </p:commandLink>
+                    <p:tooltip for="deleteButton" value="Delete District"/>                    
+                </p:column>
+
+                <f:facet name="footer">  
+
+                </f:facet>  
+
+            </p:dataTable>  
+            <p:confirmDialog id="confirmDialog" message="Do you want to delete this district?"
+                             header="Delete District" severity="alert" widgetVar="confirmation">
+
+                <p:commandButton id="confirm" value="Yes" update="form:Districts"
+                                 action="#{DistrictMBean.removeDistrict(DistrictMBean.districtedit.districtID)}" oncomplete="confirmation.hide()" />
+                <p:commandButton id="decline" value="No" onclick="confirmation.hide()" />
+
+            </p:confirmDialog>          
+
+            <p:dialog id="dialogedit" header="District Detail" widgetVar="districtDialog" resizable="true"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayEdit" columns="2" cellpadding="4" >   
+                    <h:outputText value="District ID:" />  
+                    <h:outputText id="ID" value="#{DistrictMBean.districtedit.districtID}" />              
+                    <h:outputText value="District name :" />                    
+                    <h:inputText id="districtnameupdate" title="districtnameupdate" value="#{DistrictMBean.districtedit.districtName}" />
+                    <h:outputText value="City name :" />                    
+                    <h:inputText id="citynameupdate" title="citynameupdate" value="#{DistrictMBean.cityIDtemp}" />                    
+                    <p:commandButton value="Update" action="#{DistrictMBean.editDistrict()}" oncomplete="districtDialog.hide()" update="form:Districts"/>            
+                </h:panelGrid>  
+            </p:dialog>  
+            <p:dialog id="dialogadd" header="Add City" widgetVar="addDistrictDialog" resizable="false"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                    <p:outputLabel value="District Name:" for="DistrictName" />
+                    <p:inputText id="DistrictName" value="#{DistrictMBean.district.districtName}" title="CityID" required="true"/>                    
+                    <p:message for="DistrictName"/>
+
+                    <p:outputLabel value="City Name:" for="CityNameID" />
+                   
+                    <p:selectOneMenu id="CityNameID" value="#{DistrictMBean.cityID}">  
+                        <f:selectItem itemLabel="Select City" itemValue="" />  
+                        <f:selectItems value="#{DistrictMBean.cityList}" var="cityjsf" itemLabel="#{cityjsf.cityName}" itemValue="#{cityjsf.cityID}"/>  
+                    </p:selectOneMenu>  
+                </h:panelGrid>  
+                <p:commandButton value="Create" action="#{DistrictMBean.createDistrict()}" oncomplete="addCityDialog.hide()" update="form:Districts"/>                      
+            </p:dialog> 
+        </h:form>  
+    </ui:define>
+
+</ui:composition>

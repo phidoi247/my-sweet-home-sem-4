@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../template/AdminTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="content">
+        <f:view>
+        <h:form id="form">  
+            <p:commandButton id="viewButton" value="Add new City" 
+                             update=":form:displayAdd" oncomplete="addfaqDialog.show()"/> 
+            <p:dataTable id="FAQs" var="faqvar" value="#{FAQsMBean.faqList}" 
+                         paginator="true" rows="10"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,15">  
+                
+                <p:column headerText="FAQ ID" style="width:10px">  
+                    #{faqvar.FAQsID}  
+                </p:column>  
+
+                <p:column headerText="Question" style="width:20px">  
+                    #{faqvar.question}  
+                </p:column> 
+                
+                <p:column headerText="Answer" style="width:20px">  
+                    #{faqvar.answer}  
+                </p:column> 
+
+                <p:column headerText="Action" style="width:20px">
+                    <p:commandLink style="margin-right: 5px;" id="selectButton" update=":form:displayEdit" oncomplete="faqDialog.show()" >
+                        <p:graphicImage url="./../resources/images/edit.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{faqvar}" target="#{FAQsMBean.faq}" />
+                    </p:commandLink>
+                    <p:tooltip for="selectButton" value="Edit FAQs"/>
+
+                    <p:commandLink onclick="confirmation.show()" id="deleteButton"   >
+                        <p:graphicImage url="./../resources/images/deleteicon.png" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{faqvar}" target="#{FAQsMBean.faq}" />
+                    </p:commandLink>
+                    <p:tooltip for="deleteButton" value="Delete FAQs"/>                    
+                </p:column>
+
+                <f:facet name="footer">  
+
+                </f:facet>  
+
+            </p:dataTable>  
+            <p:confirmDialog id="confirmDialog" message="Do you want to delete this FAQ?"
+                             header="Delete FAQs" severity="alert" widgetVar="confirmation">
+
+                <p:commandButton id="confirm" value="Yes" update="form:FAQs"
+                                 action="#{FAQsMBean.removeFAQ(FAQsMBean.faq.FAQsID)}" oncomplete="confirmation.hide()" />
+                <p:commandButton id="decline" value="No" onclick="confirmation.hide()" />
+
+            </p:confirmDialog>          
+
+            <p:dialog id="dialogedit" header="FAQs Detail" widgetVar="faqDialog" resizable="true"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayEdit" columns="2" cellpadding="4" >   
+                    <h:outputText value="Faq ID:" />  
+                    <h:outputText id="ID" value="#{FAQsMBean.faq.FAQsID}" />              
+                    <h:outputText value="Faq question :" />                    
+                    <h:inputText id="citynameupdate" title="question" value="#{FAQsMBean.faq.question}" />    
+                    <h:outputText value="Answer :" />                    
+                    <h:inputText id="citynameupdate" title="answer" value="#{FAQsMBean.faq.answer}" />  
+                    <p:commandButton value="Update" action="#{FAQsMBean.editFAQs()}" oncomplete="faqDialog.hide()" update="form:FAQs"/>            
+                </h:panelGrid>  
+            </p:dialog>  
+            <p:dialog id="dialogadd" header="Add City" widgetVar="addfaqDialog" resizable="false"  
+                      showEffect="fade" hideEffect="fold">  
+                <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                    <p:outputLabel value="Question:" for="faqQuestion" />
+                    <p:inputText id="faqQuestion" value="#{FAQsMBean.faqselect.question}" title="faqQuestion" required="true"/>                    
+                    <p:message for="faqQuestion"/>
+
+                    <p:outputLabel value="CityName:" for="faqAnswer" />
+                    <p:inputText id="faqAnswer" value="#{FAQsMBean.faqselect.answer}" title="faqAnswer" required="true" />                    
+                    <p:message for="faqAnswer"/>
+                </h:panelGrid>  
+                <p:commandButton value="Create" action="#{FAQsMBean.createFAQ()}" oncomplete="addfaqDialog.hide()" update="form:FAQs"/>                      
+            </p:dialog> 
+        </h:form> 
+    </f:view>
+    </ui:define>
+
+</ui:composition>
