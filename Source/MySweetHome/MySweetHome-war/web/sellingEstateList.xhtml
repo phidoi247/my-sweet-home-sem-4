@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template/HomeTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"                
+                xmlns:f="http://java.sun.com/jsf/core" >
+
+    <ui:define name="title">
+        Selling Estate
+    </ui:define>
+
+    <ui:define name="col1">
+
+        <h:form id="form">
+
+            <p:dataList value="#{EstateMBean.estateList}" var="estate" id="estates" style=" height: auto;"
+                        paginator="true" rows="5"  
+                        paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="5,10,15" type="none">
+
+                <f:facet name="header">
+                    Estate
+                </f:facet>
+                <h:panelGrid columns="2" cellpadding="10" cellspacing="5" >
+                    <h:graphicImage url="./resources/images/page1_img1.jpg" width="100" height="100" />
+
+                    <h:panelGrid columns="1">
+                        <h:outputText id="EstateContent" value="Content: #{estate.estateContent}" />
+                        <h:outputText id="EstateAddress" value="Address: #{estate.estateAddress}"  /> 
+                        <h:outputText id="EstateValue" value="Price: #{estate.estateValue}"  /> 
+                    </h:panelGrid>
+
+
+                </h:panelGrid>
+
+                <br/>
+            </p:dataList>
+
+            <p:dialog header="Estate Detail" widgetVar="estateDialog" modal="true" showEffect="fade">
+                <p:outputPanel id="estateDetail" style="text-align:center;" layout="block">
+
+
+
+                    <h:panelGrid  columns="2" cellpadding="5">
+                        <h:outputLabel for="EstateDriveway" value="Driveway: " />
+                        <h:outputText id="EstateDriveway" value="#{EstateMBean.estate.estateDriveway}" />
+
+                        <h:outputLabel for="Direction" value="Direction: " />
+                        <h:outputText id="Direction" value="#{EstateMBean.estate.estateDirection}" />
+
+                        <h:outputLabel for="content" value="Content: " />
+                        <h:outputText id="content" value="#{EstateMBean.estate.estateContent}"/>
+                    </h:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+
+        </h:form>
+
+    </ui:define>
+
+
+
+</ui:composition>
