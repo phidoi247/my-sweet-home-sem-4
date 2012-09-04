@@ -5,19 +5,21 @@
 package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.Member1;
-import com.mysweethome.helper.MD5;
-import com.mysweethome.helper.RandomCode;
-import com.mysweethome.helper.messages;
+import com.mysweethome.helper.*;
 import com.mysweethome.session.Member1Facade;
 import com.mysweethome.session.TypeOfMemberFacade;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.mail.Message;
+import javax.mail.MessagingException;
 
 /**
  *
@@ -32,7 +34,6 @@ public class Member1MBean {
     private Member1 mem;
     private TypeOfMemberFacade typeOfMemberFace;
     public List<Member1> memberList = new ArrayList<Member1>();
-   
     public String username;
     public String password;
     public String confirmPass;
@@ -47,8 +48,6 @@ public class Member1MBean {
     public String role;
     public String telephone;
 
-    
-    
     public List<Member1> getMemberList() {
         return member1Facade.findAll();
     }
@@ -56,9 +55,7 @@ public class Member1MBean {
     public void setMemberList(List<Member1> memberList) {
         this.memberList = memberList;
     }
-   
-    
-    
+
     public String getTelephone() {
         return telephone;
     }
@@ -66,8 +63,7 @@ public class Member1MBean {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
-    
-    
+
     public String getRole() {
         return role;
     }
@@ -75,7 +71,6 @@ public class Member1MBean {
     public void setRole(String role) {
         this.role = role;
     }
-    
 
     public Date getBirthday() {
         return birthday;
@@ -190,9 +185,6 @@ public class Member1MBean {
         member1Facade = new Member1Facade();
     }
 
-   
-
-   
     public void createMember() {
         Member1 member = new Member1();
         member = member1Facade.find(username);
@@ -216,6 +208,28 @@ public class Member1MBean {
             mem.setRole("Member");
             mem.setTypeOfMemberID(member1Facade.getTypeOfMemberFromID(typeOfMemberID));
             member1Facade.create(mem);
+            //send mail to user to active account
+            try {
+                String from = "quanghuy9289@gmail.com";
+                String to = email;
+                String subject = "My Sweet Home";
+                String body = "Dear " + username + ",\n";
+                body += "Wellcome to my website!\n";
+                body += "You had registed a new account. Please active this account by clicking below link:\n";
+                body += "http://localhost:8080/MySweetHome-war/activeAccount.jsf?username=" + username + "&code=" + code + "\n";
+                body += "Thanks you!\n";
+                body += "--------------------------\n";
+                body += "My group:\n";
+                body += "Ngo Quang Huy\n";
+                body += "Vu Long\n";
+                body += "Nguyen Anh Tan\n";
+                body += "Huynh Quang Vinh\n";
+                body += "Le Xuan Trung";
+                MailConfig config = new MailConfig();
+                Message message = config.createMessage(from, to, subject, body);
+                config.sendEmail(message);
+            } catch (MessagingException ex) {
+            }
             messages.taoTB(FacesMessage.SEVERITY_INFO, "Register success", "Registration success. Please check your email to active account before login to system.");
         }
     }
@@ -225,18 +239,18 @@ public class Member1MBean {
         getMem().setUserName(str);
         getMember1Facade().remove(getMem());
     }
-    
-    public void removeMember(String username){
-        Member1 memtemp=this.getMember1Facade().find(username);
-         
+
+    public void removeMember(String username) {
+        Member1 memtemp = this.getMember1Facade().find(username);
+
         getMember1Facade().remove(memtemp);
     }
-    
-    public void editMember(){
-        
-        String str=getMem().getUserName();
+
+    public void editMember() {
+
+        String str = getMem().getUserName();
         Member1 member1;
-        member1=getMember1Facade().getUserName(str);
+        member1 = getMember1Facade().getUserName(str);
         member1.setEmail(email);
         member1.setAddress(address);
         member1.setFullName(fullName);
@@ -244,8 +258,22 @@ public class Member1MBean {
         member1.setCompany(company);
         member1.setTelephone(phone);
         member1.setRole(role);
-        
+
         getMember1Facade().edit(member1);
     }
     
+    public void activeAccount() {
+        Map requestMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String user = (String) requestMap.get("username");
+        String codeActive = (String) requestMap.get("code");
+        Member1 member = new Member1();
+        member=member1Facade.find(user);
+        if(member!=null){
+            if(member.getIsEnabled().equalsIgnoreCase("false")){
+                member.setIsEnabled("true");
+                getMember1Facade().edit(member);
+                messages.taoTB(FacesMessage.SEVERITY_INFO, "Active success", "Active success!");
+            }
+        }
+    }
 }
