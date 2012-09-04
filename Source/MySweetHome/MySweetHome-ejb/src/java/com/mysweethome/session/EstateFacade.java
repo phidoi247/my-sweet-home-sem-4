@@ -355,7 +355,11 @@ public class EstateFacade extends AbstractFacade<Estate> {
     public String getLastRecordID() {
         Query q = em.createNamedQuery("Estate.findAll");
         List<Estate> estatelist = q.getResultList();
-        return estatelist.get(estatelist.size()-1).getEstateID();
+        if(estatelist.isEmpty()){
+            return "1";
+        }
+        else
+            return estatelist.get(estatelist.size()-1).getEstateID();
     }
     
     public List<Subscribe> getSubscribeList() {
@@ -365,6 +369,7 @@ public class EstateFacade extends AbstractFacade<Estate> {
     
     public Subscribe getSubscribeByID(String id) {
         Query q = em.createNamedQuery("Subscribe.findBySubscribeID");
+        q.setParameter("subscribeID", id);
         return (Subscribe) q.getSingleResult();
     }
     
@@ -375,6 +380,7 @@ public class EstateFacade extends AbstractFacade<Estate> {
     
     public TypeOfEstate getTypeOfEstateByID(String id) {
         Query q = em.createNamedQuery("TypeOfEstate.findByTypeOfEstateID");
+        q.setParameter("typeOfEstateID", id);
         return (TypeOfEstate) q.getSingleResult();
     }
     
@@ -385,6 +391,7 @@ public class EstateFacade extends AbstractFacade<Estate> {
     
     public Category getCategoryByID(String id) {
         Query q = em.createNamedQuery("Category.findByCategoryID");
+        q.setParameter("categoryID", id);
         return (Category) q.getSingleResult();
     }
     
@@ -395,6 +402,7 @@ public class EstateFacade extends AbstractFacade<Estate> {
     
     public City getCityByID(String id) {
         Query q = em.createNamedQuery("City.findByCityID");
+        q.setParameter("cityID", id);
         return (City) q.getSingleResult();
     }
     
@@ -405,6 +413,7 @@ public class EstateFacade extends AbstractFacade<Estate> {
     
     public District getDistrictByID(String id) {
         Query q = em.createNamedQuery("District.findByDistrictID");
+        q.setParameter("districtID", id);
         return (District) q.getSingleResult();
     }
     
@@ -415,11 +424,19 @@ public class EstateFacade extends AbstractFacade<Estate> {
     
     public Currency getCurrencyByID(String id) {
         Query q = em.createNamedQuery("Currency.findByCurrencyID");
+        q.setParameter("currencyID", id);
         return (Currency) q.getSingleResult();
     }
     
     public Member1 getMember(String username){
-        Query q=em.createNamedQuery("");
+        Query q=em.createNamedQuery("Member1.findByUserName");
+        q.setParameter("userName", username);
         return (Member1)q.getSingleResult();
+    }
+    
+    public List<District> getDistrictList(String cityID){
+        Query q=em.createNamedQuery("District.findByCityID");
+        q.setParameter("cityID", cityID);
+        return q.getResultList();
     }
 }
