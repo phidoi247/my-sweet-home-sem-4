@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template/HomeTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <style type="text/css">
+
+
+    </style>
+    <ui:define name="title">
+        Estate Details
+    </ui:define>
+
+    <ui:define name="col1" >
+
+
+
+        <p:panel header="#{EstateMBean.selectedEstate.estateTitle}" >
+            <h:form>
+
+
+                <h:panelGrid columns="1" border="0" cellpadding="10" cellspacing="5" style="margin-top: 10px;" >
+                    <h:panelGrid columns="1">
+                        <h:graphicImage url="./resources/images/page2_img1.jpg" width="250" height="250" style="text-align: center;  margin-left: 200px;" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="1">
+                        <h:panelGrid columns="3" >
+
+                            <h:panelGrid columns="2" style="margin-top: 10px;" width="200">
+                                <f:facet name="header" >
+                                    <h:outputText value="Basic info" style="text-align: center;"/>
+                                </f:facet>
+                                <h:panelGrid columns="2">
+
+                                    <h:panelGrid columns="1">
+                                        <h:outputText value="Price:"  />
+                                        <h:outputText value="Address: " />
+                                        <h:outputText value="Area: " /> 
+                                        <h:outputText value="Content: " />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid columns="1">
+                                        <h:outputText value="#{EstateMBean.selectedEstate.estateValue}"  />
+                                        <h:outputText value="#{EstateMBean.selectedEstate.estateAddress}" />
+                                        <h:outputText value="#{EstateMBean.selectedEstate.estateArea}" /> 
+                                        <h:outputText value="#{EstateMBean.selectedEstate.estateContent}" />   
+                                    </h:panelGrid>
+
+                                </h:panelGrid>
+
+                            </h:panelGrid>
+
+
+                            <h:panelGrid columns="2" style="margin-top: 10px;" width="200">
+                                <f:facet name="header">
+                                    <h:outputText value="More info" style="text-align: center;"/>
+                                </f:facet>
+                                <h:panelGrid columns="2">
+                                    <h:panelGrid columns="1">
+                                        <h:outputText value="Direction: "/>
+                                        <h:outputText value="Driveway:" />
+                                        <h:outputText value="Total floor: " />
+                                        <h:outputText value="Total room:  "/>
+                                        <h:outputText value="Total toilet: " />
+
+                                    </h:panelGrid>
+
+                                    <h:panelGrid columns="1">
+                                        <h:outputText value="#{EstateMBean.selectedEstate.estateDirection}" />
+                                        <h:outputText value="#{EstateMBean.selectedEstate.estateDriveway}" />
+                                        <h:outputText value="#{EstateMBean.selectedEstate.estateNumberOfFloors}" />
+                                        <h:outputText value="#{EstateMBean.selectedEstate.estateNumberOfRooms}" />
+                                        <h:outputText value="#{EstateMBean.selectedEstate.estateNumberOfToilets}" />
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </h:panelGrid>
+
+
+                            <h:panelGrid columns="2" style="margin-top: 10px;" width="200">
+                                <f:facet name="header">
+                                    <h:outputText value="Contact" style="text-align: center;"/>
+                                </f:facet>
+                                <h:panelGrid columns="2">
+                                    <h:panelGrid columns="1">
+                                        <h:outputText value="Name : " />
+                                        <h:outputText value="Address: " />
+                                        <h:outputText value="Email: " />
+                                        <h:outputText value="Telephone: " />
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="1">
+                                        <h:outputText value="#{EstateMBean.contactEdit.contactName}" />
+                                        <h:outputText value="#{EstateMBean.contactEdit.contactAddress}" />
+                                        <h:outputText value="#{EstateMBean.contactEdit.contactEmail}" />
+                                        <h:outputText value="#{EstateMBean.contactEdit.contactTelephone}" />
+                                    </h:panelGrid>
+                                </h:panelGrid>                               
+                            </h:panelGrid>
+
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1" style="margin-top: 15px;">
+                            <f:facet name="header">
+                                <h:outputText value="Content" />
+                            </f:facet>
+                            <h:panelGrid columns="1">
+                                <h:outputText value="#{EstateMBean.selectedEstate.estateContent}" />                       
+                            </h:panelGrid>
+                        </h:panelGrid>
+
+                    </h:panelGrid>
+
+
+
+
+
+
+
+
+
+                </h:panelGrid>
+
+
+            </h:form>
+        </p:panel>
+
+
+
+    </ui:define>
+
+    <ui:define name="col1_2">
+
+    </ui:define>
+
+    <ui:define name="col2_2">
+
+    </ui:define>
+
+    <ui:define name="body3">
+
+    </ui:define>
+
+</ui:composition>
