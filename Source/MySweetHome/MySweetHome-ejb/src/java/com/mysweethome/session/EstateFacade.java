@@ -333,7 +333,7 @@ public class EstateFacade extends AbstractFacade<Estate> {
             q.setParameter("strSearch", strSearch);
             estates = q.getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
+            
         }
         return estates;
     }
@@ -347,7 +347,6 @@ public class EstateFacade extends AbstractFacade<Estate> {
             q.setParameter("dateNow", dateNow);
             estates = q.getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return estates;
     }
@@ -439,4 +438,24 @@ public class EstateFacade extends AbstractFacade<Estate> {
         q.setParameter("cityID", cityID);
         return q.getResultList();
     }
+    
+    public void create(ContactDetails ctdetails) {
+        em.persist(ctdetails);
+    }
+    
+    public void create(ImageCategory imagecategory) {
+        em.persist(imagecategory);
+    }
+    
+    public List<ContactDetails> getContactDetailsList() {
+        Query q = em.createNamedQuery("ContactDetails.findAll");
+        return q.getResultList();
+    }
+    
+    public ContactDetails getContactDetailsByID(String id) {
+        Query q = em.createNamedQuery("ContactDetails.findByContactDetailsID");
+        q.setParameter("contactDetailsID", id);
+        return (ContactDetails) q.getSingleResult();
+    }
+
 }

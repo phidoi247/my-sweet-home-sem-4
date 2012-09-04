@@ -22,8 +22,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "District.findAll", query = "SELECT d FROM District d"),
     @NamedQuery(name = "District.findByDistrictID", query = "SELECT d FROM District d WHERE d.districtID = :districtID"),
-    @NamedQuery(name = "District.findByDistrictName", query = "SELECT d FROM District d WHERE d.districtName = :districtName")})
+    @NamedQuery(name = "District.findByDistrictName", query = "SELECT d FROM District d WHERE d.districtName = :districtName"),
+    @NamedQuery(name = "District.findByCityID", query = "SELECT d FROM City c, IN(c.districtList) d WHERE c.cityID = :cityID")})
 public class District implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -104,7 +106,4 @@ public class District implements Serializable {
     public String toString() {
         return "com.mysweethome.entity.District[ districtID=" + districtID + " ]";
     }
-
-   
-    
 }

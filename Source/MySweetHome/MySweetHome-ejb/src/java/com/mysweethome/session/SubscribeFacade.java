@@ -45,6 +45,11 @@ public class SubscribeFacade extends AbstractFacade<Subscribe> {
         em.remove(em.merge(subscribe));
     }  
     
+    public List<Subscribe> getAllSubcribe(){
+        Query q=em.createNamedQuery("Subscribe.findAll");
+        return q.getResultList();
+    }
+    
     public Subscribe getSubscribeID(String subscribeID){
         Subscribe sub=null;
         try{

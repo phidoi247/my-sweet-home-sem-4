@@ -44,6 +44,17 @@ public class CityFacade extends AbstractFacade<City> {
     public void remove(City city) {
         em.remove(em.merge(city));
     }
+    
+    public List<City> getCityList(){
+        List<City> cityList=null;
+        try{
+            Query q = em.createNamedQuery("Estate.findAll");
+            cityList = q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cityList;
+    }
 
     public City getCityID(String cityID){
         City ct=null;
