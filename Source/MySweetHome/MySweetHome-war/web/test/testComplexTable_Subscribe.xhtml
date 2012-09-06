@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Show Subscribe Details</title>
+    </h:head>
+    <h:body>
+
+        <h:form id="form">
+
+            <h:panelGrid columns="1">
+
+                <h:panelGrid columns="1">
+
+                    <p:dataTable var="subvar" value="#{subscribeMBean.subscribeList}" rowKey="#{subvar.subscribeID}" paginator="true" rows="10"
+                                 selection="#{SubscribeMBean.subscribe}" selectionMode="single" filteredValue="#{SubscribeMBean.filteredSubscribe}" id="subscribesTable">
+
+                        <p:ajax event="rowSelect" update=":form:display" oncomplete="subscribeDialog.show()" />
+
+                        <f:facet name="header">
+                            List of Subscribes
+                        </f:facet>
+
+                        <p:column headerText="SubscribeID" sortBy="#{subvar.subscribeID}" filterBy="#{subvar.subscribeID}" id="subscribeID">
+                            #{subvar.subscribeID}
+                        </p:column>
+
+                        <p:column headerText="Year" sortBy="#{subvar.subscribeName}" filterBy="#{subvar.subscribeName}" id="subscribeName">
+                            #{subvar.subscribeName}
+                        </p:column>
+
+                        <p:column headerText="Fee Per Day" sortBy="#{subvar.feePerDay}" filterBy="#{subvar.feePerDay}" id="feePerDay">
+                            #{subvar.feePerDay}
+                        </p:column>
+
+                    </p:dataTable>
+
+
+
+                    <p:dialog header="Subscribe Detail" widgetVar="subscribeDialog" resizable="true"
+                              width="200" showEffect="explode" hideEffect="explode">
+
+                        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+                            <f:facet name="header">
+                                <h:outputText value="Hinh anh" />
+                            </f:facet>
+
+                            <h:outputText value="SubscribeID: " />
+                            <h:outputText value="#{SubscribeMBean.subscribe.subscribeID}" id="subscribeID"/>
+
+                            <h:outputText value="Subscribe Name:" />
+                            <h:outputText value="#{SubscribeMBean.subscribe.subscribeName}" id="subscribeName"/>
+
+                            <h:outputText value="Fee Per Day:" />
+                            <h:outputText value="#{SubscribeMBean.subscribe.feePerDay}" id="feePerDay"/>
+
+                        </h:panelGrid>
+                    </p:dialog>    
+
+                </h:panelGrid>
+
+
+                
+                <h:panelGrid columns="1">
+
+                    <p:commandButton id="viewButton" value="Add type of Subscribe" 
+                                     oncomplete="addSubscribeDialog.show()"/> 
+
+                    <p:dialog id="dialogadd" header="Add New Type of Subscribe" widgetVar="addSubscribeDialog" resizable="false"  
+                              showEffect="fade" hideEffect="fade">  
+                        <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                            <p:outputLabel value="SubscribeID:" for="subID"/>
+                            <p:inputText id="subID" value="#{SubscribeMBean.subscribe.subscribeID}" title="SubID" required="true"/>                    
+                            <p:message for="subID"/>
+
+                            <p:outputLabel value="Subscribe Name:" for="subName"/>
+                            <p:inputText id="subName" value="#{SubscribeMBean.subscribe.subscribeName}" title="SubName" required="true" />                    
+                            <p:message for="subName"/>
+
+                            <p:outputLabel value="Fee Per Day:" for="fee"/>
+                            <p:inputText id="fee" value="#{SubscribeMBean.subscribe.feePerDay}" title="Fee" required="true" />                    
+                            <p:message for="fee"/>
+                        </h:panelGrid>  
+                        <p:commandButton value="Create" action="#{SubscribeMBean.createSubscribe()}" oncomplete="addSubscribeDialog.hide()" update="subscribesTable"/>                      
+                    </p:dialog>
+
+                </h:panelGrid>
+
+            </h:panelGrid>
+
+        </h:form>
+
+    </h:body>
+</html>
+
