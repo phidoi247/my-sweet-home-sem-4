@@ -29,6 +29,8 @@ public class SubscribeMBean {
     String subscribeID;
     String subscribeName;
     String feePerDay;
+    List<Subscribe> subscribeList;
+    List<Subscribe> filteredSubscribe; 
 
     public String getFeePerDay() {
         return subscribe.getFeePerDay();
@@ -53,6 +55,14 @@ public class SubscribeMBean {
     public void setSubscribeName(String subscribeName) {
         this.subscribeName = subscribeName;
     }
+
+    public List<Subscribe> getFilteredSubscribe() {
+        return filteredSubscribe = subscribeList;
+    }
+
+    public void setFilteredSubscribe(List<Subscribe> filteredSubscribe) {
+        this.filteredSubscribe = filteredSubscribe;
+    }
     /**
      * Creates a new instance of SubscribeMBean
      */
@@ -63,6 +73,8 @@ public class SubscribeMBean {
         subscribeID = subscribe.getSubscribeID();
         subscribeName = subscribe.getSubscribeName();
         feePerDay = subscribe.getFeePerDay();
+        subscribeList = new ArrayList<Subscribe>();
+        filteredSubscribe = new ArrayList<Subscribe>();
         
     }
     
@@ -78,7 +90,7 @@ public class SubscribeMBean {
     }
 
 
-    List<Subscribe> subscribeList=new ArrayList<Subscribe>();
+   
 
     public SubscribeFacade getSubfacade() {
         return subfacade;
@@ -97,7 +109,7 @@ public class SubscribeMBean {
     }
 
     public List<Subscribe> getSubscribeList() {
-        return subfacade.findAll();
+        return subscribeList = subfacade.findAll();
     }
 
     public void setSubscribeList(List<Subscribe> subscribeList) {
