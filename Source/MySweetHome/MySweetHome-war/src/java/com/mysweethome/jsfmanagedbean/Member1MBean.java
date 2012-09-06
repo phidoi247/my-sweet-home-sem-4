@@ -33,7 +33,8 @@ public class Member1MBean {
     private Member1Facade member1Facade;
     private Member1 mem;
     private TypeOfMemberFacade typeOfMemberFace;
-    public List<Member1> memberList = new ArrayList<Member1>();
+    public List<Member1> memberList;
+    public List<Member1> filteredMember;
     public String username;
     public String password;
     public String confirmPass;
@@ -49,7 +50,7 @@ public class Member1MBean {
     public String telephone;
 
     public List<Member1> getMemberList() {
-        return member1Facade.findAll();
+        return memberList = member1Facade.findAll();
     }
 
     public void setMemberList(List<Member1> memberList) {
@@ -57,7 +58,7 @@ public class Member1MBean {
     }
 
     public String getTelephone() {
-        return telephone;
+        return mem.getTelephone();
     }
 
     public void setTelephone(String telephone) {
@@ -65,7 +66,7 @@ public class Member1MBean {
     }
 
     public String getRole() {
-        return role;
+        return mem.getRole();
     }
 
     public void setRole(String role) {
@@ -89,7 +90,7 @@ public class Member1MBean {
     }
 
     public String getAddress() {
-        return address;
+        return mem.getAddress();
     }
 
     public void setAddress(String address) {
@@ -97,7 +98,7 @@ public class Member1MBean {
     }
 
     public String getCompany() {
-        return company;
+        return mem.getCompany();
     }
 
     public void setCompany(String company) {
@@ -113,7 +114,7 @@ public class Member1MBean {
     }
 
     public String getEmail() {
-        return email;
+        return mem.getEmail();
     }
 
     public void setEmail(String email) {
@@ -121,7 +122,7 @@ public class Member1MBean {
     }
 
     public String getFullName() {
-        return fullName;
+        return mem.getFullName();
     }
 
     public void setFullName(String fullName) {
@@ -132,12 +133,20 @@ public class Member1MBean {
         return password;
     }
 
+    public List<Member1> getFilteredMember() {
+        return filteredMember = memberList;
+    }
+
+    public void setFilteredMember(List<Member1> filteredMember) {
+        this.filteredMember = filteredMember;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
 
     public String getPhone() {
-        return phone;
+        return mem.getTelephone();
     }
 
     public void setPhone(String phone) {
@@ -145,7 +154,7 @@ public class Member1MBean {
     }
 
     public String getUsername() {
-        return username;
+        return mem.getUserName();
     }
 
     public void setUsername(String username) {
@@ -153,7 +162,7 @@ public class Member1MBean {
     }
 
     public String getGender() {
-        return gender;
+        return mem.getGender();
     }
 
     public void setGender(String gender) {
@@ -183,6 +192,8 @@ public class Member1MBean {
         mem = new Member1();
         typeOfMemberFace = new TypeOfMemberFacade();
         member1Facade = new Member1Facade();
+        memberList = new ArrayList<Member1>();
+        filteredMember = new ArrayList<Member1>();
     }
 
     public void createMember() {
