@@ -5,6 +5,7 @@
 package com.mysweethome.session;
 
 import com.mysweethome.entity.Currency;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -58,6 +59,17 @@ public class CurrencyFacade extends AbstractFacade<Currency> {
             ex.printStackTrace();
         }
         return currency;
+    }
+    
+    public int getLastRecordID(){
+        Query q= em.createNamedQuery("Currency.findAll");
+        List<Currency> curList= q.getResultList();
+                
+        int i=curList.size();
+        i=i-1;
+        
+        int j=Integer.parseInt(curList.get(i).getCurrencyID());
+        return j;
     }
     
     
