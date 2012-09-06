@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Show News Details</title>
+    </h:head>
+    <h:body>
+
+        <h:form id="form">
+
+            <h:panelGrid columns="1">
+
+                <h:panelGrid columns="1">
+
+                    <p:dataTable var="newsvar" value="#{newsMBean.getNewsList}" rowKey="#{newsvar.newsID}" paginator="true" rows="10"
+                                 selection="#{newsMBean.news}" selectionMode="single" filteredValue="#{newsMBean.filteredNews}" id="newsTable">
+
+                        <p:ajax event="rowSelect" update=":form:display" oncomplete="newsDialog.show()" />
+
+                        <f:facet name="header">
+                            List of News
+                        </f:facet>
+
+                        <p:column headerText="NewsID" sortBy="#{newsvar.newsID}" filterBy="#{newsvar.newsID}" id="newsID">
+                            #{newsvar.newsID}
+                        </p:column>
+
+                        <p:column headerText="News Title" sortBy="#{newsvar.newsTitle}" filterBy="#{newsvar.newsTitle}" id="newsName">
+                            #{newsvar.newsTitle}
+                        </p:column>
+
+                        <p:column headerText="News Content" sortBy="#{newsvar.newsContents}" filterBy="#{newsvar.newsContents}" id="newsContent">
+                            #{newsvar.newsContents}
+                        </p:column>
+
+                    </p:dataTable>
+
+
+
+                    <p:dialog header="News Detail" widgetVar="newsDialog" resizable="true"  
+                              width="380" showEffect="explode" hideEffect="explode">
+
+                        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+                            <f:facet name="header">
+                                <h:outputText value="Hinh anh" />
+                            </f:facet>
+
+                            <h:outputText value="NewsID" />
+                            <h:inputText value="#{newsMBean.news.newsID}" id="newsID"/>                        
+
+                            <h:outputText value="News Title" />
+                            <h:inputText value="#{newsMBean.news.newsTitle}" id="newsTitle"/>
+
+                            <h:outputText value="News Content" />
+                            <h:inputText value="#{newsMBean.news.newsContents}" id="newsContent"/>
+
+                            <p:commandButton value="Delete" action="#{newsMBean.removeNews()}" oncomplete="newsDialog.hide()" update="newsTable"/>
+                            <p:commandButton value="Update" action="#{newsMBean.editNews()}" oncomplete="newsDialog.hide()" update="newsTable"/>
+
+                        </h:panelGrid>
+                    </p:dialog>    
+
+                </h:panelGrid>
+
+
+
+                <h:panelGrid columns="1">
+
+                    <p:commandButton id="viewButton" value="Add the lastest news" 
+                                     oncomplete="addNewsDialog.show()"/> 
+
+                    <p:dialog id="dialogadd" header="Add New Type of News" widgetVar="addNewsDialog" resizable="false"  
+                              showEffect="fade" hideEffect="fade">  
+                        <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                            <p:outputLabel value="NewsID:" for="nID"/>
+                            <p:inputText id="nID" value="#{newsMBean.news.newsID}" title="NewsID" required="true"/>                    
+                            <p:message for="nID"/>
+
+                            <p:outputLabel value="News Title:" for="nTitle"/>
+                            <p:inputText id="nTitle" value="#{newsMBean.news.newsTitle}" title="News Title" required="true" />                    
+                            <p:message for="nTitle"/>
+
+                            <p:outputLabel value="News Content:" for="nContent"/>
+                            <p:inputText id="nContent" value="#{newsMBean.news.newsContents}" title="News Content" required="true" />                    
+                            <p:message for="nContent"/>
+                        </h:panelGrid>  
+                        <p:commandButton value="Create" action="#{newsMBean.createNews()}" oncomplete="addNewsDialog.hide()" update="newsTable"/>                      
+                    </p:dialog>
+
+                </h:panelGrid>
+
+            </h:panelGrid>
+
+        </h:form>
+
+    </h:body>
+</html>
+
