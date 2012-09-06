@@ -25,6 +25,17 @@ public class CityMBean {
     private City city;
     private City city2;
     String name;
+    String cityID;
+    List<City> citylist;
+    List<City> filteredCity;
+
+    public String getCityID() {
+        return city.getCityID();
+    }
+
+    public void setCityID(String cityID) {
+        this.cityID = cityID;
+    }
 
     public String getName() {
         return city.getCityName();
@@ -41,10 +52,18 @@ public class CityMBean {
         this.city2 = city2;
     }
 
-    private List<City> citylist= new ArrayList<City>();
+    
 
     public List<City> getCitylist() {
-        return cityFacade.findAll();
+        return citylist = cityFacade.findAll();
+    }
+
+    public List<City> getFilteredCity() {
+        return filteredCity = citylist;
+    }
+
+    public void setFilteredCity(List<City> filteredCity) {
+        this.filteredCity = filteredCity;
     }
 
     public void setCitylist(List<City> citylist) {
@@ -73,6 +92,8 @@ public class CityMBean {
         city2 = new City();
         cityFacade=new CityFacade();
         name=city.getCityName();
+        citylist = new ArrayList<City>();
+        filteredCity = new ArrayList<City>();
     }
 //    public void init(){
 //        city.getCityID();
@@ -127,5 +148,7 @@ public class CityMBean {
         return city2.getCityName();
     }
 
+    
+    
 
 }
