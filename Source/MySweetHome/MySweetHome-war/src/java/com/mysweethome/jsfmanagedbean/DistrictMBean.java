@@ -24,11 +24,23 @@ public class DistrictMBean {
     @EJB
     private DistrictFacade districtFacade;
     private District district, districtedit;
-    private List<City> cityList= new ArrayList<City>();
+    private List<City> cityList;
+    List<District> districtList;
+    List<District> filteredDistrict;
+    private CityFacade cityfacade;
+    private String districtID, districtName, cityID, cityIDtemp;
 
     public List<City> getCityList() {
         cityList= cityfacade.selectAllCity();
         return cityList;
+    }
+
+    public String getDistrictID() {
+        return district.getDistrictID();
+    }
+
+    public void setDistrictID(String districtID) {
+        this.districtID = districtID;
     }
 
     public void setCityList(List<City> cityList) {
@@ -42,8 +54,7 @@ public class DistrictMBean {
     public void setDistrictedit(District districtedit) {
         this.districtedit = districtedit;
     }
-    private CityFacade cityfacade;
-    private String districtName,cityID, cityIDtemp;
+    
 
     public String getCityIDtemp() {
         return cityIDtemp;
@@ -62,11 +73,19 @@ public class DistrictMBean {
     public void setCityID(String cityID) {
         this.cityID = cityID;
     }
+
+    public List<District> getFilteredDistrict() {
+        return filteredDistrict = districtList;
+    }
+
+    public void setFilteredDistrict(List<District> filteredDistrict) {
+        this.filteredDistrict = filteredDistrict;
+    }
     
-    List<District> districtList;
+    
 
     public List<District> getDistrictList() {
-        districtList=districtFacade.findAll();
+        districtList = districtFacade.findAll();
         return districtList;
     }
 
@@ -113,6 +132,8 @@ public class DistrictMBean {
         districtFacade = new DistrictFacade();
         cityfacade = new CityFacade();
         districtedit = new District();
+        districtList = new ArrayList<District>();
+        filteredDistrict = new ArrayList<District>();
     }
     
     public void createDistrict(){
