@@ -40,8 +40,8 @@
 
 
 
-                    <p:dialog header="Subscribe Detail" widgetVar="subscribeDialog" resizable="true"
-                              width="200" showEffect="explode" hideEffect="explode">
+                    <p:dialog header="Subscribe Detail" widgetVar="subscribeDialog" resizable="true"  
+                              width="380" showEffect="explode" hideEffect="explode">
 
                         <h:panelGrid id="display" columns="2" cellpadding="4">
 
@@ -49,14 +49,17 @@
                                 <h:outputText value="Hinh anh" />
                             </f:facet>
 
-                            <h:outputText value="SubscribeID: " />
-                            <h:outputText value="#{SubscribeMBean.subscribe.subscribeID}" id="subscribeID"/>
+                            <h:outputText value="SubscribeID " />
+                            <h:inputText value="#{SubscribeMBean.subscribe.subscribeID}" id="subscribeID"/>                        
 
-                            <h:outputText value="Subscribe Name:" />
-                            <h:outputText value="#{SubscribeMBean.subscribe.subscribeName}" id="subscribeName"/>
+                            <h:outputText value="Subscribe Name" />
+                            <h:inputText value="#{SubscribeMBean.subscribe.subscribeName}" id="subscribeName"/>
 
-                            <h:outputText value="Fee Per Day:" />
-                            <h:outputText value="#{SubscribeMBean.subscribe.feePerDay}" id="feePerDay"/>
+                            <h:outputText value="Fee Per Day" />
+                            <h:inputText value="#{SubscribeMBean.subscribe.feePerDay}" id="feePerDay"/>
+
+                            <p:commandButton value="Delete" action="#{SubscribeMBean.removeSubscribe()}" oncomplete="subscribeDialog.hide()" update="subscribesTable"/>
+                            <p:commandButton value="Update" action="#{SubscribeMBean.editSubscribe()}" oncomplete="subscribeDialog.hide()" update="subscribesTable"/>
 
                         </h:panelGrid>
                     </p:dialog>    
@@ -64,7 +67,7 @@
                 </h:panelGrid>
 
 
-                
+
                 <h:panelGrid columns="1">
 
                     <p:commandButton id="viewButton" value="Add type of Subscribe" 
