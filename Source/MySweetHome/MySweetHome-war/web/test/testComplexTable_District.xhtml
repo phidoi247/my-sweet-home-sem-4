@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>District Management</title>
+    </h:head>
+    <h:body>
+
+        <h:form id="form">
+
+            <h:panelGrid columns="1">
+
+                <h:panelGrid columns="1">
+
+                    <p:dataTable var="districtvar" value="#{DistrictMBean.districtList}" rowKey="#{districtvar.districtID}" paginator="true" rows="10"
+                                 selection="#{DistrictMBean.district}" selectionMode="single" filteredValue="#{DistrictMBean.filteredDistrict}" id="districtTable">
+
+                        <p:ajax event="rowSelect" update=":form:display" oncomplete="districtDialog.show()" />
+
+                        <f:facet name="header">
+                            District Management
+                        </f:facet>
+
+                        <p:column headerText="District ID" sortBy="#{districtvar.districtID}" filterBy="#{districtvar.districtID}" id="districtID">
+                            #{districtvar.districtID}
+                        </p:column>
+
+                        <p:column headerText="District Name" sortBy="#{districtvar.districtName}" filterBy="#{districtvar.districtName}" id="districtName">
+                            #{districtvar.districtName}
+                        </p:column>
+
+                    </p:dataTable>
+
+
+
+                    <p:dialog header="District Detail" widgetVar="districtDialog" resizable="true"  
+                              width="350" showEffect="explode" hideEffect="explode">
+
+                        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+                            <f:facet name="header">
+                                <h:outputText value="Hinh anh" />
+                            </f:facet>
+
+                            <h:outputText value="District ID " />
+                            <h:inputText value="#{DistrictMBean.district.districtID}" id="districtID"/>                        
+
+                            <h:outputText value="District Name" />
+                            <h:inputText value="#{DistrictMBean.district.districtName}" id="districtName"/>
+
+                            <p:commandButton value="Delete" action="#{DistrictMBean.removeDistrict(districtID)}" oncomplete="districtDialog.hide()" update="districtTable"/>
+                            <p:commandButton value="Update" action="#{DistrictMBean.editDistrict()}" oncomplete="districtDialog.hide()" update="districtTable"/>
+
+                        </h:panelGrid>
+                    </p:dialog>    
+
+                </h:panelGrid>
+
+
+
+                <h:panelGrid columns="1">
+
+                    <p:commandButton id="viewButton" value="Add new District" 
+                                     oncomplete="addDistrictDialog.show()"/> 
+
+                    <p:dialog id="dialogadd" header="Add New District" widgetVar="addDistrictDialog" resizable="false"  
+                              showEffect="fade" hideEffect="fade">  
+                        <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                            <p:outputLabel value="District ID" for="diID"/>
+                            <p:inputText id="diID" value="#{DistrictMBean.district.districtID}" title="District ID" required="true"/>                    
+                            <p:message for="diID"/>
+
+                            <p:outputLabel value="District Name" for="diName"/>
+                            <p:inputText id="diName" value="#{DistrictMBean.district.districtName}" title="District Name" required="true" />                    
+                            <p:message for="diName"/>
+
+                        </h:panelGrid>  
+                        <p:commandButton value="Create" action="#{DistrictMBean.createDistrict()}" oncomplete="addDistrictDialog.hide()" update="districtTable"/>                      
+                    </p:dialog>
+
+                </h:panelGrid>
+
+            </h:panelGrid>
+
+        </h:form>
+
+    </h:body>
+</html>
+
