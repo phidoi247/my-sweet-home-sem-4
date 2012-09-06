@@ -26,10 +26,11 @@ public class NewsMBean {
     public String newsID;
     public String newsTitle;
     public String newsContent;
-    public List<News> getNewsList;
+    List<News> getNewsList;
+    List<News> filteredNews;
 
     public List<News> getGetNewsList() {
-        return newsFacade.findAll();
+        return getNewsList = newsFacade.findAll();
     }
 
     public void setGetNewsList(List<News> getNewsList) {
@@ -46,11 +47,19 @@ public class NewsMBean {
     }
 
     public String getNewsContent() {
-        return newsContent;
+        return news.getNewsContents();
     }
 
     public void setNewsContent(String newsContent) {
         this.newsContent = newsContent;
+    }
+
+    public List<News> getFilteredNews() {
+        return filteredNews = getNewsList;
+    }
+
+    public void setFilteredNews(List<News> filteredNews) {
+        this.filteredNews = filteredNews;
     }
 
     public NewsFacade getNewsFacade() {
@@ -62,7 +71,7 @@ public class NewsMBean {
     }
 
     public String getNewsID() {
-        return newsID;
+        return news.getNewsID();
     }
 
     public void setNewsID(String newsID) {
@@ -70,7 +79,7 @@ public class NewsMBean {
     }
 
     public String getNewsTitle() {
-        return newsTitle;
+        return news.getNewsTitle();
     }
 
     public void setNewsTitle(String newsTitle) {
@@ -89,6 +98,7 @@ public class NewsMBean {
         newsTitle = news.getNewsTitle();
         newsContent = news.getNewsContents();
         getNewsList = new ArrayList<News>();
+        filteredNews = new ArrayList<News>();
     }
     
     
