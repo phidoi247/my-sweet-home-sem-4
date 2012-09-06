@@ -7,6 +7,7 @@ package com.mysweethome.jsfmanagedbean;
 import com.mysweethome.session.CurrencyFacade;
 import com.mysweethome.entity.Currency;
 import com.mysweethome.helper.messages;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -20,13 +21,28 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean(name="currencyMBean")
 @SessionScoped
 public class CurrencyMBean {
+
+    
     @EJB
     private CurrencyFacade currencyFacade;
-    Currency currency;
+    Currency currency, other;
     String currency_ID;
     String currencyName;
     String rate;
+    List<Currency> currencyList;
+    List<Currency> filteredCurrency;
 
+    public Currency getOther() {
+        return other;
+    }
+
+    public void setOther(Currency other) {
+        this.other = other;
+    }
+
+    
+    
+    
     public Currency getCurrency() {
         return currency;
     }
@@ -44,7 +60,7 @@ public class CurrencyMBean {
     }
 
     public String getCurrencyName() {
-        return currencyName;
+        return currency.getCurrencyName();
     }
 
     public void setCurrencyName(String currencyName) {
@@ -52,7 +68,7 @@ public class CurrencyMBean {
     }
 
     public String getCurrency_ID() {
-        return currency_ID;
+        return currency.getCurrencyID();
     }
 
     public void setCurrency_ID(String currency_ID) {
@@ -60,7 +76,24 @@ public class CurrencyMBean {
     }
 
     public String getRate() {
-        return rate;
+        return currency.getVNDRate();
+    }
+
+    
+    public List<Currency> getCurrencyList() {
+        return currencyList = currencyFacade.findAll();
+    }
+
+    public void setCurrencyList(List<Currency> currencyList) {
+        this.currencyList = currencyList;
+    }
+    
+    public List<Currency> getFilteredCurrency() {
+        return filteredCurrency = currencyList;
+    }
+
+    public void setFilteredCurrency(List<Currency> filteredCurrency) {
+        this.filteredCurrency = filteredCurrency;
     }
 
     public void setRate(String rate) {
@@ -71,36 +104,37 @@ public class CurrencyMBean {
      */
     public CurrencyMBean() {
         currency = new Currency();
+        other = new Currency();
         currencyFacade = new CurrencyFacade();
         currency_ID = currency.getCurrencyID();
         currencyName = currency.getCurrencyName();
         rate = currency.getVNDRate();
+        currencyList = new ArrayList<Currency>();
+        filteredCurrency = new ArrayList<Currency>();
     }
+
     
-    
-    public List<Currency> getCurrencyList() {
-        return currencyFacade.findAll();
-    }
     
     
     public void createCurrency() {
-        Currency newCurrency = new Currency();
-        newCurrency = currencyFacade.find(currency_ID);
-        if (newCurrency != null) {
-            messages.taoTB(FacesMessage.SEVERITY_WARN, "User name had already", "This username had already. Please select another username.");
-        } else {
-            currency.setCurrencyID(currency_ID);
-            currency.setCurrencyName(currencyName);
-            currency.setVNDRate(rate);
-            currencyFacade.create(newCurrency);
+        try{
+            Currency newCur = new Currency();
+            //newSub = subfacade.find(subscribeID);
+        
+            int id= getCurrencyFacade().getLastRecordID();
+            newCur.setCurrencyID(String.valueOf(id+1));
             
-            messages.taoTB(FacesMessage.SEVERITY_INFO, "Register success", "Registration success. Please check your email to active account before login to system.");
+            newCur.setCurrencyName(other.getCurrencyName());
+            newCur.setVNDRate(other.getVNDRate());
+            
+            
+        } catch(Exception e){
+            e.printStackTrace();
         }
     }
     
     
     public void editCurrency(){
-        
         String str=getCurrency().getCurrencyID();
         Currency editCur=getCurrencyFacade().getCurrencyID(str);
         editCur.setCurrencyID(currency_ID);
