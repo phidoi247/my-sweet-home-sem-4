@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Member Management</title>
+    </h:head>
+    <h:body>
+
+        <h:form id="form">
+
+            <h:panelGrid columns="1">
+
+                <h:panelGrid columns="1">
+
+                    <p:dataTable var="memvar" value="#{Member1MBean.memberList}" rowKey="#{memvar.userName}" paginator="true" rows="10"
+                                 selection="#{Member1MBean.mem}" selectionMode="single" filteredValue="#{Member1MBean.filteredMember}" id="membersTable">
+
+                        <p:ajax event="rowSelect" update=":form:display" oncomplete="memberDialog.show()" />
+
+                        <f:facet name="header">
+                            Member Management
+                        </f:facet>
+
+                        <p:column headerText="User Name" sortBy="#{memvar.userName}" filterBy="#{memvar.userName}" id="userName">
+                            #{memvar.userName}
+                        </p:column>
+
+                        <p:column headerText="Full Name" sortBy="#{memvar.fullName}" filterBy="#{memvar.fullName}" id="fullName">
+                            #{memvar.fullName}
+                        </p:column>
+
+                        <p:column headerText="Email" sortBy="#{memvar.email}" filterBy="#{memvar.email}" id="email">
+                            #{memvar.email}
+                        </p:column>
+                        
+                        <p:column headerText="Birthday" sortBy="#{memvar.dateOfBirth}" filterBy="#{memvar.dateOfBirth}" id="dateOfBirth">
+                            #{memvar.dateOfBirth}
+                        </p:column>
+                        
+                        <p:column headerText="Gender" sortBy="#{memvar.gender}" filterBy="#{memvar.gender}" id="gender">
+                            #{memvar.gender}
+                        </p:column>
+                        
+                        <p:column headerText="Address" sortBy="#{memvar.address}" filterBy="#{memvar.address}" id="address">
+                            #{memvar.address}
+                        </p:column>
+                        
+                        <p:column headerText="Phone" sortBy="#{memvar.telephone}" filterBy="#{memvar.telephone}" id="telephone">
+                            #{memvar.telephone}
+                        </p:column>
+                        
+                        <p:column headerText="Company" sortBy="#{memvar.company}" filterBy="#{memvar.company}" id="company">
+                            #{memvar.company}
+                        </p:column>
+                                     
+                        <p:column headerText="Role" sortBy="#{memvar.role}" filterBy="#{memvar.role}" id="role">
+                            #{memvar.role}
+                        </p:column>
+                        
+
+                    </p:dataTable>
+
+
+
+                    <p:dialog header="Member Detail" widgetVar="memberDialog" resizable="true"  
+                              width="400" showEffect="explode" hideEffect="explode">
+
+                        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+                            <f:facet name="header">
+                                <h:outputText value="Hinh anh" />
+                            </f:facet>
+
+                            <h:outputText value="User Name " />
+                            <h:inputText value="#{Member1MBean.mem.userName}" id="userName"/>                        
+
+                            <h:outputText value="Full Name" />
+                            <h:inputText value="#{Member1MBean.mem.fullName}" id="fullName"/>
+
+                            <h:outputText value="Email" />
+                            <h:inputText value="#{Member1MBean.mem.email}" id="email"/>
+                            
+                            <h:outputText value="Date Of Birth" />
+                            <h:inputText value="#{Member1MBean.mem.dateOfBirth}" id="dateOfBirth"/>
+                            
+                            <h:outputText value="Gender" />
+                            <h:inputText value="#{Member1MBean.mem.gender}" id="gender"/>
+                            
+                            <h:outputText value="Address" />
+                            <h:inputText value="#{Member1MBean.mem.address}" id="address"/>
+                            
+                            <h:outputText value="Phone" />
+                            <h:inputText value="#{Member1MBean.mem.telephone}" id="telephone"/>
+                            
+                            <h:outputText value="Company" />
+                            <h:inputText value="#{Member1MBean.mem.company}" id="company"/>
+                            
+                            <h:outputText value="Role" />
+                            <h:inputText value="#{Member1MBean.mem.role}" id="role"/>
+
+                            <p:commandButton value="Delete" action="#{Member1MBean.removeMember()}" oncomplete="memberDialog.hide()" update="membersTable"/>
+                            <p:commandButton value="Update" action="#{Member1MBean.editMember()}" oncomplete="memberDialog.hide()" update="membersTable"/>
+
+                        </h:panelGrid>
+                    </p:dialog>    
+
+                </h:panelGrid>
+
+
+
+                <h:panelGrid columns="1">
+
+                    <p:commandButton id="viewButton" value="Add new member" 
+                                     oncomplete="addMemberDialog.show()"/> 
+
+                    <p:dialog id="dialogadd" header="Add New Member" widgetVar="addMemberDialog" resizable="false"  
+                              showEffect="fade" hideEffect="fade">  
+                        <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                            <p:outputLabel value="User Name" for="uID"/>
+                            <p:inputText id="uID" value="#{Member1MBean.mem.userName}" title="User Name" required="true"/>                    
+                            <p:message for="uID"/>
+
+                            <p:outputLabel value="Full Name" for="fuName"/>
+                            <p:inputText id="fuName" value="#{Member1MBean.mem.fullName}" title="Full Name" required="true" />                    
+                            <p:message for="fuName"/>
+
+                            <p:outputLabel value="Email" for="ema"/>
+                            <p:inputText id="ema" value="#{Member1MBean.mem.email}" title="Email" required="true" />                    
+                            <p:message for="ema"/>
+                            
+                            <p:outputLabel value="Date Of Birth" for="date"/>
+                            <p:inputText id="date" value="#{Member1MBean.mem.dateOfBirth}" title="Date Of Birth" required="true" />                    
+                            <p:message for="date"/>
+                            
+                            <p:outputLabel value="Gender" for="gen"/>
+                            <p:inputText id="gen" value="#{Member1MBean.mem.gender}" title="Gender" required="true" />                    
+                            <p:message for="gen"/>
+                            
+                            <p:outputLabel value="Address" for="add"/>
+                            <p:inputText id="add" value="#{Member1MBean.mem.address}" title="Address" required="true" />                    
+                            <p:message for="add"/>
+                            
+                            <p:outputLabel value="Telephone" for="tel"/>
+                            <p:inputText id="tel" value="#{Member1MBean.mem.telephone}" title="Telephone" required="true" />                    
+                            <p:message for="tel"/>
+                            
+                            <p:outputLabel value="Company" for="com"/>
+                            <p:inputText id="com" value="#{Member1MBean.mem.company}" title="Company" required="true" />                    
+                            <p:message for="com"/>
+                            
+                            <p:outputLabel value="Role" for="ro"/>
+                            <p:inputText id="ro" value="#{Member1MBean.mem.role}" title="Role" required="true" />                    
+                            <p:message for="ro"/>
+                            
+                            
+                            
+                        </h:panelGrid>  
+                        <p:commandButton value="Create" action="#{Member1MBean.createMember()}" oncomplete="addMemberDialog.hide()" update="membersTable"/>                      
+                    </p:dialog>
+
+                </h:panelGrid>
+
+            </h:panelGrid>
+
+        </h:form>
+
+    </h:body>
+</html>
+
