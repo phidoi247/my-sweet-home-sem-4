@@ -20,7 +20,7 @@ import org.primefaces.model.UploadedFile;
 @ManagedBean(name="fileUpLoad")
 @SessionScoped
 public class FileUploadControl implements Serializable{
-    private String destination="C:\\tmp\\";
+    private String destination="F:\\My Sweet Home\\Source\\MySweetHome\\MySweetHome-war\\web\\WEB-INF\\fileupload\\";
 
     public UploadedFile getFile() {
         return file;
