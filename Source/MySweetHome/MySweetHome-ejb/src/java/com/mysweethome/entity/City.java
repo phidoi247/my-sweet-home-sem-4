@@ -93,7 +93,5 @@ public class City implements Serializable {
     public String toString() {
         return "com.mysweethome.entity.City[ cityID=" + cityID + " ]";
     }
-
-    
     
 }

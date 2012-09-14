@@ -6,10 +6,8 @@ package com.mysweethome.session;
 
 import com.mysweethome.entity.Account;
 import javax.ejb.Stateless;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *

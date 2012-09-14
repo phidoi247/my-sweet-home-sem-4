@@ -457,5 +457,24 @@ public class EstateFacade extends AbstractFacade<Estate> {
         q.setParameter("contactDetailsID", id);
         return (ContactDetails) q.getSingleResult();
     }
+    
+     public List<ImageCategory> getImageCategoryList() {
+        Query q = em.createNamedQuery("ImageCategory.findAll");
+        return q.getResultList();
+    }
+    
+    public ImageCategory getImageCategoryByID(String id) {
+        Query q = em.createNamedQuery("ImageCategory.findByImageCategoryID");
+        q.setParameter("imageCategoryID", id);
+        return (ImageCategory) q.getSingleResult();
+    }
+    
+    public void remove(ImageCategory imageCategory) {
+        em.remove(em.merge(imageCategory));
+    }
+    
+    public void remove(ContactDetails contactDetails) {
+        em.remove(em.merge(contactDetails));
+    }
 
 }
