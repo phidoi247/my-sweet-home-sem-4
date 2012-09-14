@@ -135,7 +135,6 @@ public class CityMBean {
     }
      public void removeCity(String cityID){
         City citytemp=this.getCityFacade().find(cityID);
-         
         getCityFacade().remove(citytemp);
     }
     public List<City> getAllCity(){

@@ -99,10 +99,10 @@ public class AuthenFilterAdmin implements Filter {
         String roles = (String) req.getSession().getAttribute("role");
         
         // If admin already login
-        if(roles != null && roles.equals("admin")){
+        if(roles != null && roles.equalsIgnoreCase("admin")){
             chain.doFilter(request, response);
         }else{
-            res.sendRedirect("../faces/index.xhtml");
+            res.sendRedirect("/MySweetHome-war/index.jsf");
         }
     }
 

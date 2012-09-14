@@ -12,6 +12,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
 
 /**
  *
@@ -30,6 +31,7 @@ public class CategoryMBean {
     
     @EJB
     Category category;
+    CategoryFacade categoryFacede;
     List<String> categoryName= new ArrayList<String>();
 
     List<Category> catelist;
@@ -87,8 +89,20 @@ public class CategoryMBean {
     
     public List<String> getColumnCategoryName(){
          //List<String> categoryName= new ArrayList<String>();
-//         setCategoryName(catefacade.getColumnCategoryName());
+         setCategoryName(catefacade.getColumnCategoryName());
 //         return "/test2";
-         return catefacade.getColumnCategoryName();
+         return categoryName;
+    }
+    
+    public SelectItem[] getTypeOfEstateName() {
+        List<Category> types = catefacade.getAllCategory();
+        SelectItem[] type1 = null;
+        if (types != null) {
+            type1 = new SelectItem[types.size()];
+            for (int i = 0; i < types.size(); i++) {
+                type1[i] = new SelectItem(types.get(i).getCategoryName(), types.get(i).getCategoryName());
+            }
+        }
+        return type1;
     }
 }

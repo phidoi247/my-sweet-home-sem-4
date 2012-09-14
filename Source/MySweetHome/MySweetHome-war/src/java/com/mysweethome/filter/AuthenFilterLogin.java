@@ -97,11 +97,11 @@ public class AuthenFilterLogin implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String roles = (String) req.getSession().getAttribute("role");
-        String user = (String) req.getSession().getAttribute("user");
+        String user = (String) req.getSession().getAttribute("username");
         
         // If user or role is null
-        if(user == null|| roles == null){
-            res.sendRedirect("../faces/login.xhtml");            
+        if(user == null || roles == null){
+            res.sendRedirect("/MySweetHome-war/index.jsf");            
         }else{
             chain.doFilter(request, response);
         }

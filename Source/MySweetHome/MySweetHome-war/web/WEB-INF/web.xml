@@ -30,27 +30,15 @@
 
     <filter-mapping>
         <filter-name>AuthenFilterAdmin</filter-name>
-        <url-pattern>/faces/Admin/*</url-pattern>
+        <url-pattern>/Admin/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>AuthenFilterLogin</filter-name>
-        <url-pattern>/faces/Admin/*</url-pattern>
-        <url-pattern>/faces/Buyer/*</url-pattern>
-        <url-pattern>/faces/Seller/*</url-pattern>
+        <url-pattern>/Admin/*</url-pattern>
+        <url-pattern>/Buyer/*</url-pattern>
+        <url-pattern>/Seller/*</url-pattern>
     </filter-mapping>
- 
 
-    <filter-mapping>
-        <filter-name>AuthenFilterAdmin</filter-name>
-        <url-pattern>/faces/Admin/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>AuthenFilterLogin</filter-name>
-        <url-pattern>/faces/Admin/*</url-pattern>
-        <url-pattern>/faces/Buyer/*</url-pattern>
-        <url-pattern>/faces/Seller/*</url-pattern>
-    </filter-mapping>
-  
 
      <filter-mapping>
          <filter-name>Primefaces FielUpload Filter</filter-name>
@@ -86,6 +74,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/fielUpload.xhtml</welcome-file>
+        <welcome-file>/index.jsf</welcome-file>
     </welcome-file-list>
 </web-app>

@@ -6,7 +6,7 @@
     xmlns="http://java.sun.com/xml/ns/javaee" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
-    <managed-bean>
+<!--    <managed-bean>
         <managed-bean-name>typeOfMemberMBean</managed-bean-name>
         <managed-bean-class>com.mysweethome.jsfmanagedbean.TypeOfMemberMBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
@@ -25,7 +25,30 @@
         <managed-bean-name>contactDetailsMBean</managed-bean-name>
         <managed-bean-class>com.mysweethome.jsfmanagedbean.ContactDetailsMBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
+    </managed-bean>-->
+<!--    <navigation-rule>
+        <from-view-id>/template/HomeTemplate.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>index</from-outcome>
+            <to-view-id>/index.jsf</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>About</from-outcome>
+            <to-view-id>/About.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Events</from-outcome>
+            <to-view-id>/Events.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Register</from-outcome>
+            <to-view-id>/Register.jsf</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>News</from-outcome>
+            <to-view-id>/News.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>-->
  <managed-bean>
         <managed-bean-name>calendarBean</managed-bean-name>
         <managed-bean-class>com.mysweethome.helper.CalendarBean</managed-bean-class>

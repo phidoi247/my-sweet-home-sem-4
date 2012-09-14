@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 public class operationSession {
     public static void createSession(String name, Object value) {
         FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
         session.setAttribute(name, value);
     }
       public static Object getSession(String name) {

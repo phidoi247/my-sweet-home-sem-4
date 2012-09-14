@@ -381,9 +381,12 @@ public class EstateMBean {
     }
 
     public List<Estate> getEstateList() {
-        estateList = estateFacade.findAll();
-        return estateList;
+        estateList=estateFacade.findAll();
+		return estateList;
+
     }
+
+
 
     public EstateMBean() {
         estate = new Estate();

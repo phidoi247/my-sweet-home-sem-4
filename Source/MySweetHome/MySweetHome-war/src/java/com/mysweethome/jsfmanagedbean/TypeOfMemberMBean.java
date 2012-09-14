@@ -30,7 +30,8 @@ public class TypeOfMemberMBean {
     TypeOfMember typemem;
     
     public TypeOfMemberMBean() {
-        
+        typemem=new TypeOfMember();
+        typefacade =new TypeOfMemberFacade();
     }
     
     private List<TypeOfMember> typeList=new ArrayList<TypeOfMember>();
@@ -58,6 +59,12 @@ public class TypeOfMemberMBean {
     public void setTypemem(TypeOfMember typemem) {
         this.typemem = typemem;
     }
+    
+    public TypeOfMember getTypeOfMemberFromID(String id){
+        typemem=typefacade.find(id);
+        return typemem;
+    }
+    
     
     public void displayLocation() {  
         FacesMessage msg = new FacesMessage("Selected", "Member type:");  

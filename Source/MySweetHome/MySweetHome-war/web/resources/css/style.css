@@ -173,3 +173,7 @@ h5{
     margin-bottom: 5px;
     padding-left: 10px;
 }
+
+.loginDialog{
+    font-size:13px;color:#fff;line-height:1.2em;padding:25px 0 19px 0;font-weight: bold;
+}

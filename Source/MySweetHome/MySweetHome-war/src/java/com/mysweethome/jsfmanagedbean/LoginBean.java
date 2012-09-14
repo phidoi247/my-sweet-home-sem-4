@@ -5,6 +5,7 @@
 package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.Member1;
+import com.mysweethome.helper.MD5;
 import com.mysweethome.helper.messages;
 import com.mysweethome.helper.operationSession;
 import com.mysweethome.session.Member1Facade;
@@ -14,7 +15,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletResponse;
 import org.primefaces.context.RequestContext;
 
@@ -76,11 +76,11 @@ public class LoginBean {
             Member1 mem = member1Facade.getUserName(username);
             if (mem != null) {
                 if (mem.getIsEnabled().equalsIgnoreCase("true")) {
-                    if (mem.getPassword().equals(password)) {
+                    if (mem.getPassword().equals(MD5.getMD5(password))) {
                         loggedIn = true;
                         operationSession.createSession("username", mem.getUserName());
                         operationSession.createSession("role", mem.getRole());
-                        messages.taoTB(FacesMessage.SEVERITY_INFO, "Welcome", mem.getUserName());
+//                        messages.taoTB(FacesMessage.SEVERITY_INFO, "Welcome", mem.getUserName());
 
 //                        FacesContext context1=FacesContext.getCurrentInstance();
 //                        String viewid=context1.getViewRoot().getViewId();
@@ -94,6 +94,7 @@ public class LoginBean {
                     }
                 } else {
                     messages.taoTB(FacesMessage.SEVERITY_ERROR, "Account hasn't actived jet.", "Please active your account before.");
+                    this.doLogout();
                 }
             } else {
                 messages.taoTB(FacesMessage.SEVERITY_ERROR, "Username incorect", "Please input correct user name.");
@@ -105,11 +106,21 @@ public class LoginBean {
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.jsf");
     }
 
+    public void goManagementPage() throws IOException {
+        if (operationSession.getSession("role").equals("Admin")) {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Admin/EstateManagement.jsf");
+        }
+        else
+            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Seller/EstateManagement.jsf");
+    }
+
     public void doLogout() throws IOException {
-        if(operationSession.getSession("username")!=null)
+        if (operationSession.getSession("username") != null) {
             operationSession.deleteGTsession("username");
-        if(operationSession.getSession("role")!=null)
+        }
+        if (operationSession.getSession("role") != null) {
             operationSession.deleteGTsession("role");
+        }
         this.username = null;
         this.password = null;
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
