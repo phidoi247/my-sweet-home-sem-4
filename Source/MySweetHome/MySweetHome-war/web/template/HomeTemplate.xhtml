@@ -48,11 +48,13 @@
                         </c:if>
 
                         <c:if test="#{!empty loginBean.username}">
-                            <br/>
                             Welcome,#{loginBean.username}<br/>
                             <h:form>
                                 <p:commandLink id="logout" ajax="false" actionListener="#{loginBean.doLogout}">
                                     <h:outputText value="Log out" /><br/>
+                                </p:commandLink>
+                                <p:commandLink id="goManagement" ajax="false" actionListener="#{loginBean.goManagementPage}">
+                                    <h:outputText value="Go to management page" /><br/>
                                 </p:commandLink>
                             </h:form>
                         </c:if>
@@ -72,7 +74,10 @@
                                     <f:facet name="footer">  
                                         <p:commandButton id="loginButton" value="Login" update=":growl"   
                                                          actionListener="#{loginBean.doLogin()}"   
-                                                         oncomplete="handleLoginRequest(xhr, status, args)"/>  
+                                                         oncomplete="handleLoginRequest(xhr, status, args)"/>
+                                        <h:outputLink value="./register.jsf">
+                                            <h:outputText value="Register"/>
+                                        </h:outputLink>
                                     </f:facet>  
                                 </h:panelGrid>  
                             </h:form>  
@@ -92,16 +97,16 @@
                     <nav>
                         <ul id="menu">
                             <li id="menu_active"><a href="index.jsf">Main Page</a></li>
-                            <li><a href="selling.jsf">Selling Estate</a></li>
-                            <li><a href="renting.jsf">Renting Estate</a></li>
-                            <li><a href="Finance.html">News</a></li>
-                            <li><a href="Contacts.html">Contact Us</a></li>
-                            <li class="end"><a href="Finance.html">About Us</a></li>
+                            <li><a href="sellingEstateList.jsf">Selling Estate</a></li>
+                            <li><a href="rentingEstateList.jsf">Renting Estate</a></li>
+                            <li><a href="News.html">News</a></li>
+                            <li><a href="contact.jsf">Contact Us</a></li>
+                            <li class="end"><a href="AboutUs.jsf">About Us</a></li>
                         </ul>
                     </nav>
                     <div class="ic">More Information about My Sweet Home</div>
                 </header>
-                <!-- / header -->
+                <!-- / header --> 
             </div>
         </div>
         <!-- content -->

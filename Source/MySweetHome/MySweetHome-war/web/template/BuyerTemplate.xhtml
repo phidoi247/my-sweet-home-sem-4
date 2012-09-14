@@ -26,23 +26,17 @@
                 <header>
                     <h1><a href="index.jsf" id="logo"></a></h1>
                     <div align="right" >                     
-                        <c:if test="#{empty LoginBean.username}">
-                            <h:outputLink id="loginLink" title="Login" value="../index.jsf">       
-                                <p:graphicImage value="./../resources/images/Users-icon.png" />
-                            </h:outputLink>
-                        </c:if>
-                        <c:if test="#{!empty LoginBean.username}"><br/>
+                        <c:if test="#{!empty loginBean.username}">
                             Welcome,#{loginBean.username}<br/>
                             <h:form>
                                 <p:commandLink id="logout" ajax="false" actionListener="#{loginBean.doLogout}">
                                     <h:outputText value="Log out" /><br/>
                                 </p:commandLink>
                                 <p:commandLink id="goManagement" ajax="false" actionListener="#{loginBean.goManagementPage}">
-                                    <h:outputText value="Go to front end page" /><br/>
+                                    <h:outputText value="Go to management page" /><br/>
                                 </p:commandLink>
                             </h:form>
                         </c:if>
-                        
                     </div>
                     <nav>
                         <ul id="menu">
@@ -65,38 +59,16 @@
                     <div class="wrapper">
                         <article id="col1" class="slidebar">
                             <div class="pad1">
-                                <h5>Member Management</h5>
+                                <h5>My favourite house</h5>
                                 <ul class="list1">
-                                    <li><a href="SellerManagement.jsf">Seller</a></li>
-                                    <li><a href="BuyerManagement.jsf">Buyer</a></li>
-                                </ul>
-                                <h5>Estate Management</h5>
-                                <ul class="list1">
-                                    <li><a href="CategoryManagement.jsf">Category Of Estate</a></li>
-                                    <li><a href="SubscribeManagement.jsf">Subscribes Management </a></li>
-                                    <li><a href="EstateManagement.jsf">Estate Management </a></li>
-                                </ul>
-                                <h5>Location Management</h5>
-                                <ul class="list1">
-                                    <li><a href="CityManagement.jsf">City Management</a></li>
-                                    <li><a href="DistrictManagement.jsf">District Management</a></li>
+                                    <li><a href="FavouriteEstate.jsf">My favourite list</a></li>
                                 </ul>
                                 <h5>My Profile</h5>
                                 <ul class="list1">
                                     <li><a href="Profile.jsf">My Information</a></li>
                                     <li><a href="ChangePassword.jsf">Change password</a></li>
                                 </ul>
-                                <h5>Statistics</h5>
-                                <ul class="list1">
-                                    <li><a href="TransactionHistory.jsf">Transaction History</a></li>
-                                </ul>
                                 
-                                <h5>Other</h5>
-                                <ul class="list1">
-                                    <li><a href="NewsManagement.jsf">News</a></li>
-                                    <li><a href="CurrencyManagement.jsf">News</a></li>
-                                    <li><a href="FAQsManagement.jsf">FAQs</a></li>
-                                </ul>
                                 <h5>&nbsp;</h5>
                             </div>   
                         </article>
