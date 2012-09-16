@@ -56,7 +56,7 @@ public class CityFacade extends AbstractFacade<City> {
         return cityList;
     }
 
-    public City getCityID(String cityID){
+    public City getCityByID(String cityID){
         City ct=null;
         try{
             Query query=em.createNamedQuery("City.findByCityID");
@@ -67,11 +67,11 @@ public class CityFacade extends AbstractFacade<City> {
         }
         return ct;
     }
-    public City getCityName(String cityName){
+    public City getCityByName(String cityName){
         City ct=null;
         try{
-            Query query=em.createNamedQuery("City.findByCityID");
-            query.setParameter("cityID", cityName);
+            Query query=em.createNamedQuery("City.findByCityName");
+            query.setParameter("cityName", cityName);
             ct=(City) query.getSingleResult();
         }catch(Exception ex){
             ex.printStackTrace();
