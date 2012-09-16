@@ -8,11 +8,37 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="title">
-        Home page
-
+        Home page    
     </ui:define>
 
     <ui:define name="col1">
+        <script type="text/javascript"> Cufon.now(); </script>
+        <script type="text/javascript">
+            $(window).load(function() {
+                $('#slider').nivoSlider({
+                    effect:'sliceUpDown', //Specify sets like: 'fold,fade,sliceDown, sliceDownLeft, sliceUp, sliceUpLeft, sliceUpDown, sliceUpDownLeft'
+                    slices:17,
+                    animSpeed:500,
+                    pauseTime:6000,
+                    startSlide:0, //Set starting Slide (0 index)
+                    directionNav:false, //Next and Prev
+                    directionNavHide:false, //Only show on hover
+                    controlNav:true, //1,2,3...
+                    controlNavThumbs:false, //Use thumbnails for Control Nav
+                    controlNavThumbsFromRel:false, //Use image rel for thumbs
+                    controlNavThumbsSearch: '.jpg', //Replace this with...
+                    controlNavThumbsReplace: '_thumb.jpg', //...this in thumb Image src
+                    keyboardNav:true, //Use left and right arrows
+                    pauseOnHover:true, //Stop animation while hovering
+                    manualAdvance:false, //Force manual transitions
+                    captionOpacity:1, //Universal caption opacity
+                    beforeChange: function(){$('.nivo-caption').animate({bottom:'-110'},400,'easeInBack')},
+                    afterChange: function(){Cufon.refresh();$('.nivo-caption').animate({bottom:'-20'},400,'easeOutBack')},
+                    slideshowEnd: function(){} //Triggers after all slides have been shown
+                });
+                Cufon.refresh();
+            });
+        </script>
         <div id="slider">
             <img src="./resources/images/img1.jpg" alt="" title="&lt;strong&gt;Villa Neverland, 2006&lt;/strong&gt;&lt;span&gt;9 rooms, 3 baths, 6 beds, building size: 5000 sq. ft. &nbsp; &nbsp; &nbsp; Price: $ 600 000 &nbsp; &nbsp; &nbsp; &lt;a href='#'&gt;Read more&lt;/a&gt;&lt;/span&gt;" />
             <img src="./resources/images/img2.jpg" alt="" title="&lt;strong&gt;Villa Lipsum, 2008&lt;/strong&gt;&lt;span&gt;8 rooms, 4 baths, 4 beds, building size: 4500 sq. ft. &nbsp; &nbsp; &nbsp; Price: $ 500 000 &nbsp; &nbsp; &nbsp; &lt;a href='#'&gt;Read more&lt;/a&gt;&lt;/span&gt;"/>
@@ -118,31 +144,6 @@
             </section>
         </div>
     </ui:define>
-    <script type="text/javascript"> Cufon.now(); </script>
-    <script type="text/javascript">
-        $(window).load(function() {
-            $('#slider').nivoSlider({
-                effect:'sliceUpDown', //Specify sets like: 'fold,fade,sliceDown, sliceDownLeft, sliceUp, sliceUpLeft, sliceUpDown, sliceUpDownLeft'
-                slices:17,
-                animSpeed:500,
-                pauseTime:6000,
-                startSlide:0, //Set starting Slide (0 index)
-                directionNav:false, //Next and Prev
-                directionNavHide:false, //Only show on hover
-                controlNav:true, //1,2,3...
-                controlNavThumbs:false, //Use thumbnails for Control Nav
-                controlNavThumbsFromRel:false, //Use image rel for thumbs
-                controlNavThumbsSearch: '.jpg', //Replace this with...
-                controlNavThumbsReplace: '_thumb.jpg', //...this in thumb Image src
-                keyboardNav:true, //Use left and right arrows
-                pauseOnHover:true, //Stop animation while hovering
-                manualAdvance:false, //Force manual transitions
-                captionOpacity:1, //Universal caption opacity
-                beforeChange: function(){$('.nivo-caption').animate({bottom:'-110'},400,'easeInBack')},
-                afterChange: function(){Cufon.refresh();$('.nivo-caption').animate({bottom:'-20'},400,'easeOutBack')},
-                slideshowEnd: function(){} //Triggers after all slides have been shown
-            });
-            Cufon.refresh();
-        });
-    </script>
+
 </ui:composition>
+

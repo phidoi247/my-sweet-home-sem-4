@@ -26,19 +26,16 @@
                 <header>
                     <h1><a href="index.jsf" id="logo"></a></h1>
                     <div align="right" >                     
-                        <c:if test="#{empty LoginBean.username}">
+                        <c:if test="#{empty loginBean.username}">
                             <h:outputLink id="loginLink" title="Login" value="../index.jsf">       
                                 <p:graphicImage value="./../resources/images/Users-icon.png" />
                             </h:outputLink>
                         </c:if>
-                        <c:if test="#{!empty LoginBean.username}"><br/>
+                        <c:if test="#{!empty loginBean.username}"><br/>
                             Welcome,#{loginBean.username}<br/>
                             <h:form>
                                 <p:commandLink id="logout" ajax="false" actionListener="#{loginBean.doLogout}">
                                     <h:outputText value="Log out" /><br/>
-                                </p:commandLink>
-                                <p:commandLink id="goManagement" ajax="false" actionListener="#{loginBean.goManagementPage}">
-                                    <h:outputText value="Go to front end page" /><br/>
                                 </p:commandLink>
                             </h:form>
                         </c:if>
@@ -46,12 +43,12 @@
                     </div>
                     <nav>
                         <ul id="menu">
-                            <li id="menu_active"><a href="index.jsf">Main Page</a></li>
-                            <li><a href="sellingEstateList.jsf">Selling Estate</a></li>
-                            <li><a href="rentingEstateList.jsf">Renting Estate</a></li>
-                            <li><a href="News.html">News</a></li>
-                            <li><a href="contact.jsf">Contact Us</a></li>
-                            <li class="end"><a href="AboutUs.jsf">About Us</a></li>
+                            <li id="menu_active"><a href="../index.jsf">Main Page</a></li>
+                            <li><a href="../sellingEstateList.jsf">Selling Estate</a></li>
+                            <li><a href="../rentingEstateList.jsf">Renting Estate</a></li>
+                            <li><a href="../News.html">News</a></li>
+                            <li><a href="../contact.jsf">Contact Us</a></li>
+                            <li class="end"><a href="../AboutUs.jsf">About Us</a></li>
                         </ul>
                     </nav>
                     <div class="ic">More Information about My Sweet Home</div>
@@ -94,7 +91,7 @@
                                 <h5>Other</h5>
                                 <ul class="list1">
                                     <li><a href="NewsManagement.jsf">News</a></li>
-                                    <li><a href="CurrencyManagement.jsf">News</a></li>
+                                    <li><a href="CurrencyManagement.jsf">Currency</a></li>
                                     <li><a href="FAQsManagement.jsf">FAQs</a></li>
                                 </ul>
                                 <h5>&nbsp;</h5>
