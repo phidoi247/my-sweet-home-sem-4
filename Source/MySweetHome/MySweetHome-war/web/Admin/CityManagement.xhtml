@@ -12,7 +12,7 @@
 
     <ui:define name="content">
         <h:form id="form">
-            <p:growl id="growl1" showDetail="true" life="3000" />
+           
             <h:panelGrid columns="1">
 
                 <h:panelGrid columns="1" >
@@ -20,8 +20,8 @@
                     <p:dataTable var="cityvar" value="#{CityMBean.citylist}" rowKey="#{cityvar.cityID}" 
                                  selection="#{CityMBean.city}" selectionMode="single" filteredValue="#{CityMBean.filteredCity}" id="citiesTable"
                                  paginator="true" rows="10"  
-                        paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
-                        rowsPerPageTemplate="5,10,15">
+                                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
 
                         <p:ajax event="rowSelect" update=":form:display" oncomplete="cityDialog.show()" />
 
@@ -29,11 +29,11 @@
                             City Management
                         </f:facet>
 
-                        <p:column headerText="City ID" sortBy="#{cityvar.cityID}" filterBy="#{cityvar.cityID}">
+                        <p:column headerText="City ID" style="width: 50%" sortBy="#{cityvar.cityID}" filterBy="#{cityvar.cityID}">
                             #{cityvar.cityID}
                         </p:column>
 
-                        <p:column headerText="City Name" sortBy="#{cityvar.cityName}" filterBy="#{cityvar.cityName}">
+                        <p:column headerText="City Name" style="width: 50%" sortBy="#{cityvar.cityName}" filterBy="#{cityvar.cityName}">
                             #{cityvar.cityName}
                         </p:column>
 
@@ -52,8 +52,8 @@
                             <h:outputText value="City Name"/>
                             <h:inputText value="#{CityMBean.city.cityName}" id="txtcityName"/>
 
-                            <p:commandButton value="Delete" action="#{CityMBean.removeCity(CityMBean.city.cityID)}" oncomplete="cityDialog.hide()" update="citiesTable, growl1"/>
-                            <p:commandButton value="Update" action="#{CityMBean.editCity(CityMBean.city)}" oncomplete="cityDialog.hide()" update="citiesTable, growl1"/>
+                            <p:commandButton value="Delete" action="#{CityMBean.removeCity(CityMBean.city.cityID)}" oncomplete="cityDialog.hide()" update=":form:citiesTable"/>
+                            <p:commandButton value="Update" action="#{CityMBean.editCity(CityMBean.city)}" oncomplete="cityDialog.hide()" update=":form:citiesTable"/>
 
                         </h:panelGrid>
                     </p:dialog>    
@@ -77,7 +77,8 @@
                             <p:inputText value="#{CityMBean.city2.cityName}" title="City Name"/>                    
 
                         </h:panelGrid>  
-                        <p:commandButton value="Create" action="#{CityMBean.createCity()}" oncomplete="addCityDialog.hide()" update="form, citiesTable, growl1" />                      
+                        <p:commandButton value="Create" action="#{CityMBean.createCity()}" oncomplete="addCityDialog.hide()" update="growl1:form:citiesTable" />                      
+                         <p:growl id="growl1" showDetail="true" life="3000" /> 
                     </p:dialog>
 
                 </h:panelGrid>

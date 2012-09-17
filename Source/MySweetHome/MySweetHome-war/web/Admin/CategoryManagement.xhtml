@@ -11,7 +11,81 @@
     </ui:define>
 
     <ui:define name="content">
-        content
+         <h:form id="form">
+            
+            <h:panelGrid columns="1">
+
+                <h:panelGrid columns="1" >
+
+                    <p:dataTable var="categoryestatevar" value="#{CategoryMBean.catelist}" rowKey="#{categoryestatevar.categoryID}" 
+                                 selection="#{CategoryMBean.city}" selectionMode="single" id="citiesTable"
+                                 paginator="true" rows="10"  
+                                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+
+                        <p:ajax event="rowSelect" update=":form:display" oncomplete="categoryDialog.show()" />
+
+                        <f:facet name="header">
+                            City Management
+                        </f:facet>
+
+                        <p:column headerText="Category ID" style="width: 50%" sortBy="#{categoryestatevar.categoryID}" filterBy="#{categoryestatevar.categoryID}">
+                            #{categoryestatevar.categoryID}
+                        </p:column>
+
+                        <p:column headerText="Category Name" style="width: 50%" sortBy="#{categoryestatevar.categoryName}" filterBy="#{categoryestatevar.categoryName}">
+                            #{categoryestatevar.categoryName}
+                        </p:column>
+
+                    </p:dataTable>
+
+
+
+                    <p:dialog header="Category Detail" widgetVar="categoryDialog" resizable="false"  
+                              width="350" showEffect="explode" hideEffect="explode">
+
+                        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+                            <h:outputText value="Category ID"/>
+                            <h:inputText value="#{CategoryMBean.category.categoryID}" id="txtCityID" readonly="true"/>                        
+
+                            <h:outputText value="Category Name"/>
+                            <h:inputText value="#{CategoryMBean.category.categoryName}" id="txtcityName"/>
+
+                            <p:commandButton value="Delete" action="#{CategoryMBean.removeCategory()}" oncomplete="categoryDialog.hide()" update=":form:citiesTable"/>
+                            <p:commandButton value="Update" action="#{CategoryMBean.editCategory()}" oncomplete="categoryDialog.hide()" update=":form:citiesTable"/>
+
+                        </h:panelGrid>
+                    </p:dialog>    
+
+                </h:panelGrid>
+
+
+
+                <h:panelGrid columns="1">
+
+                    <p:commandButton id="viewButton" value="Add new Category" 
+                                     oncomplete="addcategoryDialog.show()"/> 
+
+                    <p:dialog id="dialogadd" header="Add New Category" widgetVar="addcategoryDialog" resizable="false"  
+                              showEffect="fade" hideEffect="fade">  
+                        <h:panelGrid id="displayAdd" columns="2" cellpadding="4">  
+                            <h:outputText value="City ID"/>
+                            <p:inputText value="#{CategoryMBean.catenew.categoryID}" title="City ID" />                    
+                            
+                            <h:outputText value="City Name" />
+                            <p:inputText value="#{CategoryMBean.catenew.categoryName}" title="City Name"/>                    
+
+                        </h:panelGrid>  
+                        <p:commandButton value="Create" action="#{CategoryMBean.createCategory()}" oncomplete="addcategoryDialog.hide()" update="growl1:form:citiesTable" />                      
+                        <p:growl id="growl1" showDetail="true" life="3000" />
+                    </p:dialog>
+
+                </h:panelGrid>
+
+            </h:panelGrid>
+
+        </h:form>
     </ui:define>
 
 </ui:composition>
