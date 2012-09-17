@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <title>Change Pass Primefaces</title>
+    </head>
+    <body>
+      <h:form  id="recovery-form">
+                                    <div style=" height: auto;">
+                                        <img src="./../resources/images/Users-icon.png" style="height: 100px; width: 120px; margin-left: 115px;"></img>
+                                    </div>
+                                    <div  style="clear: both;"></div>
+                                    <div>
+                                        <fieldset class="grey-bg no-margin" style="height: auto; margin-bottom: -20px;">
+                                    <legend><h2 style="color: #fff;">Change Pass</h2></legend>
+                                    
+                                    <div class="login-form2_left">
+                                        <label for="login"><span class="big">Enter your Old Pass :</span></label>
+                                        <label for="pass"><span class="big">Enter your New Pass :</span></label>
+                                        <label for="pass"><span class="big">Confirm New Pass :</span></label>
+                                        
+                                        <h:commandButton style="width: 100px;" value="Cancel" action="#{naviga.navigaFormHome()}"/>
+                                    </div>
+                                    <div class="login-form2_right">                                       
+
+                                        <p:password id="pass1" styleClass="full-width" value="#{Member1MBean.password}"/>
+                                        <p:password id="pass2" styleClass="full-width" value="#{Member1MBean.passnew}"/>
+                                        <p:password id="pass3" styleClass="full-width" value="#{Member1MBean.confirmpassnew}"/>
+                                        
+                                        <h:commandButton style="width: 130px;" value="Recovery password" action="#{Member1MBean.changePass()}"/>
+                                    </div>
+                                        </fieldset>
+                                    </div>
+                                
+                                
+                            </h:form>
+    </body>
+</html>
