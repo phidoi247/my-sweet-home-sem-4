@@ -20,6 +20,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import org.omg.PortableServer.SERVANT_RETENTION_POLICY_ID;
+import org.primefaces.component.password.Password;
 
 /**
  *
@@ -38,6 +40,24 @@ public class Member1MBean {
     public String username;
     public String password;
     public String confirmPass;
+
+    public String getConfirmpassnew() {
+        return confirmpassnew;
+    }
+
+    public void setConfirmpassnew(String confirmpassnew) {
+        this.confirmpassnew = confirmpassnew;
+    }
+
+    public String getPassnew() {
+        return passnew;
+    }
+
+    public void setPassnew(String passnew) {
+        this.passnew = passnew;
+    }
+    public String passnew;
+    public String confirmpassnew;
     public String fullName;
     public String email;
     public Date birthday;
@@ -287,4 +307,26 @@ public class Member1MBean {
             }
         }
     }
-}
+    public String changePass(){
+      String passMD5=MD5.getMD5(password);
+      if(passMD5.equalsIgnoreCase(this.mem.getPassword())){
+          if(passnew.equalsIgnoreCase(confirmpassnew)){
+              operationSession.createSession("Member", username);
+              String passNew=MD5.getMD5(passnew);
+              this.mem.setPassword(passNew);
+              this.member1Facade.edit(mem);
+              messages.taoTB(FacesMessage.SEVERITY_INFO,"", "Change Pass Successfull !");
+              return "/test/NoticeChangePass.xhtml?faces-redirect=true";
+          }else{
+              operationSession.createSession("Admin", username);
+              messages.taoTB(FacesMessage.SEVERITY_INFO,"", "New pass not same !");
+              return "/test/changePass.xhtml?faces-redirect=true";
+          }
+      }else{
+          
+           messages.taoTB(FacesMessage.SEVERITY_INFO,"", "Password Is Correct !");
+           return "/test/changePass.xhtml?faces-redirect=true";
+      }
+      }
+    }
+
