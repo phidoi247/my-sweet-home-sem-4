@@ -34,6 +34,15 @@ public class Member1MBean {
     @EJB
     private Member1Facade member1Facade;
     private Member1 mem;
+
+    public String getIdmem() {
+        return idmem;
+    }
+
+    public void setIdmem(String idmem) {
+        this.idmem = idmem;
+    }
+    private String idmem;
     private TypeOfMemberFacade typeOfMemberFace;
     public List<Member1> memberList;
     public List<Member1> filteredMember;
@@ -311,14 +320,14 @@ public class Member1MBean {
       String passMD5=MD5.getMD5(password);
       if(passMD5.equalsIgnoreCase(this.mem.getPassword())){
           if(passnew.equalsIgnoreCase(confirmpassnew)){
-              operationSession.createSession("Member", username);
+              operationSession.createSession("Member",  idmem );
               String passNew=MD5.getMD5(passnew);
               this.mem.setPassword(passNew);
               this.member1Facade.edit(mem);
               messages.taoTB(FacesMessage.SEVERITY_INFO,"", "Change Pass Successfull !");
               return "/test/NoticeChangePass.xhtml?faces-redirect=true";
           }else{
-              operationSession.createSession("Admin", username);
+              operationSession.createSession("Admin",idmem);
               messages.taoTB(FacesMessage.SEVERITY_INFO,"", "New pass not same !");
               return "/test/changePass.xhtml?faces-redirect=true";
           }
