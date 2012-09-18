@@ -12,20 +12,18 @@
 
     <ui:define name="content">
         <h:form id="form">
-
             <h:panelGrid columns="1">
-
                 <h:panelGrid columns="1">
-
-                    <p:dataTable var="memvar" value="#{Member1MBean.memberList}" rowKey="#{memvar.userName}" paginator="true" rows="10"
-                                 selection="#{Member1MBean.mem}" selectionMode="single" filteredValue="#{Member1MBean.filteredMember}" id="membersTable">
-
+                    <p:dataTable var="memvar" value="#{Member1MBean.buyerList}" rowKey="#{memvar.userName}" 
+                                 selection="#{Member1MBean.mem}" selectionMode="single" filteredValue="#{Member1MBean.filteredMember}" id="membersTable"
+                                 paginator="true" rows="10"  
+                                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
                         <p:ajax event="rowSelect" update=":form:display" oncomplete="memberDialog.show()" />
-
+                        
                         <f:facet name="header">
                             Member Management
                         </f:facet>
-
                         <p:column headerText="User Name" sortBy="#{memvar.userName}" filterBy="#{memvar.userName}" id="userName">
                             #{memvar.userName}
                         </p:column>
@@ -42,9 +40,6 @@
                             #{memvar.dateOfBirth}
                         </p:column>
 
-                        <p:column headerText="Gender" sortBy="#{memvar.gender}" filterBy="#{memvar.gender}" id="gender">
-                            #{memvar.gender}
-                        </p:column>
 
                         <p:column headerText="Address" sortBy="#{memvar.address}" filterBy="#{memvar.address}" id="address">
                             #{memvar.address}
@@ -54,15 +49,6 @@
                             #{memvar.telephone}
                         </p:column>
 
-                        <p:column headerText="Company" sortBy="#{memvar.company}" filterBy="#{memvar.company}" id="company">
-                            #{memvar.company}
-                        </p:column>
-
-                        <p:column headerText="Role" sortBy="#{memvar.role}" filterBy="#{memvar.role}" id="role">
-                            #{memvar.role}
-                        </p:column>
-
-
                     </p:dataTable>
 
 
@@ -71,10 +57,6 @@
                               width="400" showEffect="explode" hideEffect="explode">
 
                         <h:panelGrid id="display" columns="2" cellpadding="4">
-
-                            <f:facet name="header">
-                                <h:outputText value="Hinh anh" />
-                            </f:facet>
 
                             <h:outputText value="User Name " />
                             <h:inputText value="#{Member1MBean.mem.userName}" id="userName"/>                        

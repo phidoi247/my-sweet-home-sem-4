@@ -6,11 +6,13 @@ package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.City;
 import com.mysweethome.entity.District;
+import com.mysweethome.helper.messages;
 import com.mysweethome.session.CityFacade;
 import com.mysweethome.session.DistrictFacade;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -23,7 +25,15 @@ import javax.faces.bean.SessionScoped;
 public class DistrictMBean {
     @EJB
     private DistrictFacade districtFacade;
-    private District district, districtedit;
+    private District district, districtedit, districtNew;
+
+    public District getDistrictNew() {
+        return districtNew;
+    }
+
+    public void setDistrictNew(District districtNew) {
+        this.districtNew = districtNew;
+    }
     private List<City> cityList;
     List<District> districtList;
     List<District> filteredDistrict;
@@ -31,7 +41,7 @@ public class DistrictMBean {
     private String districtID, districtName, cityID, cityIDtemp;
 
     public List<City> getCityList() {
-        cityList= cityfacade.selectAllCity();
+        cityList= getDistrictFacade().getListCity();
         return cityList;
     }
 
@@ -137,30 +147,38 @@ public class DistrictMBean {
     }
     
     public void createDistrict(){
-        District tmp= new District();
-        int id= districtFacade.getLastRecordID();
-        tmp.setDistrictID(String.valueOf(id));
-        tmp.setDistrictName(district.getDistrictName());
-        tmp.setCityID(cityfacade.find(cityID));
-                        
-        districtFacade.create(district);
+        if (district.getDistrictID() != null) {
+            District temp = new District();
+            temp = districtFacade.getDistrictByID(district.getDistrictID());
+            if (temp != null) {
+                messages.taoTB(FacesMessage.SEVERITY_WARN, "Duplicate district ID!", "This district ID had already");
+            } else {
+                District districtTemp = new District();
+                districtTemp.setDistrictID(district.getDistrictID());
+                districtTemp.setDistrictName(district.getDistrictName());
+                City cityTemp=new City();
+                cityTemp=getDistrictFacade().getCityFromID(cityID);
+                districtTemp.setCityID(cityTemp);
+                getDistrictFacade().create(districtTemp);
+                messages.taoTB(FacesMessage.SEVERITY_INFO, "Create district success!", "Create district success!");
+            }
+        }
+        this.district = new District();
     }
     
-    public void editDistrict(){
-        String str=districtedit.getDistrictID();
-        District ds=districtFacade.getDistrictID(str);
-        ds.setCityID(districtedit.getCityID());
-        ds.setDistrictName(districtedit.getDistrictName());
-//        ds.setEstateList(districtedit.getEstateList());
-        
-        districtFacade.edit(ds);
-        
-        
+    public void editDistrict(District district){
+        getDistrictFacade().edit(district);
+        messages.taoTB(FacesMessage.SEVERITY_INFO, "Edit success", "Edit success");
+        this.districtedit = new District();
     }
       public void removeDistrict(String districtID){
-       District districttemp= this.getDistrictFacade().find(districtID);
-       
-       districtFacade.remove(districttemp);                      
+       if (districtID != null) {
+            District temp = new District();
+            temp = getDistrictFacade().getDistrictByID(districtID);
+            getDistrictFacade().remove(temp);
+            messages.taoTB(FacesMessage.SEVERITY_INFO, "Delete success", "Delete success");
+        }
+        this.districtedit = new District();
     }
       
       public List<District> findAllDistrict(){
@@ -173,7 +191,6 @@ public class DistrictMBean {
               id=cityID.substring(36, cityID.length()-2);
           }
           City cityobj = districtFacade.getCityFromID(id);
-          
           return cityobj.getCityName();
       }
   

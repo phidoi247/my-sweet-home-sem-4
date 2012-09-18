@@ -11,6 +11,7 @@
     </ui:define>
 
     <ui:define name="content">
+        <p:growl id="growl1" showDetail="true" life="3000" />
         <h:form id="form">
            
             <h:panelGrid columns="1">
@@ -47,10 +48,10 @@
                         <h:panelGrid id="display" columns="2" cellpadding="4">
 
                             <h:outputText value="City ID"/>
-                            <h:inputText value="#{CityMBean.city.cityID}" id="txtCityID" readonly="true"/>                        
+                            <h:inputText value="#{CityMBean.city.cityID}" readonly="true"/>                        
 
                             <h:outputText value="City Name"/>
-                            <h:inputText value="#{CityMBean.city.cityName}" id="txtcityName"/>
+                            <h:inputText value="#{CityMBean.city.cityName}" />
 
                             <p:commandButton value="Delete" action="#{CityMBean.removeCity(CityMBean.city.cityID)}" oncomplete="cityDialog.hide()" update=":form:citiesTable"/>
                             <p:commandButton value="Update" action="#{CityMBean.editCity(CityMBean.city)}" oncomplete="cityDialog.hide()" update=":form:citiesTable"/>
@@ -77,8 +78,8 @@
                             <p:inputText value="#{CityMBean.city2.cityName}" title="City Name"/>                    
 
                         </h:panelGrid>  
-                        <p:commandButton value="Create" action="#{CityMBean.createCity()}" oncomplete="addCityDialog.hide()" update="growl1:form:citiesTable" />                      
-                         <p:growl id="growl1" showDetail="true" life="3000" /> 
+                        <p:commandButton value="Create" action="#{CityMBean.createCity()}" oncomplete="addCityDialog.hide()" update=":growl1, :form:citiesTable" />                      
+                          
                     </p:dialog>
 
                 </h:panelGrid>

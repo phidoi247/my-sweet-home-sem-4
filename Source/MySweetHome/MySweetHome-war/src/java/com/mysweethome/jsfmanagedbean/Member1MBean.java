@@ -20,8 +20,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import org.omg.PortableServer.SERVANT_RETENTION_POLICY_ID;
-import org.primefaces.component.password.Password;
 
 /**
  *
@@ -45,6 +43,24 @@ public class Member1MBean {
     private String idmem;
     private TypeOfMemberFacade typeOfMemberFace;
     public List<Member1> memberList;
+    private List<Member1> sellerList;
+
+    public List<Member1> getBuyerList() {
+        return buyerList=getMember1Facade().getBuyerList();
+    }
+
+    public void setBuyerList(List<Member1> buyerList) {
+        this.buyerList = buyerList;
+    }
+
+    public List<Member1> getSellerList() {
+        return sellerList=getMember1Facade().getSellerList();
+    }
+
+    public void setSellerList(List<Member1> sellerList) {
+        this.sellerList = sellerList;
+    }
+    private List<Member1> buyerList;
     public List<Member1> filteredMember;
     public String username;
     public String password;
@@ -301,41 +317,42 @@ public class Member1MBean {
 
         getMember1Facade().edit(member1);
     }
-    
+
     public void activeAccount() {
         Map requestMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String user = (String) requestMap.get("username");
         String codeActive = (String) requestMap.get("code");
         Member1 member = new Member1();
-        member=member1Facade.find(user);
-        if(member!=null){
-            if(member.getIsEnabled().equalsIgnoreCase("false")){
+        member = member1Facade.find(user);
+        if (member != null) {
+            if (member.getIsEnabled().equalsIgnoreCase("false")) {
                 member.setIsEnabled("true");
                 getMember1Facade().edit(member);
                 messages.taoTB(FacesMessage.SEVERITY_INFO, "Active success", "Active success!");
             }
         }
     }
-    public String changePass(){
-      String passMD5=MD5.getMD5(password);
-      if(passMD5.equalsIgnoreCase(this.mem.getPassword())){
-          if(passnew.equalsIgnoreCase(confirmpassnew)){
-              operationSession.createSession("Member",  idmem );
-              String passNew=MD5.getMD5(passnew);
-              this.mem.setPassword(passNew);
-              this.member1Facade.edit(mem);
-              messages.taoTB(FacesMessage.SEVERITY_INFO,"", "Change Pass Successfull !");
-              return "/test/NoticeChangePass.xhtml?faces-redirect=true";
-          }else{
-              operationSession.createSession("Admin",idmem);
-              messages.taoTB(FacesMessage.SEVERITY_INFO,"", "New pass not same !");
-              return "/test/changePass.xhtml?faces-redirect=true";
-          }
-      }else{
-          
-           messages.taoTB(FacesMessage.SEVERITY_INFO,"", "Password Is Correct !");
-           return "/test/changePass.xhtml?faces-redirect=true";
-      }
-      }
+
+    public String changePass() {
+        String passMD5 = MD5.getMD5(password);
+        if (passMD5.equalsIgnoreCase(this.mem.getPassword())) {
+            if (passnew.equalsIgnoreCase(confirmpassnew)) {
+                operationSession.createSession("Member", idmem);
+                String passNew = MD5.getMD5(passnew);
+                this.mem.setPassword(passNew);
+                this.member1Facade.edit(mem);
+                messages.taoTB(FacesMessage.SEVERITY_INFO, "", "Change Pass Successfull !");
+                return "/test/NoticeChangePass.xhtml?faces-redirect=true";
+            } else {
+                operationSession.createSession("Admin", idmem);
+                messages.taoTB(FacesMessage.SEVERITY_INFO, "", "New pass not same !");
+                return "/test/changePass.xhtml?faces-redirect=true";
+            }
+        } else {
+
+            messages.taoTB(FacesMessage.SEVERITY_INFO, "", "Password Is Correct !");
+            return "/test/changePass.xhtml?faces-redirect=true";
+        }
     }
 
+}
