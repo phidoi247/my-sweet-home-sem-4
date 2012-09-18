@@ -39,7 +39,7 @@
                             #{districtvar.districtName}
                         </p:column>
                         
-                        <p:column headerText="City" sortBy="#{districtvar.cityID}" filterBy="#{districtvar.cityID}">
+                        <p:column headerText="City" sortBy="#{districtvar.cityID}" filterBy="#{districtvar.cityID.cityName}">
                             #{DistrictMBean.selectCityNameByID(districtvar.cityID)}
                         </p:column>
 
@@ -57,9 +57,9 @@
                             <h:inputText value="#{DistrictMBean.districtedit.districtName}" id="districtName"/>
 
                             <h:outputText value="City" />
-                            <p:selectOneMenu value="#{DistrictMBean.districtedit.cityID}">  
+                            <p:selectOneMenu value="#{DistrictMBean.cityID}">  
                                 <c:if test="#{!empty DistrictMBean.districtedit.cityID}">
-                                    <f:selectItem itemLabel="#{DistrictMBean.selectCityNameByID(DistrictMBean.districtedit.cityID)}" itemValue="#{DistrictMBean.districtedit.cityID}" />  
+                                    <f:selectItem itemLabel="#{DistrictMBean.selectCityNameByID(DistrictMBean.districtedit.cityID)}" itemValue="#{DistrictMBean.districtedit.cityID.cityID}" />  
                                 </c:if>
                                 <f:selectItems value="#{DistrictMBean.cityList2}" var="item" itemLabel="#{item.cityName}" itemValue="#{item.cityID}"/>  
                             </p:selectOneMenu>

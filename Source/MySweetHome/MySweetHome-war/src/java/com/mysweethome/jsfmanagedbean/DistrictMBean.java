@@ -40,20 +40,14 @@ public class DistrictMBean {
 
     public List<City> getCityList2() {
         cityList2 = getDistrictFacade().getListCity();
-        if (getDistrictedit().getDistrictID()!= null) {
+        if (getDistrictedit().getDistrictID() != null) {
             if (!getDistrictedit().getDistrictID().isEmpty()) {
-                City temp = new City();
-                temp=getDistrictFacade().getCityFromID(getDistrictedit().getCityID().getCityID());
-                cityList2.remove(temp);
+//                City temp = new City();
+//                temp=getDistrictFacade().getCityFromID(getDistrictedit().getCityID().getCityID());
+                cityList2.remove(getDistrictFacade().getCityFromID(getDistrictedit().getCityID().getCityID()));
             }
         }
         return cityList2;
-    }
-
-    public boolean removeCity(List<City> cityList, City item) {
-        for (int i = 0; i < cityList.size(); i++) {
-        }
-        return true;
     }
 
     public void setCityList2(List<City> cityList2) {
@@ -187,8 +181,11 @@ public class DistrictMBean {
     }
 
     public void editDistrict(District district) {
-        getDistrictFacade().edit(district);
-        messages.taoTB(FacesMessage.SEVERITY_INFO, "Edit success", "Edit success");
+        if (!cityID.isEmpty()) {
+            district.setCityID(getDistrictFacade().getCityFromID(cityID));
+            getDistrictFacade().edit(district);
+            messages.taoTB(FacesMessage.SEVERITY_INFO, "Edit success", "Edit success");
+        }
         this.districtedit = new District();
     }
 
