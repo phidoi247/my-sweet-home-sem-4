@@ -13,17 +13,14 @@
     <ui:define name="content">
         <p:growl id="growl1" showDetail="true" life="3000" />
         <h:form id="form">
-           
+
             <h:panelGrid columns="1">
-
                 <h:panelGrid columns="1" >
-
                     <p:dataTable var="cityvar" value="#{CityMBean.citylist}" rowKey="#{cityvar.cityID}" 
                                  selection="#{CityMBean.city}" selectionMode="single" filteredValue="#{CityMBean.filteredCity}" id="citiesTable"
                                  paginator="true" rows="10"  
                                  paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15">
-
                         <p:ajax event="rowSelect" update=":form:display" oncomplete="cityDialog.show()" />
 
                         <f:facet name="header">
@@ -40,8 +37,6 @@
 
                     </p:dataTable>
 
-
-
                     <p:dialog header="City Detail" widgetVar="cityDialog" resizable="false"  
                               width="350" showEffect="explode" hideEffect="explode">
 
@@ -53,39 +48,39 @@
                             <h:outputText value="City Name"/>
                             <h:inputText value="#{CityMBean.city.cityName}" />
 
-                            <p:commandButton value="Delete" action="#{CityMBean.removeCity(CityMBean.city.cityID)}" oncomplete="cityDialog.hide()" update=":form:citiesTable"/>
-                            <p:commandButton value="Update" action="#{CityMBean.editCity(CityMBean.city)}" oncomplete="cityDialog.hide()" update=":form:citiesTable"/>
+                            <p:commandButton value="Delete" action="#{CityMBean.removeCity(CityMBean.city.cityID)}" oncomplete="cityDialog.hide()" update=":form:citiesTable, :growl1"/>
+                            <p:commandButton value="Update" action="#{CityMBean.editCity(CityMBean.city)}" oncomplete="cityDialog.hide()" update=":form:citiesTable, :growl1"/>
 
                         </h:panelGrid>
                     </p:dialog>    
 
                 </h:panelGrid>
 
-
-
-                <h:panelGrid columns="1">
-
-                    <p:commandButton id="viewButton" value="Add new City" 
-                                     oncomplete="addCityDialog.show()"/> 
-
-                    <p:dialog id="dialogadd" header="Add New City" widgetVar="addCityDialog" resizable="false"  
-                              showEffect="fade" hideEffect="fade">  
-                        <h:panelGrid id="displayAdd" columns="2" cellpadding="4">  
-                            <h:outputText value="City ID"/>
-                            <p:inputText value="#{CityMBean.city2.cityID}" title="City ID" />                    
-                            
-                            <h:outputText value="City Name" />
-                            <p:inputText value="#{CityMBean.city2.cityName}" title="City Name"/>                    
-
-                        </h:panelGrid>  
-                        <p:commandButton value="Create" action="#{CityMBean.createCity()}" oncomplete="addCityDialog.hide()" update=":growl1, :form:citiesTable" />                      
-                          
-                    </p:dialog>
-
-                </h:panelGrid>
-
             </h:panelGrid>
 
+        </h:form>
+        
+        <h:form>
+            <h:panelGrid columns="1">
+
+                <p:commandButton id="viewButton" value="Add new City" 
+                                 oncomplete="addCityDialog.show()"/> 
+
+                <p:dialog id="dialogadd" header="Add New City" widgetVar="addCityDialog" resizable="false"  
+                          showEffect="fade" hideEffect="fade">  
+                    <h:panelGrid id="displayAdd" columns="2" cellpadding="4">  
+                        <h:outputText value="City ID"/>
+                        <p:inputText value="#{CityMBean.city2.cityID}" title="City ID" />                    
+
+                        <h:outputText value="City Name" />
+                        <p:inputText value="#{CityMBean.city2.cityName}" title="City Name"/>                    
+
+                    </h:panelGrid>  
+                    <p:commandButton value="Create" action="#{CityMBean.createCity()}" oncomplete="addCityDialog.hide()" update=":growl1, :form:citiesTable" />                      
+
+                </p:dialog>
+
+            </h:panelGrid>
         </h:form>
     </ui:define>
 
