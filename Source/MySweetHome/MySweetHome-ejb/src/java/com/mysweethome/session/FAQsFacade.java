@@ -84,12 +84,12 @@ public class FAQsFacade extends AbstractFacade<FAQs> {
     }
       public int getLastRecordID(){
           Query query=em.createNamedQuery("FAQs.findAll");
-          List faqsList= query.getResultList();
+          List<FAQs> faqsList= query.getResultList();
           
             int i=faqsList.size();
             i=i-1;
         
-            int j=Integer.parseInt(faqsList.get(i).toString());
+            int j=Integer.parseInt(faqsList.get(i).getFAQsID());
         return j;
       }
 
