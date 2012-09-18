@@ -11,8 +11,9 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="form">
-
+        <p:growl id="growl1" showDetail="true" life="3000" /> 
+            <h:form id="form">
+                
             <h:panelGrid columns="1">
 
                 <h:panelGrid columns="1">
@@ -43,60 +44,61 @@
 
 
                     <p:dialog header="News Detail" widgetVar="newsDialog" resizable="true"  
-                              width="380" showEffect="explode" hideEffect="explode">
+                               showEffect="explode" hideEffect="explode">
 
-                        <h:panelGrid id="display" columns="2" cellpadding="4">
+                        <h:panelGrid id="display">
 
                             <f:facet name="header">
                                 <h:outputText value="Hinh anh" />
                             </f:facet>
 
                             <h:outputText value="NewsID" />
-                            <h:inputText value="#{newsMBean.news.newsID}" id="newsID"/>                        
+                            <h:inputText value="#{newsMBean.news.newsID}" id="newsID"/>                     
 
                             <h:outputText value="News Title" />
                             <h:inputText value="#{newsMBean.news.newsTitle}" id="newsTitle"/>
 
                             <h:outputText value="News Content" />
-                            <h:inputText value="#{newsMBean.news.newsContents}" id="newsContent"/>
 
-                            <p:commandButton value="Delete" action="#{newsMBean.removeNews()}" oncomplete="newsDialog.hide()" update="newsTable"/>
-                            <p:commandButton value="Update" action="#{newsMBean.editNews()}" oncomplete="newsDialog.hide()" update="newsTable"/>
+                            <p:editor id="newsContent" value="#{newsMBean.news.newsContents}" width="600"/>
+
+                            <p:commandButton value="Delete" action="#{newsMBean.removeNews()}" oncomplete="newsDialog.hide()" update=":form:newsTable, :growl1"/>
+                            <p:commandButton value="Update" action="#{newsMBean.editNews(newsMBean.news)}" oncomplete="newsDialog.hide()" update=":form:newsTable, :growl1"/>
 
                         </h:panelGrid>
                     </p:dialog>    
 
                 </h:panelGrid>
 
+            </h:panelGrid>
 
-
-                <h:panelGrid columns="1">
+        </h:form>
+        <h:form>
+            <h:panelGrid columns="1">
 
                     <p:commandButton id="viewButton" value="Add the lastest news" 
                                      oncomplete="addNewsDialog.show()"/> 
 
                     <p:dialog id="dialogadd" header="Add New Type of News" widgetVar="addNewsDialog" resizable="false"  
                               showEffect="fade" hideEffect="fade">  
-                        <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                        <h:panelGrid id="displayAdd">  
                             <p:outputLabel value="NewsID:" for="nID"/>
-                            <p:inputText id="nID" value="#{newsMBean.news.newsID}" title="NewsID" required="true"/>                    
+                            <p:inputText id="nID" value="#{newsMBean.other.newsID}" title="NewsID" required="true"/>                    
                             <p:message for="nID"/>
 
                             <p:outputLabel value="News Title:" for="nTitle"/>
-                            <p:inputText id="nTitle" value="#{newsMBean.news.newsTitle}" title="News Title" required="true" />                    
+                            <p:inputText id="nTitle" value="#{newsMBean.other.newsTitle}" title="News Title" required="true" />                    
                             <p:message for="nTitle"/>
 
                             <p:outputLabel value="News Content:" for="nContent"/>
-                            <p:inputText id="nContent" value="#{newsMBean.news.newsContents}" title="News Content" required="true" />                    
+
+                            <p:editor id="nContent" value="#{newsMBean.other.newsContents}" width="600"/> 
                             <p:message for="nContent"/>
                         </h:panelGrid>  
-                        <p:commandButton value="Create" action="#{newsMBean.createNews()}" oncomplete="addNewsDialog.hide()" update="newsTable"/>                      
+                        <p:commandButton value="Create" action="#{newsMBean.createNews()}" oncomplete="addNewsDialog.hide()" update=":growl1, :form:newsTable"/>                      
                     </p:dialog>
 
                 </h:panelGrid>
-
-            </h:panelGrid>
-
         </h:form>
     </ui:define>
 

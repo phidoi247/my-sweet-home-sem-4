@@ -5,10 +5,12 @@
 package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.FAQs;
+import com.mysweethome.helper.messages;
 import com.mysweethome.session.FAQsFacade;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -40,6 +42,15 @@ public class FAQsMBean {
     }
 
     List<FAQs> faqList= new ArrayList<FAQs>();
+    List<FAQs> filteredfaqList= new ArrayList<FAQs>();
+
+    public List<FAQs> getFilteredfaqList() {
+        return filteredfaqList = faqList;
+    }
+
+    public void setFilteredfaqList(List<FAQs> filteredfaqList) {
+        this.filteredfaqList = filteredfaqList;
+    }
 
     public List<FAQs> getFaqList() {
         faqList= faqsfacade.findAll();
@@ -70,41 +81,33 @@ public class FAQsMBean {
     }
 
    
-    public void editFAQs(){
-        String str=faq.getFAQsID();
-        FAQs fa=faqsfacade.getFAQsID(str);
-        fa.setAnswer(faq.getAnswer());
-        fa.setQuestion(faq.getQuestion());
-               
-        faqsfacade.edit(fa);
+    public void editFAQ(FAQs faqtemp){    
+        getFAQsFacade().edit(faqtemp);
+        messages.taoTB(FacesMessage.SEVERITY_INFO, "Edit success", "Edit success");        
     }
 
-    public void removeFAQs(){
-        String str=faq.getFAQsID();
-        faq.setFAQsID(str);
-        faqsfacade.remove(faq);
+    public void removeFAQ(){
+        String str=getFaqselect().getFAQsID();
+        getFaqselect().setFAQsID(str);
+        getFAQsFacade().remove(getFaqselect());
+        this.faqselect = new FAQs();
     }
-    public void removeFAQ(String faqID){
-        FAQs faqtemp=this.getFAQsFacade().find(faqID);
-         
-        this.getFAQsFacade().remove(faq);
-    }
-    public String createFAQ(){
-        FAQs faqtemp= new FAQs();
-        
-        String result="False";
+ 
+    public void createFAQ(){
         try{
-        int id= getFAQsFacade().getLastRecordID();
-        faqtemp.setFAQsID(String.valueOf(id+1));
-        faqtemp.setQuestion(faqselect.getQuestion());      
-        faqtemp.setAnswer(faqselect.getAnswer());
+            FAQs newFaq = new FAQs();            
         
-        getFAQsFacade().create(faqtemp);
-        result="True";
-        }catch(Exception ex){
-            ex.printStackTrace();
+            int id= getFAQsFacade().getLastRecordID();
+            newFaq.setFAQsID(String.valueOf(id+1));
+            
+            newFaq.setQuestion(faq.getQuestion());
+            newFaq.setAnswer(faq.getAnswer());
+            getFAQsFacade().create(newFaq);
+            messages.taoTB(FacesMessage.SEVERITY_INFO, "Create success!", "Create success!");
+        } catch(Exception e){
+            e.printStackTrace();
         }
-        return result;       
+        this.faq = new FAQs();   
     }
     
 }

@@ -4,9 +4,9 @@
  */
 package com.mysweethome.jsfmanagedbean;
 
-import com.mysweethome.session.CurrencyFacade;
 import com.mysweethome.entity.Currency;
 import com.mysweethome.helper.messages;
+import com.mysweethome.session.CurrencyFacade;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -126,22 +126,24 @@ public class CurrencyMBean {
             
             newCur.setCurrencyName(other.getCurrencyName());
             newCur.setVNDRate(other.getVNDRate());
-            
-            
+            getCurrencyFacade().create(newCur);
+            messages.taoTB(FacesMessage.SEVERITY_INFO, "Create success!", "Create success!");
         } catch(Exception e){
             e.printStackTrace();
         }
+        this.other = new Currency();
     }
     
     
-    public void editCurrency(){
-        String str=getCurrency().getCurrencyID();
-        Currency editCur=getCurrencyFacade().getCurrencyID(str);
-        editCur.setCurrencyID(currency_ID);
-        editCur.setCurrencyName(currencyName);
-        editCur.setVNDRate(rate);
+    public void editCurrency(Currency editCur){
+//        String str=getCurrency().getCurrencyID();
+//        Currency editCur=getCurrencyFacade().getCurrencyID(str);
+//        editCur.setCurrencyID(currency_ID);
+//        editCur.setCurrencyName(currencyName);
+//        editCur.setVNDRate(rate);
         
         getCurrencyFacade().edit(editCur);
+        messages.taoTB(FacesMessage.SEVERITY_INFO, "Edit success", "Edit success");
     }
     
     
@@ -149,6 +151,7 @@ public class CurrencyMBean {
         String str = getCurrency().getCurrencyID();
         getCurrency().setCurrencyID(str);
         getCurrencyFacade().remove(getCurrency());
+        this.currency = new Currency();
     }
     
 }

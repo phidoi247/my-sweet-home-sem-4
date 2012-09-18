@@ -11,7 +11,92 @@
     </ui:define>
 
     <ui:define name="content">
-        content
+         <p:growl id="growl1" showDetail="true" life="3000" /> 
+        <h:form id="form">
+
+            <h:panelGrid columns="1">
+
+                <h:panelGrid columns="1">
+
+                    <p:dataTable var="faqsvar" value="#{FAQsMBean.faqList}" rowKey="#{faqsvar.FAQsID}" paginator="true" rows="10"
+                                 selection="#{FAQsMBean.faqselect}" selectionMode="single" filteredValue="#{FAQsMBean.filteredfaqList}" id="faqsTable" 
+                                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+
+                        <p:ajax event="rowSelect" update=":form:display" oncomplete="faqsDialog.show()" />
+
+                        <f:facet name="header">
+                            List of FAQs
+                        </f:facet>
+
+                        <p:column headerText="faqID" sortBy="#{faqsvar.FAQsID}" filterBy="#{faqsvar.FAQsID}" id="faqID">
+                            #{faqsvar.FAQsID}
+                        </p:column>
+
+                        <p:column headerText=" Question" sortBy="#{faqsvar.question}" filterBy="#{faqsvar.question}" id="question">
+                            #{faqsvar.question}
+                        </p:column>
+
+                        <p:column headerText="Answer" sortBy="#{faqsvar.answer}" filterBy="#{faqsvar.answer}" id="answer">
+                            #{faqsvar.answer}
+                        </p:column>
+
+                    </p:dataTable>
+
+
+
+                    <p:dialog header="FAQs Detail" widgetVar="faqsDialog" resizable="true"  
+                              width="380" showEffect="explode" hideEffect="explode">
+
+                        <h:panelGrid id="display" columns="2" cellpadding="4">
+
+                            <f:facet name="header">
+                                <h:outputText value="Hinh anh" />
+                            </f:facet>
+
+                            <h:outputText value="faqID " />
+                            <h:inputText value="#{FAQsMBean.faqselect.FAQsID}" id="faqID"/>                        
+
+                            <h:outputText value="Question" />
+                            <h:inputText value="#{FAQsMBean.faqselect.question}" id="question"/>
+
+                            <h:outputText value="Answer" />
+                            <h:inputText value="#{FAQsMBean.faqselect.answer}" id="answer"/>
+
+                            <p:commandButton value="Delete" action="#{FAQsMBean.removeFAQ()}" oncomplete="faqsDialog.hide()" update=":form:faqsTable, :growl1"/>
+                            <p:commandButton value="Update" action="#{FAQsMBean.editFAQ(FAQsMBean.faqselect)}" oncomplete="faqsDialog.hide()" update=":form:faqsTable, :growl1"/>
+
+                        </h:panelGrid>
+                    </p:dialog>    
+
+                </h:panelGrid>
+
+            </h:panelGrid>
+
+        </h:form>
+        <h:form>
+            <h:panelGrid columns="1">
+
+                    <p:commandButton id="viewButton" value="Add Frequently Answer Question" 
+                                     oncomplete="addFaqsDialog.show()"/> 
+
+                    <p:dialog id="dialogadd" header="Add New FAQ" widgetVar="addFaqsDialog" resizable="false"  
+                              showEffect="fade" hideEffect="fade">  
+                        <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+
+                            <p:outputLabel value="Question:" for="question"/>
+                            <p:inputText id="question" value="#{FAQsMBean.faq.question}" title="Question" required="true" />                    
+                            <p:message for="question"/>
+
+                            <p:outputLabel value="Answer:" for="answer"/>
+                            <p:inputText id="answer" value="#{FAQsMBean.faq.answer}" title="Answer" required="true" />                    
+                            <p:message for="answer"/>
+                        </h:panelGrid>  
+                        <p:commandButton value="Create" action="#{FAQsMBean.createFAQ()}" oncomplete="addFaqsDialog.hide()" update=":growl1, :form:faqsTable"/>                      
+                    </p:dialog>
+
+                </h:panelGrid>
+        </h:form>
     </ui:define>
 
 </ui:composition>

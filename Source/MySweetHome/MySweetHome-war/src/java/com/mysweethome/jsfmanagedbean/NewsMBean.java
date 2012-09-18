@@ -5,10 +5,12 @@
 package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.News;
+import com.mysweethome.helper.messages;
 import com.mysweethome.session.NewsFacade;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -23,6 +25,14 @@ public class NewsMBean {
     @EJB
     public NewsFacade newsFacade;
     public News news, other;
+
+    public News getOther() {
+        return other;
+    }
+
+    public void setOther(News other) {
+        this.other = other;
+    }
     public String newsID;
     public String newsTitle;
     public String newsContent;
@@ -100,30 +110,25 @@ public class NewsMBean {
         getNewsList = new ArrayList<News>();
         filteredNews = new ArrayList<News>();
     }
-    
-    
+               
     
     public void createNews() {
-        
-        
-        try{
-            News otherNews = new News();
-            //newSub = subfacade.find(subscribeID);
-        
-            int id= getNewsFacade().getLastRecordID();
-            otherNews.setNewsID(String.valueOf(id+1));
-            otherNews.setNewsTitle(other.getNewsTitle());
-            otherNews.setNewsContents(other.getNewsContents());
-            
-            
-        } catch(Exception e){
-            e.printStackTrace();
+        if (other.getNewsID() != null) {
+            News temp = new News();
+            temp = getNewsFacade().getNewsID(other.getNewsID());
+            if (temp != null) {
+                messages.taoTB(FacesMessage.SEVERITY_WARN, "Duplicate!", "This News had already");
+            } else {
+                News newtemp = new News();
+                newtemp.setNewsID(other.getNewsID());
+                newtemp.setNewsTitle(other.getNewsTitle());
+                newtemp.setNewsContents(other.getNewsContents());
+                getNewsFacade().create(newtemp);
+                messages.taoTB(FacesMessage.SEVERITY_INFO, "Create success!", "Create success!");
+            }
         }
-        
-              
+        this.other = new News();
     }
-    
-    
     public void editNews(){
         
         String str = getNews().getNewsID();
@@ -134,16 +139,16 @@ public class NewsMBean {
         
         getNewsFacade().edit(editNews);
     }
-    
+    public void editNews(News news) {
+        getNewsFacade().edit(news);
+        messages.taoTB(FacesMessage.SEVERITY_INFO, "Edit success", "Edit success");
+        this.news = new News();
+    }
     
     public void removeNews() {
         String str = getNews().getNewsID();
         getNews().setNewsID(str);
         getNewsFacade().remove(getNews());
-    }
-    
-    
-    
-    
-    
+        this.news= new News();
+    }                    
 }

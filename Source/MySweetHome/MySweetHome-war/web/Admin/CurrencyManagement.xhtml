@@ -11,6 +11,7 @@
     </ui:define>
 
     <ui:define name="content">
+        <p:growl id="growl1" showDetail="true" life="3000" /> 
         <h:form id="form">
 
             <h:panelGrid columns="1">
@@ -18,7 +19,9 @@
                 <h:panelGrid columns="1">
 
                     <p:dataTable var="curvar" value="#{currencyMBean.currencyList}" rowKey="#{curvar.currencyID}" paginator="true" rows="10"
-                                 selection="#{currencyMBean.currency}" selectionMode="single" filteredValue="#{currencyMBean.filteredCurrency}" id="currencyTable">
+                                 selection="#{currencyMBean.currency}" selectionMode="single" filteredValue="#{currencyMBean.filteredCurrency}" id="currencyTable" 
+                                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
 
                         <p:ajax event="rowSelect" update=":form:display" oncomplete="currencyDialog.show()" />
 
@@ -60,17 +63,19 @@
                             <h:outputText value="VND Rate" />
                             <h:inputText value="#{currencyMBean.currency.VNDRate}" id="VNDRate"/>
 
-                            <p:commandButton value="Delete" action="#{currencyMBean.removeCurrency()}" oncomplete="currencyDialog.hide()" update="currencyTable"/>
-                            <p:commandButton value="Update" action="#{currencyMBean.editCurrency()}" oncomplete="currencyDialog.hide()" update="currencyTable"/>
+                            <p:commandButton value="Delete" action="#{currencyMBean.removeCurrency()}" oncomplete="currencyDialog.hide()" update=":form:currencyTable, :growl1"/>
+                            <p:commandButton value="Update" action="#{currencyMBean.editCurrency(currencyMBean.currency)}" oncomplete="currencyDialog.hide()" update=":form:currencyTable, :growl1"/>
 
                         </h:panelGrid>
                     </p:dialog>    
 
                 </h:panelGrid>
 
+            </h:panelGrid>
 
-
-                <h:panelGrid columns="1">
+        </h:form>
+        <h:form>
+            <h:panelGrid columns="1">
 
                     <p:commandButton id="viewButton" value="Add type of Currency" 
                                      oncomplete="addCurrrencyDialog.show()"/> 
@@ -78,25 +83,19 @@
                     <p:dialog id="dialogadd" header="Add New Type of Currency" widgetVar="addCurrrencyDialog" resizable="false"  
                               showEffect="fade" hideEffect="fade">  
                         <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
-                            <p:outputLabel value="CurrencyID:" for="curID"/>
-                            <p:inputText id="curID" value="#{currencyMBean.currency.currencyID}" title="CurrencyID" required="true"/>                    
-                            <p:message for="curID"/>
 
                             <p:outputLabel value="Types of currency:" for="curName"/>
-                            <p:inputText id="curName" value="#{currencyMBean.currency.currencyName}" title="Types of currency" required="true" />                    
+                            <p:inputText id="curName" value="#{currencyMBean.other.currencyName}" title="Types of currency" required="true" />                    
                             <p:message for="curName"/>
 
                             <p:outputLabel value="VND Rate:" for="rate"/>
-                            <p:inputText id="rate" value="#{currencyMBean.currency.VNDRate}" title="VND Rate" required="true" />                    
+                            <p:inputText id="rate" value="#{currencyMBean.other.VNDRate}" title="VND Rate" required="true" />                    
                             <p:message for="rate"/>
                         </h:panelGrid>  
-                        <p:commandButton value="Create" action="#{currencyMBean.createCurrency()}" oncomplete="addCurrencyDialog.hide()" update="currencyTable"/>                      
+                        <p:commandButton value="Create" action="#{currencyMBean.createCurrency()}" oncomplete="addCurrrencyDialog.hide()" update=":growl1, :form:currencyTable"/>                      
                     </p:dialog>
 
                 </h:panelGrid>
-
-            </h:panelGrid>
-
         </h:form>
     </ui:define>
 

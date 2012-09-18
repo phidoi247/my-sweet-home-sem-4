@@ -5,7 +5,6 @@
 package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.Category;
-import com.mysweethome.entity.City;
 import com.mysweethome.helper.messages;
 import com.mysweethome.session.CategoryFacade;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import javax.faces.model.SelectItem;
  *
  * @author LongVu
  */
-@ManagedBean(name="CategoryMBean")
+@ManagedBean(name = "CategoryMBean")
 @SessionScoped
 public class CategoryMBean {
 
@@ -29,9 +28,7 @@ public class CategoryMBean {
      * Creates a new instance of CategoryMBean
      */
     public CategoryMBean() {
-       
     }
-    
     @EJB
     Category category;
     Category catenew;
@@ -52,9 +49,18 @@ public class CategoryMBean {
         this.catenew = catenew;
     }
     CategoryFacade categoryFacede;
-    List<String> categoryName= new ArrayList<String>();
-
+    List<String> categoryName = new ArrayList<String>();
     List<Category> catelist;
+    List<Category> filteredCategory;
+
+    public List<Category> getFilteredCategory() {
+        filteredCategory = catelist;
+        return filteredCategory;
+    }
+
+    public void setFilteredCategory(List<Category> filteredCategory) {
+        this.filteredCategory = filteredCategory;
+    }
 
     public CategoryFacade getCatefacade() {
         return catefacade;
@@ -65,12 +71,14 @@ public class CategoryMBean {
     }
 
     public List<Category> getCatelist() {
+        catelist = getCategoryFacede().findAll();
         return catelist;
     }
 
     public void setCatelist(List<Category> catelist) {
         this.catelist = catelist;
     }
+
     public List<String> getCategoryName() {
         return categoryName;
     }
@@ -78,6 +86,7 @@ public class CategoryMBean {
     public void setCategoryName(List<String> categoryName) {
         this.categoryName = categoryName;
     }
+
     public Category getCategory() {
         return category;
     }
@@ -86,34 +95,34 @@ public class CategoryMBean {
         this.category = category;
     }
     CategoryFacade catefacade;
-    
-    public List<Category> getListCategory(){
+
+    public List<Category> getListCategory() {
         return catefacade.getAllCategory();
     }
-    
-    public List<String> getListCategoryName(){
-        List<Category> a=catefacade.getAllCategory();   
-        List<String> results = new ArrayList<String>();  
-          Iterator iterator = a.iterator();
+
+    public List<String> getListCategoryName() {
+        List<Category> a = catefacade.getAllCategory();
+        List<String> results = new ArrayList<String>();
+        Iterator iterator = a.iterator();
 //        for (int i = 0; i < a.size(); i++) {  
 //            results.add(a.(i).getCategoryName());
 //        }  
-          
-          while(iterator.hasNext()){
-              Category cate = (Category) iterator.next();
-              System.out.println(cate.getCategoryName());
-              results.add(cate.getCategoryName());
-          }
-        return results;  
+
+        while (iterator.hasNext()) {
+            Category cate = (Category) iterator.next();
+            System.out.println(cate.getCategoryName());
+            results.add(cate.getCategoryName());
+        }
+        return results;
     }
-    
-    public List<String> getColumnCategoryName(){
-         //List<String> categoryName= new ArrayList<String>();
-         setCategoryName(catefacade.getColumnCategoryName());
+
+    public List<String> getColumnCategoryName() {
+        //List<String> categoryName= new ArrayList<String>();
+        setCategoryName(catefacade.getColumnCategoryName());
 //         return "/test2";
-         return categoryName;
+        return categoryName;
     }
-    
+
     public SelectItem[] getTypeOfEstateName() {
         List<Category> types = catefacade.getAllCategory();
         SelectItem[] type1 = null;
@@ -125,37 +134,38 @@ public class CategoryMBean {
         }
         return type1;
     }
-        public void editCategory(Category cate) {
-        getCatefacade().edit(cate);
-        messages.taoTB(FacesMessage.SEVERITY_INFO, "Edit success", "Edit success");
-        this.category = new Category();
-    }
-
-    public void removeCategory(String cate) {  
-        if (cate != null) {
-            Category temp = new Category();
-            temp = catefacade.getCategoryID(category.getCategoryID());
-            getCatefacade().remove(temp);
-            messages.taoTB(FacesMessage.SEVERITY_INFO, "Delete success", "Delete success");
-        }
-        this.category = new Category();
-    }
-    
-        public void createCategory() {
-       if (category.getCategoryID() != null) {
-          Category temp = new Category();
-           temp = catefacade.getCategoryName(category.getCategoryID());
-           if (temp != null) {
-               messages.taoTB(FacesMessage.SEVERITY_WARN, "Duplicate cityID!", "This cityID had already");
-            } else {
-              Category categorytemp = new Category();
-                categorytemp.setCategoryID(category.getCategoryID());
-                categorytemp.setCategoryName(category.getCategoryName());
-                getCategoryFacede().create(categorytemp);
-                messages.taoTB(FacesMessage.SEVERITY_INFO, "Create city success!", "Create city success!");
-            }
-       }
-       this.category = new Category();
-   }
+//
+//    public void editCategory(Category cate) {
+//        getCatefacade().edit(cate);
+//        messages.taoTB(FacesMessage.SEVERITY_INFO, "Edit success", "Edit success");
+//        this.category = new Category();
+//    }
+//
+//    public void removeCategory(String id) {
+//        if (id != null) {
+//            Category temp = new Category();
+//            temp = getCategoryFacede().getCategoryID(id);
+//            getCatefacade().remove(temp);
+//            messages.taoTB(FacesMessage.SEVERITY_INFO, "Delete success", "Delete success");
+//        }
+//        this.category = new Category();
+//    }
+////    
+//
+//    public void createCategory() {
+//        if (catenew.getCategoryID() != null) {
+//            Category temp = new Category();
+//            temp = getCategoryFacede().getCategoryID(catenew.getCategoryID());
+//            if (temp != null) {
+//                messages.taoTB(FacesMessage.SEVERITY_WARN, "Duplicate!", "This ID had already");
+//            } else {
+//                Category categorytemp = new Category();
+//                categorytemp.setCategoryID(catenew.getCategoryID());
+//                categorytemp.setCategoryName(catenew.getCategoryName());
+//                getCategoryFacede().create(categorytemp);
+//                messages.taoTB(FacesMessage.SEVERITY_INFO, "Create success!", "Create category success!");
+//            }
+//        }
+//        this.catenew = new Category();
+//    }
 }
-
