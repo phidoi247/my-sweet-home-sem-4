@@ -38,10 +38,12 @@
                         <p:column headerText="District Name" sortBy="#{districtvar.districtName}" filterBy="#{districtvar.districtName}">
                             #{districtvar.districtName}
                         </p:column>
+                        
+                        <p:column headerText="City" sortBy="#{districtvar.cityID}" filterBy="#{districtvar.cityID}">
+                            #{DistrictMBean.selectCityNameByID(districtvar.cityID)}
+                        </p:column>
 
                     </p:dataTable>
-
-
 
                     <p:dialog header="District Detail" widgetVar="districtDialog" resizable="false"  
                               width="350" showEffect="explode" hideEffect="explode">
@@ -56,21 +58,26 @@
 
                             <h:outputText value="City" />
                             <p:selectOneMenu value="#{DistrictMBean.districtedit.cityID}">  
-                                <f:selectItem itemLabel="#{DistrictMBean.selectCityNameByID(DistrictMBean.districtedit.cityID)}" itemValue="#{DistrictMBean.districtedit.cityID}" />  
-                                <f:selectItems value="#{DistrictMBean.cityList}" var="item" itemLabel="#{item.cityName}" itemValue="#{item.cityID}"/>  
+                                <c:if test="#{!empty DistrictMBean.districtedit.cityID}">
+                                    <f:selectItem itemLabel="#{DistrictMBean.selectCityNameByID(DistrictMBean.districtedit.cityID)}" itemValue="#{DistrictMBean.districtedit.cityID}" />  
+                                </c:if>
+                                <f:selectItems value="#{DistrictMBean.cityList2}" var="item" itemLabel="#{item.cityName}" itemValue="#{item.cityID}"/>  
                             </p:selectOneMenu>
                             
-                            <p:commandButton value="Delete" action="#{DistrictMBean.removeDistrict(DistrictMBean.districtedit.districtID)}" oncomplete="districtDialog.hide()" update=":form:districtTable"/>
-                            <p:commandButton value="Update" action="#{DistrictMBean.editDistrict(DistrictMBean.districtedit)}" oncomplete="districtDialog.hide()" update=":form:districtTable"/>
+                            <p:commandButton value="Delete" action="#{DistrictMBean.removeDistrict(DistrictMBean.districtedit.districtID)}" oncomplete="districtDialog.hide()" update=":form:districtTable, :form:growl1"/>
+                            <p:commandButton value="Update" action="#{DistrictMBean.editDistrict(DistrictMBean.districtedit)}" oncomplete="districtDialog.hide()" update=":form:districtTable, :form:growl1"/>
 
                         </h:panelGrid>
                     </p:dialog>    
 
                 </h:panelGrid>
 
+            </h:panelGrid>
 
-
-                <h:panelGrid columns="1">
+        </h:form>
+        
+        <h:form>
+            <h:panelGrid columns="1">
 
                     <p:commandButton id="viewButton" value="Add new District" 
                                      oncomplete="addDistrictDialog.show()"/> 
@@ -90,13 +97,10 @@
                                 <f:selectItems value="#{DistrictMBean.cityList}" var="item" itemLabel="#{item.cityName}" itemValue="#{item.cityID}"/>  
                             </p:selectOneMenu>
                         </h:panelGrid>  
-                        <p:commandButton value="Create" action="#{DistrictMBean.createDistrict()}" oncomplete="addDistrictDialog.hide()" update=":form:districtTable, growl1"/>                      
+                        <p:commandButton value="Create" action="#{DistrictMBean.createDistrict()}" oncomplete="addDistrictDialog.hide()" update=":form:districtTable, :form:growl1"/>                      
                     </p:dialog>
 
                 </h:panelGrid>
-
-            </h:panelGrid>
-
         </h:form>
     </ui:define>
 

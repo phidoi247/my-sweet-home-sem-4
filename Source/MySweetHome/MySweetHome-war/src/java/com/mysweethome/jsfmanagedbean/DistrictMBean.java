@@ -20,9 +20,10 @@ import javax.faces.bean.SessionScoped;
  *
  * @author Garena
  */
-@ManagedBean (name ="DistrictMBean")
+@ManagedBean(name = "DistrictMBean")
 @SessionScoped
 public class DistrictMBean {
+
     @EJB
     private DistrictFacade districtFacade;
     private District district, districtedit, districtNew;
@@ -35,13 +36,36 @@ public class DistrictMBean {
         this.districtNew = districtNew;
     }
     private List<City> cityList;
+    private List<City> cityList2;
+
+    public List<City> getCityList2() {
+        cityList2 = getDistrictFacade().getListCity();
+        if (getDistrictedit().getDistrictID()!= null) {
+            if (!getDistrictedit().getDistrictID().isEmpty()) {
+                City temp = new City();
+                temp=getDistrictFacade().getCityFromID(getDistrictedit().getCityID().getCityID());
+                cityList2.remove(temp);
+            }
+        }
+        return cityList2;
+    }
+
+    public boolean removeCity(List<City> cityList, City item) {
+        for (int i = 0; i < cityList.size(); i++) {
+        }
+        return true;
+    }
+
+    public void setCityList2(List<City> cityList2) {
+        this.cityList2 = cityList2;
+    }
     List<District> districtList;
     List<District> filteredDistrict;
     private CityFacade cityfacade;
     private String districtID, districtName, cityID, cityIDtemp;
 
     public List<City> getCityList() {
-        cityList= getDistrictFacade().getListCity();
+        cityList = getDistrictFacade().getListCity();
         return cityList;
     }
 
@@ -55,7 +79,7 @@ public class DistrictMBean {
 
     public void setCityList(List<City> cityList) {
         this.cityList = cityList;
-    }     
+    }
 
     public District getDistrictedit() {
         return districtedit;
@@ -64,7 +88,6 @@ public class DistrictMBean {
     public void setDistrictedit(District districtedit) {
         this.districtedit = districtedit;
     }
-    
 
     public String getCityIDtemp() {
         return cityIDtemp;
@@ -73,8 +96,6 @@ public class DistrictMBean {
     public void setCityIDtemp(String cityIDtemp) {
         this.cityIDtemp = cityIDtemp;
     }
-
-   
 
     public String getCityID() {
         return cityID;
@@ -91,8 +112,6 @@ public class DistrictMBean {
     public void setFilteredDistrict(List<District> filteredDistrict) {
         this.filteredDistrict = filteredDistrict;
     }
-    
-    
 
     public List<District> getDistrictList() {
         districtList = districtFacade.findAll();
@@ -102,7 +121,6 @@ public class DistrictMBean {
     public void setDistrictList(List<District> districtList) {
         this.districtList = districtList;
     }
-
 
     public String getDistrictName() {
         return district.getDistrictName();
@@ -127,13 +145,15 @@ public class DistrictMBean {
     public void setDistrict(District district) {
         this.district = district;
     }
-       public DistrictFacade getDistrictFacade() {
+
+    public DistrictFacade getDistrictFacade() {
         return districtFacade;
     }
 
     public void setDistrictFacade(DistrictFacade districtFacade) {
         this.districtFacade = districtFacade;
     }
+
     /**
      * Creates a new instance of DistrictMBean
      */
@@ -145,8 +165,8 @@ public class DistrictMBean {
         districtList = new ArrayList<District>();
         filteredDistrict = new ArrayList<District>();
     }
-    
-    public void createDistrict(){
+
+    public void createDistrict() {
         if (district.getDistrictID() != null) {
             District temp = new District();
             temp = districtFacade.getDistrictByID(district.getDistrictID());
@@ -156,8 +176,8 @@ public class DistrictMBean {
                 District districtTemp = new District();
                 districtTemp.setDistrictID(district.getDistrictID());
                 districtTemp.setDistrictName(district.getDistrictName());
-                City cityTemp=new City();
-                cityTemp=getDistrictFacade().getCityFromID(cityID);
+                City cityTemp = new City();
+                cityTemp = getDistrictFacade().getCityFromID(cityID);
                 districtTemp.setCityID(cityTemp);
                 getDistrictFacade().create(districtTemp);
                 messages.taoTB(FacesMessage.SEVERITY_INFO, "Create district success!", "Create district success!");
@@ -165,14 +185,15 @@ public class DistrictMBean {
         }
         this.district = new District();
     }
-    
-    public void editDistrict(District district){
+
+    public void editDistrict(District district) {
         getDistrictFacade().edit(district);
         messages.taoTB(FacesMessage.SEVERITY_INFO, "Edit success", "Edit success");
         this.districtedit = new District();
     }
-      public void removeDistrict(String districtID){
-       if (districtID != null) {
+
+    public void removeDistrict(String districtID) {
+        if (districtID != null) {
             District temp = new District();
             temp = getDistrictFacade().getDistrictByID(districtID);
             getDistrictFacade().remove(temp);
@@ -180,18 +201,17 @@ public class DistrictMBean {
         }
         this.districtedit = new District();
     }
-      
-      public List<District> findAllDistrict(){
-          return districtFacade.findAll();
-      } 
 
-      public String selectCityNameByID(String cityID){
-          String id = null;
-          if(cityID!=null){
-              id=cityID.substring(36, cityID.length()-2);
-          }
-          City cityobj = districtFacade.getCityFromID(id);
-          return cityobj.getCityName();
-      }
-  
+    public List<District> findAllDistrict() {
+        return districtFacade.findAll();
+    }
+
+    public String selectCityNameByID(String cityID) {
+        String id = null;
+        if (cityID != null) {
+            id = cityID.substring(36, cityID.length() - 2);
+        }
+        City cityobj = districtFacade.getCityFromID(id);
+        return cityobj.getCityName();
+    }
 }
