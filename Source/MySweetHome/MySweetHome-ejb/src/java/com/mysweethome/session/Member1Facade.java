@@ -6,6 +6,7 @@ package com.mysweethome.session;
 
 import com.mysweethome.entity.Member1;
 import com.mysweethome.entity.TypeOfMember;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
@@ -240,5 +241,25 @@ public class Member1Facade extends AbstractFacade<Member1> {
         return j;
     }
     
+    public List<Member1> getSellerList(){
+        List<Member1> sellerList=new ArrayList<Member1>();
+        try {
+            Query query = em.createNamedQuery("Member1.findByTypeOfMemberID");
+            query.setParameter("typeOfMemberID", "1");
+            sellerList=query.getResultList();
+        } catch (NoResultException ex) {
+        }
+        return sellerList;
+    }
     
+    public List<Member1> getBuyerList(){
+        List<Member1> buyerList=new ArrayList<Member1>();
+        try {
+            Query query = em.createNamedQuery("Member1.findByTypeOfMemberID");
+            query.setParameter("typeOfMemberID", "2");
+            buyerList=query.getResultList();
+        } catch (NoResultException ex) {
+        }
+        return buyerList;
+    }
 }

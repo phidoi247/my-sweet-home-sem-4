@@ -33,8 +33,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Member1.findByIsEnabled", query = "SELECT m FROM Member1 m WHERE m.isEnabled = :isEnabled"),
     @NamedQuery(name = "Member1.findByCode", query = "SELECT m FROM Member1 m WHERE m.code = :code"),
     @NamedQuery(name = "Member1.findByImageUrl", query = "SELECT m FROM Member1 m WHERE m.imageUrl = :imageUrl"),
-    @NamedQuery(name = "Member1.findByRole", query = "SELECT m FROM Member1 m WHERE m.role = :role")})
+    @NamedQuery(name = "Member1.findByRole", query = "SELECT m FROM Member1 m WHERE m.role = :role"),
+    @NamedQuery(name = "Member1.findByTypeOfMemberID", query = "SELECT m FROM TypeOfMember t, IN(t.member1List) m WHERE t.typeOfMemberID = :typeOfMemberID")})
 public class Member1 implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -248,5 +250,4 @@ public class Member1 implements Serializable {
     public String toString() {
         return "com.mysweethome.entity.Member1[ userName=" + userName + " ]";
     }
-    
 }
