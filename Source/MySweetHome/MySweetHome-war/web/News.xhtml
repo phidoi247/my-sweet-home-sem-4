@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
 
     <body>
 
@@ -12,7 +15,39 @@
             </ui:define>
 
             <ui:define name="col1">
-                col1
+                 <h:form id="form">
+                     <p:dataList value="#{newsMBean.news}" var="news" id="cars"
+                    paginator="true" rows="5" effectSpeed="fast"
+                    paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
+                    rowsPerPageTemplate="5,10,15" type="none">
+                         <f:facet name="header">
+                             News of Estate
+                         </f:facet>
+                         
+                      <p:commandButton icon="ui-icon-search" update=":form:newsDetail" oncomplete="newsDialog.show()" title="View Detail">
+                          <f:setPropertyActionListener value="#{news}" target="#{newsMBean.selectNews}" />
+                     </p:commandButton>
+                         <h:outputText value="#{newsMBean.newsTitle}, #{newsMBean.newsID}" style="margin-left:10px" />
+                        <br />
+                     </p:dataList>
+                     <p:dialog header="Car Detail" widgetVar="newsDialog" modal="true" showEffect="fade">
+		<p:outputPanel id="newsDetail" style="text-align:center;" layout="block">
+		
+                    <p:graphicImage value="./../resources/images/#{newsMBean.selectNews.newsImage}"/>
+			
+			<h:panelGrid  columns="2" cellpadding="5">
+				<h:outputLabel for="ID" value="Id No: " />
+                                <h:outputText id="ID" value="#{newsMBean.selectNews.newsID}" />
+				
+				<h:outputLabel for="title" value="Title: " />
+                                <h:outputText id="title" value="#{newsMBean.selectNews.newsTitle}" />
+				
+				<h:outputLabel for="content" value="Content : " />
+                                <h:outputText id="content" value="#{newsMBean.selectNews.newsContents}" />
+			</h:panelGrid>
+		</p:outputPanel>
+	</p:dialog>
+                </h:form>
             </ui:define>
 
         </ui:composition>
