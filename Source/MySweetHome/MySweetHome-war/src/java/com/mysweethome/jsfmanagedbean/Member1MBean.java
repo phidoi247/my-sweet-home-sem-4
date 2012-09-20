@@ -32,6 +32,19 @@ public class Member1MBean {
     @EJB
     private Member1Facade member1Facade;
     private Member1 mem;
+    private Member1 myProfile ;
+    private String idmem;
+    private TypeOfMemberFacade typeOfMemberFace;
+    public List<Member1> memberList;
+    private List<Member1> sellerList;
+
+    public Member1 getMyProfile() {
+        return myProfile;
+    }
+
+    public void setMyProfile(Member1 myProfile) {
+        this.myProfile = myProfile;
+    }
 
     public String getIdmem() {
         return idmem;
@@ -40,10 +53,7 @@ public class Member1MBean {
     public void setIdmem(String idmem) {
         this.idmem = idmem;
     }
-    private String idmem;
-    private TypeOfMemberFacade typeOfMemberFace;
-    public List<Member1> memberList;
-    private List<Member1> sellerList;
+    
 
     public List<Member1> getBuyerList() {
         return buyerList=getMember1Facade().getBuyerList();
@@ -332,26 +342,44 @@ public class Member1MBean {
             }
         }
     }
+    public void changeProfile()
+    {
+        member1Facade.edit(myProfile);
+        messages.taoTB(FacesMessage.SEVERITY_INFO, "Change success", "Change success!");
+        
+    }
+    public Member1 getProfile()
+    {
+        String userN = operationSession.getSession("username").toString();
+        myProfile = this.member1Facade.getUserName(userN);
+        return myProfile;
+    }
+    public void toProfile()
+    {
+        getProfile();
+    }
 
-    public String changePass() {
+    public void changePass() {
+        
         String passMD5 = MD5.getMD5(password);
+        this.mem = getProfile();
         if (passMD5.equalsIgnoreCase(this.mem.getPassword())) {
             if (passnew.equalsIgnoreCase(confirmpassnew)) {
                 operationSession.createSession("Member", idmem);
                 String passNew = MD5.getMD5(passnew);
                 this.mem.setPassword(passNew);
                 this.member1Facade.edit(mem);
-                messages.taoTB(FacesMessage.SEVERITY_INFO, "", "Change Pass Successfull !");
-                return "/test/NoticeChangePass.xhtml?faces-redirect=true";
+                messages.taoTB(FacesMessage.SEVERITY_INFO,"Change Pass Successfull !", "Change Pass Successfull !");
+                
             } else {
                 operationSession.createSession("Admin", idmem);
-                messages.taoTB(FacesMessage.SEVERITY_INFO, "", "New pass not same !");
-                return "/test/changePass.xhtml?faces-redirect=true";
+                messages.taoTB(FacesMessage.SEVERITY_ERROR,"New pass not same !", "New pass not same !");
+               
             }
         } else {
 
             messages.taoTB(FacesMessage.SEVERITY_INFO, "", "Password Is Correct !");
-            return "/test/changePass.xhtml?faces-redirect=true";
+            
         }
     }
 

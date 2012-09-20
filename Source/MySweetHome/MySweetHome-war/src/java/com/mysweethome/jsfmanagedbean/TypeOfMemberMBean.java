@@ -13,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 /**
  *
@@ -28,6 +29,15 @@ public class TypeOfMemberMBean {
     @EJB
     TypeOfMemberFacade typefacade;
     TypeOfMember typemem;
+    private SelectItem[] typeMember;
+
+    public SelectItem[] getTypeMember() {
+        return typeMember;
+    }
+
+    public void setTypeMember(SelectItem[] typeMember) {
+        this.typeMember = typeMember;
+    }
     
     public TypeOfMemberMBean() {
         typemem=new TypeOfMember();
@@ -64,7 +74,19 @@ public class TypeOfMemberMBean {
         typemem=typefacade.find(id);
         return typemem;
     }
-    
+    public SelectItem[] getTypeOfMember()
+    {
+        List<TypeOfMember> type = typefacade.getAll();
+         typeMember = null;
+        if (type != null) {
+            typeMember = new SelectItem[type.size() + 1];
+            typeMember[0] = new SelectItem("", "Select");
+            for (int i = 0; i < type.size(); i++) {
+                typeMember[i + 1] = new SelectItem(type.get(i).getTypeOfMemberID(), type.get(i).getTypeName());
+            }
+        }
+        return typeMember;
+    }
     
     public void displayLocation() {  
         FacesMessage msg = new FacesMessage("Selected", "Member type:");  
