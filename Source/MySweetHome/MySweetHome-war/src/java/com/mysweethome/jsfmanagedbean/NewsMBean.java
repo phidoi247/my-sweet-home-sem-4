@@ -26,6 +26,24 @@ public class NewsMBean {
     public NewsFacade newsFacade;
     public News news, other;
 
+    public News getSelectNews() {
+        return selectNews;
+    }
+
+    public void setSelectNews(News selectNews) {
+        this.selectNews = selectNews;
+    }
+    private News selectNews;
+
+    public News getNewNews() {
+        return newNews;
+    }
+
+    public void setNewNews(News newNews) {
+        this.newNews = newNews;
+    }
+    public News newNews= new News();
+
     public News getOther() {
         return other;
     }
