@@ -11,7 +11,8 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="form">
+        <p:growl id="growl1" showDetail="true" life="3000" /> 
+		<h:form id="form">
 
             <h:panelGrid columns="1">
 
@@ -60,8 +61,8 @@
                             <h:outputText value="Fee Per Day" />
                             <h:inputText value="#{SubscribeMBean.subscribe.feePerDay}" id="feePerDay"/>
 
-                            <p:commandButton value="Delete" action="#{SubscribeMBean.removeSubscribe()}" oncomplete="subscribeDialog.hide()" update="subscribesTable"/>
-                            <p:commandButton value="Update" action="#{SubscribeMBean.editSubscribe()}" oncomplete="subscribeDialog.hide()" update="subscribesTable"/>
+                            <p:commandButton value="Delete" action="#{SubscribeMBean.removeSubscribe()}" oncomplete="subscribeDialog.hide()" update=":form:subscribesTable, :growl1"/>
+                            <p:commandButton value="Update" action="#{SubscribeMBean.editSubscribe()}" oncomplete="subscribeDialog.hide()" update=":form:subscribesTable, :growl1"/>
 
                         </h:panelGrid>
                     </p:dialog>    
@@ -92,7 +93,7 @@
                             <p:inputText id="fee" value="#{SubscribeMBean.subscribe.feePerDay}" title="Fee" required="true" />                    
                             <p:message for="fee"/>
                         </h:panelGrid>  
-                        <p:commandButton value="Create" action="#{SubscribeMBean.createSubscribe()}" oncomplete="addSubscribeDialog.hide()" update="subscribesTable"/>                      
+                        <p:commandButton value="Create" action="#{SubscribeMBean.createSubscribe()}" oncomplete="addSubscribeDialog.hide()" update=":growl1, :form:subscribesTable"/>                      
                     </p:dialog>
 
                 </h:panelGrid>
