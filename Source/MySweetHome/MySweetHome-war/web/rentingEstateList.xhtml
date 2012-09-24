@@ -12,18 +12,18 @@
 
     <ui:define name="col1">
 
-        <p:carousel id="basicCarousel" value="" var="car" itemStyleClass="carItem">
+        <p:carousel id="showImage" value="#{EstateMBean.estateList}" var="estateVar" itemStyleClass="estateItem">
 
             <h:panelGrid columns="1">
 
-                <p:graphicImage value="./resources/images/page1_img1.jpg" width="200" height="200"/>
+                <p:graphicImage value="./resources/images/#{EstateMBean.listImage(estateVar.imageCategoryID.imageCategoryID).image1}" width="200" height="200"/>
                 <h:panelGrid columns="1">
                     <p:fieldset legend="Basic info">  
                         <h:panelGrid columns="1" cellpadding="10">                        
                             <h:panelGrid columns="1">
-                                <h:outputText value="Title: " />
-                                <h:outputText value="Area: " />
-                                <h:outputText value="Value: " />
+                                <h:outputText value="Title: #{estateVar.estateTitle} "/>
+                                <h:outputText value="Area:  #{estateVar.estateArea} "/>
+                                <h:outputText value="Value: #{estateVar.estateValue}"/>
                             </h:panelGrid>             
                         </h:panelGrid>  
                     </p:fieldset>
@@ -32,11 +32,11 @@
                         <p:ajax event="toggle" listener="#{fieldsetBean.handleToggle}"  />  
                         <h:panelGrid columns="1" cellpadding="10">                      
                             <p:panelGrid columns="1">
-                                <h:outputText value="Address: " />
-                                <h:outputText value="Driveway: " />
-                                <h:outputText value="Direction: " />
-                                <h:outputText value="Number of rooms: " />
-                                <h:outputText value="More detail: " />            
+                                <h:outputText value="Address: #{estateVar.estateAddress}"/>
+                                <h:outputText value="Driveway: #{estateVar.estateDriveway}" />
+                                <h:outputText value="Direction: #{estateVar.estateDirection}"/>
+                                <h:outputText value="Number of rooms: #{estateVar.estateNumberOfRooms}"/>
+                                <h:outputText value="More detail: #{estateVar.estateContent}"/>           
                             </p:panelGrid>
                         </h:panelGrid>  
                     </p:fieldset>           
