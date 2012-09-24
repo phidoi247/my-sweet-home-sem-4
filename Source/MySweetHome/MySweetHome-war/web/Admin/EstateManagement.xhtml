@@ -11,7 +11,98 @@
     </ui:define>
 
     <ui:define name="content">
-        content
+
+        
+        <h:form id="form">
+            <p:growl id="growl1" showDetail="true" life="3000" />
+            <h:panelGrid columns="1" >
+                <p:dataTable var="estatevar" value="#{EstateMBean.estateList}" rowKey="#{estatevar.estateID}" 
+                             selection="#{EstateMBean.estate}" selectionMode="single" filteredValue="#{EstateMBean.filteredEstate}" id="estatesTable"
+                             paginator="true" rows="10"  
+                             paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+                    <p:ajax event="rowSelect" update=":form:display" oncomplete="estateDialog.show()" />
+                    <f:facet name="header">
+                        Estate Management
+                    </f:facet>
+                    <p:column headerText="Estate ID" style="width: 50%" sortBy="#{estatevar.estateID}" filterBy="#{estatevar.estateID}">
+                        #{estatevar.estateID}
+                    </p:column>
+                    <p:column headerText="Estate Title" style="width: 50%" sortBy="#{estatevar.estateTitle}" filterBy="#{estatevar.estateTitle}">
+                        #{estatevar.estateTitle}
+                    </p:column>
+                    <p:column headerText="Subscribe" style="width: 50%" sortBy="#{estatevar.subscribeID}" filterBy="#{estatevar.subscribeID.subscribeName}">
+                        #{EstateMBean.selectSubscribeNameByID(estatevar.subscribeID)}
+                    </p:column>
+                    <p:column headerText="Action" style="width:40px">
+                        <p:commandLink onclick="confirmation.show()" id="approvalButton" 
+                                       style="cursor: pointer; border: 0px" value="Approval"  >
+                            <f:setPropertyActionListener value="#{estatevar}" target="#{EstateMBean.estate}" />
+                        </p:commandLink>&nbsp;&nbsp;
+                        <p:commandLink onclick="confirmation1.show()" id="rejectButton"
+                                       style="cursor: pointer; border: 0px" value="Reject"  >
+                            <f:setPropertyActionListener value="#{estatevar}" target="#{EstateMBean.estate}}" />
+                        </p:commandLink>
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:confirmDialog id="confirmDialog" message="Are you sure want to approval this estate?"
+                                 header="Estate Infomation" severity="alert" widgetVar="confirmation">
+                    <p:commandButton id="confirm" value="Yes" update=":form:estatesTable,:form:growl1"
+                                     action="#{EstateMBean.approvalEstate(EstateMBean.estate)}" oncomplete="confirmation.hide()" />
+                    <p:commandButton id="decline" value="No" onclick="confirmation.hide()" />
+                </p:confirmDialog>
+                <p:confirmDialog id="confirmDialog1" message="Are you sure want to reject this estate?"
+                                 header="Estate Infomation" severity="alert" widgetVar="confirmation1">
+                    <p:commandButton id="confirm1" value="Yes" update=":form:estatesTable,:form:growl1"
+                                     action="#{EstateMBean.rejectEstate(EstateMBean.estate)}" oncomplete="confirmation1.hide()" />
+                    <p:commandButton id="decline1" value="No" onclick="confirmation1.hide()" />
+                </p:confirmDialog>
+
+                <p:dialog header="estate Detail" widgetVar="estateDialog" resizable="false"  
+                          width="350" showEffect="explode" hideEffect="explode">
+
+                    <h:panelGrid id="display" columns="2" cellpadding="4">
+
+                        <h:outputText value="estate ID"/>
+                        <h:inputText value="#{estateMBean.estate.estateID}" readonly="true"/>                        
+
+                        <h:outputText value="estate Name"/>
+                        <h:inputText value="#{estateMBean.estate.estateName}" />
+
+                        <p:commandButton value="Delete" action="#{estateMBean.removeestate(estateMBean.estate.estateID)}" oncomplete="estateDialog.hide()" update=":form:citiesTable, :growl1"/>
+                        <p:commandButton value="Update" action="#{estateMBean.editestate(estateMBean.estate)}" oncomplete="estateDialog.hide()" update=":form:citiesTable, :growl1"/>
+
+                    </h:panelGrid>
+                </p:dialog>    
+
+            </h:panelGrid>
+
+        </h:form>
+
+        <h:form>
+            <h:panelGrid columns="1">
+
+                <p:commandButton id="viewButton" value="Add new estate" 
+                                 oncomplete="addestateDialog.show()"/> 
+
+                <p:dialog id="dialogadd" header="Add New estate" widgetVar="addestateDialog" resizable="false"  
+                          showEffect="fade" hideEffect="fade">  
+                    <h:panelGrid id="displayAdd" columns="2" cellpadding="4">  
+                        <h:outputText value="estate ID"/>
+                        <p:inputText value="#{estateMBean.estate2.estateID}" title="estate ID" />                    
+
+                        <h:outputText value="estate Name" />
+                        <p:inputText value="#{estateMBean.estate2.estateName}" title="estate Name"/>                    
+
+                    </h:panelGrid>  
+                    <p:commandButton value="Create" action="#{estateMBean.createestate()}" oncomplete="addestateDialog.hide()" update=":growl1, :form:citiesTable" />                      
+
+                </p:dialog>
+
+            </h:panelGrid>
+        </h:form>
     </ui:define>
 
 </ui:composition>

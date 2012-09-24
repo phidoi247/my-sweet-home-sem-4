@@ -5,6 +5,7 @@
 package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.*;
+import com.mysweethome.helper.messages;
 import com.mysweethome.helper.operationSession;
 import com.mysweethome.session.ContactDetailsFacade;
 import com.mysweethome.session.EstateFacade;
@@ -51,8 +52,6 @@ public class EstateMBean {
     private ImageCategoryFacade imageFacade;
     private Estate estate;
     private Estate selectedEstate;
-
-    
     private int firstArea = -1;
     private int lastArea = -1;
     private int firstValue = -1;
@@ -101,6 +100,15 @@ public class EstateMBean {
     List<Currency> currencyList;
     String address;
     String cityID;
+    List<Estate> filteredEstate;
+
+    public List<Estate> getFilteredEstate() {
+        return filteredEstate=estateList;
+    }
+
+    public void setFilteredEstate(List<Estate> filteredEstate) {
+        this.filteredEstate = filteredEstate;
+    }
 
     public String getCityID() {
         return cityID;
@@ -381,12 +389,10 @@ public class EstateMBean {
     }
 
     public List<Estate> getEstateList() {
-        estateList=estateFacade.findAll();
-		return estateList;
+        estateList = estateFacade.findAll();
+        return estateList;
 
     }
-
-
 
     public EstateMBean() {
         estate = new Estate();
@@ -592,8 +598,37 @@ public class EstateMBean {
             districtList = new ArrayList<District>();
         }
     }
-    
+
     public void goToEstateDetails() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/estateDetails.jsf");
+    }
+    
+    public String selectSubscribeNameByID(String subscribeID) {
+        String id = null;
+        if (subscribeID != null) {
+            id = subscribeID.substring(36, subscribeID.length() - 2);
+        }
+        Subscribe subscribeobj = getEstateFacade().getSubscribeByID(id);
+        return subscribeobj.getSubscribeName();
+    }
+    
+    public void ApprovalEstate(Estate estate) {
+        if(estate!=null){
+            estate.setIsEnabled("true");
+            getEstateFacade().edit(estate);
+            messages.taoTB(FacesMessage.SEVERITY_INFO, "Approval Success.", "Approval Success.");
+        }
+        else
+            messages.taoTB(FacesMessage.SEVERITY_ERROR, "Approval Failed.", "Approval Failed.");
+    }
+    
+    public void RejectEstate(Estate estate) {
+        if(estate!=null){
+            estate.setIsEnabled("false");
+            getEstateFacade().edit(estate);
+            messages.taoTB(FacesMessage.SEVERITY_INFO, "Reject Success.", "Reject Success.");
+        }
+        else
+            messages.taoTB(FacesMessage.SEVERITY_ERROR, "Reject Failed.", "Reject Failed.");
     }
 }
