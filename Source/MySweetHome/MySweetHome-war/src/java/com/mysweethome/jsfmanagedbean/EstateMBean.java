@@ -175,6 +175,21 @@ public class EstateMBean {
     private int lastValue = -1;
     private Estate getEstate;
     private ContactDetails contactEdit;
+    private List<Currency> currencyList2;
+
+    public List<Currency> getCurrencyList2() {
+        currencyList2 = getEstateFacade().getCurrencyList();
+        if (getEstate().getEstateID() != null) {
+            if (!getEstate().getEstateID().isEmpty()) {
+                currencyList2.remove(getEstateFacade().getCurrencyByID(getEstate().getCurrencyID().getCurrencyID()));
+            }
+        }
+        return currencyList2;
+    }
+
+    public void setCurrencyList2(List<Currency> currencyList2) {
+        this.currencyList2 = currencyList2;
+    }
 
     public ContactDetails getContactEdit() {
         contactEdit = estateFacade.getContactDetailsByID("Contact01");
@@ -675,7 +690,17 @@ public class EstateMBean {
     }
 
     public void goToAddEstate() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Seller/createNewEstate.jsf");
+        if(operationSession.getSession("role").toString().equalsIgnoreCase("admin")){
+            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Admin/createNewEstate.jsf");
+        }
+        else
+            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Seller/createNewEstate.jsf");
+    }
+    
+    public void goToEstateManagement() throws IOException {
+        if(operationSession.getSession("role").toString().equalsIgnoreCase("admin")){
+            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Admin/EstateManagement.jsf");
+        }
     }
 
     public int calculatePayment(String subscibe, Date startDay, Date endDay) {
@@ -719,6 +744,15 @@ public class EstateMBean {
     public void goToEstateDetails() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/estateDetails.jsf");
     }
+    
+    public String selectSubscribeNameByID(String subscribeID) {
+        String id = null;
+        if (subscribeID != null) {
+            id = subscribeID.substring(46, subscribeID.length() - 2);
+        }
+        Subscribe subObj=getEstateFacade().getSubscribeByID(id);
+        return subObj.getSubscribeName();
+    }
 
     public ImageCategory getListImage(String imageCategoryID) {
         ImageCategory imageList = new ImageCategory();
@@ -726,5 +760,44 @@ public class EstateMBean {
             imageList = getEstateFacade().getImageCategoryByID(imageCategoryID);
         }
         return imageList;
+    }
+    
+    public String selectCategoryNameByID(String cateID) {
+        String id = null;
+        if (cateID != null) {
+            id = cateID.substring(44, cateID.length() - 2);
+        }
+        Category cateObj = getEstateFacade().getCategoryByID(id);
+        return cateObj.getCategoryName();
+    }
+    
+    public String selectCurrencyNameByID(String currencyID) {
+        Currency currencyObj = getEstateFacade().getCurrencyByID(currencyID);
+        return currencyObj.getCurrencyName();
+    }
+    
+    public ContactDetails selectContactByID(String contactID) {
+        ContactDetails contactObj = getEstateFacade().getContactDetailsByID(contactID);
+        return contactObj;
+    }
+    
+    public void ApprovalEstate(Estate estate) {
+        if(estate!=null){
+            estate.setIsEnabled("true");
+            getEstateFacade().edit(estate);
+            messages.taoTB(FacesMessage.SEVERITY_INFO, "Approval Success.", "Approval Success.");
+        }
+        else
+            messages.taoTB(FacesMessage.SEVERITY_ERROR, "Approval Failed.", "Approval Failed.");
+    }
+    
+    public void RejectEstate(Estate estate) {
+        if(estate!=null){
+            estate.setIsEnabled("false");
+            getEstateFacade().edit(estate);
+            messages.taoTB(FacesMessage.SEVERITY_INFO, "Reject Success.", "Reject Success.");
+        }
+        else
+            messages.taoTB(FacesMessage.SEVERITY_ERROR, "Reject Failed.", "Reject Failed.");
     }
 }

@@ -4,7 +4,8 @@
                 template="./../template/AdminTemplate.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="title">
         Estate management
@@ -12,37 +13,57 @@
 
     <ui:define name="content">
 
-        
+
         <h:form id="form">
             <p:growl id="growl1" showDetail="true" life="3000" />
             <h:panelGrid columns="1" >
                 <p:dataTable var="estatevar" value="#{EstateMBean.estateList}" rowKey="#{estatevar.estateID}" 
                              selection="#{EstateMBean.estate}" selectionMode="single" filteredValue="#{EstateMBean.filteredEstate}" id="estatesTable"
-                             paginator="true" rows="10"  
+                             paginator="true" rows="10" style="width: auto;"
                              paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15">
                     <p:ajax event="rowSelect" update=":form:display" oncomplete="estateDialog.show()" />
                     <f:facet name="header">
                         Estate Management
                     </f:facet>
-                    <p:column headerText="Estate ID" style="width: 50%" sortBy="#{estatevar.estateID}" filterBy="#{estatevar.estateID}">
+                    <p:column headerText="Estate ID" sortBy="#{estatevar.estateID}" filterBy="#{estatevar.estateID}">
                         #{estatevar.estateID}
                     </p:column>
-                    <p:column headerText="Estate Title" style="width: 50%" sortBy="#{estatevar.estateTitle}" filterBy="#{estatevar.estateTitle}">
+                    <p:column headerText="Estate Title" sortBy="#{estatevar.estateTitle}" filterBy="#{estatevar.estateTitle}">
                         #{estatevar.estateTitle}
                     </p:column>
-                    <p:column headerText="Subscribe" style="width: 50%" sortBy="#{estatevar.subscribeID}" filterBy="#{estatevar.subscribeID.subscribeName}">
+                    <p:column headerText="Subscribe" sortBy="#{estatevar.subscribeID}" filterBy="#{estatevar.subscribeID.subscribeName}">
                         #{EstateMBean.selectSubscribeNameByID(estatevar.subscribeID)}
                     </p:column>
-                    <p:column headerText="Action" style="width:40px">
-                        <p:commandLink onclick="confirmation.show()" id="approvalButton" 
-                                       style="cursor: pointer; border: 0px" value="Approval"  >
-                            <f:setPropertyActionListener value="#{estatevar}" target="#{EstateMBean.estate}" />
-                        </p:commandLink>&nbsp;&nbsp;
-                        <p:commandLink onclick="confirmation1.show()" id="rejectButton"
-                                       style="cursor: pointer; border: 0px" value="Reject"  >
-                            <f:setPropertyActionListener value="#{estatevar}" target="#{EstateMBean.estate}}" />
-                        </p:commandLink>
+                    <p:column headerText="Category" sortBy="#{estatevar.categoryID}" filterBy="#{estatevar.categoryID.categoryName}">
+                        #{EstateMBean.selectCategoryNameByID(estatevar.categoryID)}
+                    </p:column>
+                    <p:column headerText="Date Post">
+                        <h:outputText value="#{estatevar.estateStartDay}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"  />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Action">
+                        <c:if test="#{estatevar.isEnabled}">
+                            <p:commandLink onclick="confirmation.show()" id="approvalButton" disabled="true" 
+                                           style="cursor: pointer; border: 0px" value="Approval"  >
+                                <f:setPropertyActionListener value="#{estatevar}" target="#{EstateMBean.estate}" />
+                            </p:commandLink>&nbsp;&nbsp;
+                            <p:commandLink onclick="confirmation1.show()" id="rejectButton" disabled="false"
+                                           style="cursor: pointer; border: 0px" value="Reject"  >
+                                <f:setPropertyActionListener value="#{estatevar}" target="#{EstateMBean.estate}}" />
+                            </p:commandLink>
+                        </c:if>
+                        <c:if test="#{!estatevar.isEnabled}">
+                            <p:commandLink onclick="confirmation.show()" id="approvalButton" disabled="false" 
+                                           style="cursor: pointer; border: 0px" value="Approval"  >
+                                <f:setPropertyActionListener value="#{estatevar}" target="#{EstateMBean.estate}" />
+                            </p:commandLink>&nbsp;&nbsp;
+                            <p:commandLink onclick="confirmation1.show()" id="rejectButton" disabled="true"
+                                           style="cursor: pointer; border: 0px" value="Reject"  >
+                                <f:setPropertyActionListener value="#{estatevar}" target="#{EstateMBean.estate}}" />
+                            </p:commandLink>
+                        </c:if>
                     </p:column>
 
                 </p:dataTable>
@@ -60,49 +81,73 @@
                     <p:commandButton id="decline1" value="No" onclick="confirmation1.hide()" />
                 </p:confirmDialog>
 
-                <p:dialog header="estate Detail" widgetVar="estateDialog" resizable="false"  
-                          width="350" showEffect="explode" hideEffect="explode">
+                <p:dialog header="Estate Detail" widgetVar="estateDialog" resizable="false"  
+                          width="700px" showEffect="explode" hideEffect="explode">
 
                     <h:panelGrid id="display" columns="2" cellpadding="4">
+                        <c:if test="#{!empty EstateMBean.estate.estateID.toString()}">
+                            <h:outputText value="Estate ID"/>
+                            <h:inputText value="#{EstateMBean.estate.estateID}" readonly="true"/>                        
 
-                        <h:outputText value="estate ID"/>
-                        <h:inputText value="#{estateMBean.estate.estateID}" readonly="true"/>                        
+                            <h:outputText value="Estate Title"/>
+                            <h:inputText value="#{EstateMBean.estate.estateTitle}" />
 
-                        <h:outputText value="estate Name"/>
-                        <h:inputText value="#{estateMBean.estate.estateName}" />
+                            <h:outputText value="Start date: " />
+                            <h:inputText value="#{EstateMBean.estate.estateStartDay}" />
 
-                        <p:commandButton value="Delete" action="#{estateMBean.removeestate(estateMBean.estate.estateID)}" oncomplete="estateDialog.hide()" update=":form:citiesTable, :growl1"/>
-                        <p:commandButton value="Update" action="#{estateMBean.editestate(estateMBean.estate)}" oncomplete="estateDialog.hide()" update=":form:citiesTable, :growl1"/>
+                            <h:outputText value="End date: " />
+                            <h:inputText value="#{EstateMBean.estate.estateEndDay}" />
 
+                            <h:outputText value="Address: "/>
+                            <h:inputText value="#{EstateMBean.estate.estateAddress}" />
+
+                            <h:outputText value="Content: "/>
+                            <h:inputTextarea value="#{EstateMBean.estate.estateContent}" rows="5" cols="10" />
+
+                            <h:outputText value="Area: "/>
+                            <h:inputText value="#{EstateMBean.estate.estateArea} m2" />
+
+                            <h:outputText value="Value: "/>
+                            <h:inputText value="#{EstateMBean.estate.estateValue}" />
+                            <h:outputText value="Currency: " />
+                            <p:selectOneMenu id="txtCurrency" value="#{EstateMBean.estate.currencyID.currencyID}">  
+                                <c:if test="#{!empty EstateMBean.estate.currencyID}">
+                                    <f:selectItem itemLabel="#{EstateMBean.selectCurrencyNameByID(EstateMBean.estate.currencyID.currencyID)}" itemValue="#{EstateMBean.estate.currencyID.currencyID}" />  
+                                </c:if>
+                                <f:selectItems value="#{EstateMBean.currencyList2}" var="item" itemLabel="#{item.currencyName}" itemValue="#{item.currencyID}"/>  
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Driveway: "/>
+                            <h:inputText value="#{EstateMBean.estate.estateDriveway} m2" />
+
+                            <h:outputText value="Direction: "/>
+                            <h:inputText value="#{EstateMBean.estate.contactDetailsID.contactDetailsID}" />
+                            <h:outputText value="Num of floor: "/>
+                            <h:inputText value="#{EstateMBean.estate.estateNumberOfFloors}" />
+                            <h:outputText value="Num of rooms: "/>
+                            <h:inputText value="#{EstateMBean.estate.estateNumberOfRooms}" />
+                            <h:outputText value="Num of toilet: "/>
+                            <h:inputText value="#{EstateMBean.estate.estateNumberOfToilets}" />
+                            <h:outputText value="Contact Name: "/>
+                            <h:inputText value="#{EstateMBean.selectContactByID(EstateMBean.estate.contactDetailsID.contactDetailsID).contactName}" />
+                            <h:outputText value="Contact Address: "/>
+                            <h:inputText value="#{EstateMBean.selectContactByID(EstateMBean.estate.contactDetailsID.contactDetailsID).contactAddress}" />
+                            <h:outputText value="Contact Email: "/>
+                            <h:inputText value="#{EstateMBean.selectContactByID(EstateMBean.estate.contactDetailsID.contactDetailsID).contactEmail}" />
+                            <h:outputText value="Contact Telephone: "/>
+                            <h:inputText value="#{EstateMBean.selectContactByID(EstateMBean.estate.contactDetailsID.contactDetailsID).contactTelephone}" />
+
+                            <p:commandButton value="Delete" action="#{EstateMBean.deleteEstate(EstateMBean.estate)}" oncomplete="estateDialog.hide()" update=":form:estatesTable, :form:growl1"/>
+                            <p:commandButton value="Update" action="#{EstateMBean.editEstate(EstateMBean.estate)}" oncomplete="estateDialog.hide()" update=":form:estatesTable, :form:growl1"/>
+                        </c:if>
                     </h:panelGrid>
                 </p:dialog>    
 
             </h:panelGrid>
-
+            
+            
         </h:form>
 
-        <h:form>
-            <h:panelGrid columns="1">
-
-                <p:commandButton id="viewButton" value="Add new estate" 
-                                 oncomplete="addestateDialog.show()"/> 
-
-                <p:dialog id="dialogadd" header="Add New estate" widgetVar="addestateDialog" resizable="false"  
-                          showEffect="fade" hideEffect="fade">  
-                    <h:panelGrid id="displayAdd" columns="2" cellpadding="4">  
-                        <h:outputText value="estate ID"/>
-                        <p:inputText value="#{estateMBean.estate2.estateID}" title="estate ID" />                    
-
-                        <h:outputText value="estate Name" />
-                        <p:inputText value="#{estateMBean.estate2.estateName}" title="estate Name"/>                    
-
-                    </h:panelGrid>  
-                    <p:commandButton value="Create" action="#{estateMBean.createestate()}" oncomplete="addestateDialog.hide()" update=":growl1, :form:citiesTable" />                      
-
-                </p:dialog>
-
-            </h:panelGrid>
-        </h:form>
     </ui:define>
 
 </ui:composition>
