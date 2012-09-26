@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../template/AdminTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="content">
+        <f:view>
+            <h:form id="form">
+                <p:panelGrid columns="1" style="width: 720px">
+
+
+                    <p:dataTable value="#{Member1MBean.ltSeller}" var="item" rowKey="#{item.userName}" paginator="true" rows="10"
+                                 selection="#{Member1MBean.mem}" selectionMode="single" filteredValue="#{Member1MBean.filteredMember}" id="membersTable" style="width:690px;">
+                        <p:ajax event="rowSelect" update=":form:display" oncomplete="memberDialog.show()" />
+                        <p:column sortBy="#{item.userName}" filterBy="#{item.userName}"  >
+                            <f:facet name="header">
+                                <h:outputText value="UserName"/>
+                            </f:facet>
+                            <h:outputText value="#{item.userName}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.fullName}" filterBy="#{item.fullName}" >
+                            <f:facet name="header">
+                                <h:outputText value="FullName"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fullName}" />
+                        </p:column>
+                        <p:column sortBy="#{item.gender}"  >
+                            <f:facet name="header">
+                                <h:outputText value="Gender"/>
+                            </f:facet>
+                            <h:outputText value="#{item.gender}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.company}" filterBy="#{item.company}" >
+                            <f:facet name="header">
+                                <h:outputText value="Company"/>
+                            </f:facet>
+                            <h:outputText value="#{item.company}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.isEnabled}"  >
+                            <f:facet name="header">
+                                <h:outputText value="IsEnabled"/>
+                            </f:facet>
+                            <h:outputText value="#{item.isEnabled}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.address}" filterBy="#{item.address}" >
+                            <f:facet name="header">
+                                <h:outputText value="Address"/>
+                            </f:facet>
+                            <h:outputText value="#{item.address}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dialog header="Member Detail" widgetVar="memberDialog" resizable="true"  
+                              width="400" showEffect="explode" hideEffect="explode">
+                        <center>
+
+                            <p:panelGrid id="display" columns="2" cellpadding="4" style="width: 370px">
+
+                                <f:facet name="header">
+                                    <h:outputText value="Hinh anh" />
+                                </f:facet>
+
+                                <h:outputText value="User Name " />
+                                <h:inputText value="#{Member1MBean.mem.userName}" id="userName"/>                        
+
+                                <h:outputText value="Full Name" />
+                                <h:inputText value="#{Member1MBean.mem.fullName}" id="fullName"/>
+
+                                <h:outputText value="Email" />
+                                <h:inputText value="#{Member1MBean.mem.email}" id="email"/>
+
+                                <h:outputText value="Date Of Birth" />
+                                <h:inputText value="#{Member1MBean.mem.dateOfBirth}" id="dateOfBirth"/>
+
+                                <h:outputText value="Gender" />
+                                <h:inputText value="#{Member1MBean.mem.gender}" id="gender"/>
+
+                                <h:outputText value="Address" />
+                                <h:inputText value="#{Member1MBean.mem.address}" id="address"/>
+
+                                <h:outputText value="Phone" />
+                                <h:inputText value="#{Member1MBean.mem.telephone}" id="telephone"/>
+
+                                <h:outputText value="Company" />
+                                <h:inputText value="#{Member1MBean.mem.company}" id="company"/>
+
+                                <h:outputText value="Role" />
+                                <h:inputText value="#{Member1MBean.mem.role}" id="role"/>
+                                <f:facet name="footer">
+                                    <p:commandButton value="Delete" action="#{Member1MBean.removeMember()}" oncomplete="memberDialog.hide()" update="growl membersTable"/>
+                                    <p:commandButton value="Update" action="#{Member1MBean.editMember()}" oncomplete="memberDialog.hide()" update="growl membersTable"/>
+                                </f:facet>
+                            </p:panelGrid>
+                        </center>
+                    </p:dialog> 
+                    <f:facet name="footer">
+                        <p:commandButton id="viewButton" value="Add new member" 
+                                         oncomplete="addMemberDialog.show()"/>
+                    </f:facet>
+                </p:panelGrid>
+                <p:dialog id="dialogadd" header="Add New Member" widgetVar="addMemberDialog" resizable="false"  
+                          showEffect="fade" hideEffect="fade">  
+                    <h:panelGrid id="displayAdd" columns="3" cellpadding="4">  
+                        <p:outputLabel value="User Name" for="uID"/>
+                        <p:inputText id="uID" value="#{Member1MBean.newSeller.userName}" title="User Name" required="true"/>                    
+                        <p:message for="uID"/>
+
+                        <p:outputLabel value="Full Name" for="fuName"/>
+                        <p:inputText id="fuName" value="#{Member1MBean.newSeller.fullName}" title="Full Name" required="true" />                    
+                        <p:message for="fuName"/>
+
+                        <p:outputLabel value="Email" for="ema"/>
+                        <p:inputText id="ema" value="#{Member1MBean.newSeller.email}" title="Email" required="true" />                    
+                        <p:message for="ema"/>
+
+                        <p:outputLabel value="Date Of Birth" for="date"/>
+                        <p:inputText id="date" value="#{Member1MBean.newSeller.dateOfBirth}" title="Date Of Birth" required="true" />                    
+                        <p:message for="date"/>
+
+                        <p:outputLabel value="Gender" for="gen"/>
+                        <p:inputText id="gen" value="#{Member1MBean.newSeller.gender}" title="Gender" required="true" />                    
+                        <p:message for="gen"/>
+
+                        <p:outputLabel value="Address" for="add"/>
+                        <p:inputText id="add" value="#{Member1MBean.newSeller.address}" title="Address" required="true" />                    
+                        <p:message for="add"/>
+
+                        <p:outputLabel value="Telephone" for="tel"/>
+                        <p:inputText id="tel" value="#{Member1MBean.newSeller.telephone}" title="Telephone" required="true" />                    
+                        <p:message for="tel"/>
+
+                        <p:outputLabel value="Company" for="com"/>
+                        <p:inputText id="com" value="#{Member1MBean.newSeller.company}" title="Company" required="true" />                    
+                        <p:message for="com"/>
+
+                    </h:panelGrid>  
+                    <p:commandButton value="Create" action="#{Member1MBean.createNewSeller()}" oncomplete="addMemberDialog.hide()" update="growl :form:membersTable"/>                      
+                </p:dialog>
+                <p:growl id="growl"/>
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>
