@@ -33,7 +33,124 @@ public class EstateMBean {
     @EJB
     private EstateFacade estateFacade;
     private ContactDetailsFacade contactFacade;
+    //define properties for view renting or selling estate
+    String estateID, estateTitle, estateStartDay, estateEndDay, estateAddress,
+            estateContent, estateArea, estateValue, estateDriveway, estateDirection,
+            estateNumOfFloor, estateNumOfRoom, estateNumOfToilet, estateNumOfView;
 
+    public String getEstateContent() {
+        return estate.getEstateContent();
+    }
+
+    public void setEstateContent(String estateContent) {
+        this.estateContent = estateContent;
+    }
+
+    public String getEstateAddress() {
+        return estate.getEstateAddress();
+    }
+
+    public void setEstateAddress(String estateAddress) {
+        this.estateAddress = estateAddress;
+    }
+
+    public String getEstateArea() {
+        return estate.getEstateArea();
+    }
+
+    public void setEstateArea(String estateArea) {
+        this.estateArea = estateArea;
+    }
+
+    public String getEstateDirection() {
+        return estate.getEstateDirection();
+    }
+
+    public void setEstateDirection(String estateDirection) {
+        this.estateDirection = estateDirection;
+    }
+
+    public String getEstateDriveway() {
+        return estate.getEstateDriveway();
+    }
+
+    public void setEstateDriveway(String estateDriveway) {
+        this.estateDriveway = estateDriveway;
+    }
+
+    public String getEstateEndDay() {
+        return estate.getEstateEndDay();
+    }
+
+    public void setEstateEndDay(String estateEndDay) {
+        this.estateEndDay = estateEndDay;
+    }
+
+    public String getEstateID() {
+        return estateID;
+    }
+
+    public void setEstateID(String estateID) {
+        this.estateID = estateID;
+    }
+
+    public String getEstateNumOfFloor() {
+        return estate.getEstateNumberOfFloors();
+    }
+
+    public void setEstateNumOfFloor(String estateNumOfFloor) {
+        this.estateNumOfFloor = estateNumOfFloor;
+    }
+
+    public String getEstateNumOfRoom() {
+        return estate.getEstateNumberOfRooms();
+    }
+
+    public void setEstateNumOfRoom(String estateNumOfRoom) {
+        this.estateNumOfRoom = estateNumOfRoom;
+    }
+
+    public String getEstateNumOfToilet() {
+        return estate.getEstateNumberOfToilets();
+    }
+
+    public void setEstateNumOfToilet(String estateNumOfToilet) {
+        this.estateNumOfToilet = estateNumOfToilet;
+    }
+
+    public String getEstateNumOfView() {
+        return estate.getEstateNumOfView();
+    }
+
+    public void setEstateNumOfView(String estateNumOfView) {
+        this.estateNumOfView = estateNumOfView;
+    }
+
+    public String getEstateStartDay() {
+        return estate.getEstateStartDay();
+    }
+
+    public void setEstateStartDay(String estateStartDay) {
+        this.estateStartDay = estateStartDay;
+    }
+
+    public String getEstateTitle() {
+        return estate.getEstateTitle();
+    }
+
+    public void setEstateTitle(String estateTitle) {
+        this.estateTitle = estateTitle;
+    }
+
+    public String getEstateValue() {
+        return estate.getEstateValue();
+    }
+
+    public void setEstateValue(String estateValue) {
+        this.estateValue = estateValue;
+    }
+
+    //end define properties         
     public ContactDetailsFacade getContactFacade() {
         return contactFacade;
     }
@@ -602,33 +719,12 @@ public class EstateMBean {
     public void goToEstateDetails() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/estateDetails.jsf");
     }
-    
-    public String selectSubscribeNameByID(String subscribeID) {
-        String id = null;
-        if (subscribeID != null) {
-            id = subscribeID.substring(36, subscribeID.length() - 2);
+
+    public ImageCategory getListImage(String imageCategoryID) {
+        ImageCategory imageList = new ImageCategory();
+        if (imageCategoryID != null && !imageCategoryID.isEmpty()) {
+            imageList = getEstateFacade().getImageCategoryByID(imageCategoryID);
         }
-        Subscribe subscribeobj = getEstateFacade().getSubscribeByID(id);
-        return subscribeobj.getSubscribeName();
-    }
-    
-    public void ApprovalEstate(Estate estate) {
-        if(estate!=null){
-            estate.setIsEnabled("true");
-            getEstateFacade().edit(estate);
-            messages.taoTB(FacesMessage.SEVERITY_INFO, "Approval Success.", "Approval Success.");
-        }
-        else
-            messages.taoTB(FacesMessage.SEVERITY_ERROR, "Approval Failed.", "Approval Failed.");
-    }
-    
-    public void RejectEstate(Estate estate) {
-        if(estate!=null){
-            estate.setIsEnabled("false");
-            getEstateFacade().edit(estate);
-            messages.taoTB(FacesMessage.SEVERITY_INFO, "Reject Success.", "Reject Success.");
-        }
-        else
-            messages.taoTB(FacesMessage.SEVERITY_ERROR, "Reject Failed.", "Reject Failed.");
+        return imageList;
     }
 }
