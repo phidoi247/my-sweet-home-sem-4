@@ -3,63 +3,61 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="./template/HomeTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:h="http://java.sun.com/jsf/html"                
+                xmlns:f="http://java.sun.com/jsf/core" >
 
     <ui:define name="title">
-        Renting Department
+        Renting Estate
     </ui:define>
 
     <ui:define name="col1">
 
-        <p:carousel id="showImage" value="#{EstateMBean.estateList}" var="estateVar" itemStyleClass="estateItem">
+        <h:form id="form">
 
-            <h:panelGrid columns="1">
+            <p:dataList value="#{EstateMBean.estateList}" var="estateVar" id="estate"
+                        paginator="true" rows="5" 
+                        paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="5,10,15" type="none">
 
-                <p:graphicImage value="./resources/images/#{EstateMBean.listImage(estateVar.imageCategoryID.imageCategoryID).image1}" width="200" height="200"/>
-                <h:panelGrid columns="1">
-                    <p:fieldset legend="Basic info">  
-                        <h:panelGrid columns="1" cellpadding="10">                        
-                            <h:panelGrid columns="1">
-                                <h:outputText value="Title: #{estateVar.estateTitle} "/>
-                                <h:outputText value="Area:  #{estateVar.estateArea} "/>
-                                <h:outputText value="Value: #{estateVar.estateValue}"/>
-                            </h:panelGrid>             
-                        </h:panelGrid>  
-                    </p:fieldset>
+                <f:facet name="header">
+                    Renting Estate List
+                </f:facet>
 
-                    <p:fieldset legend="More info" toggleable="true" toggleSpeed="500">  
-                        <p:ajax event="toggle" listener="#{fieldsetBean.handleToggle}"  />  
-                        <h:panelGrid columns="1" cellpadding="10">                      
-                            <p:panelGrid columns="1">
-                                <h:outputText value="Address: #{estateVar.estateAddress}"/>
-                                <h:outputText value="Driveway: #{estateVar.estateDriveway}" />
-                                <h:outputText value="Direction: #{estateVar.estateDirection}"/>
-                                <h:outputText value="Number of rooms: #{estateVar.estateNumberOfRooms}"/>
-                                <h:outputText value="More detail: #{estateVar.estateContent}"/>           
-                            </p:panelGrid>
-                        </h:panelGrid>  
-                    </p:fieldset>           
-                </h:panelGrid>
+                <p:commandButton icon="ui-icon-search" update=":form:estateDetail" oncomplete="estateDialog.show()" title="View Detail">
+                    <f:setPropertyActionListener value="#{estateVar}" target="#{EstateMBean.estate}" />
+                </p:commandButton> 
+                
+                <h:outputText value="#{estateVar.estateArea}, #{estateVar.estateAddress}" style="margin-left:10px;" />
+                <h:outputText value="Price: #{estateVar.estateValue}" style="margin-left:10px; font-weight: bold;" />
 
-            </h:panelGrid>
+            </p:dataList>
 
-        </p:carousel>  
+            <p:dialog header="Estate Detail" widgetVar="estateDialog" modal="true" showEffect="fade">
+                <p:outputPanel id="estateDetail" style="text-align:left;" layout="block">
 
+                    <p:graphicImage value="./resources/images/page1_img1.jpg"/>
 
+                    <h:panelGrid  columns="2" cellpadding="5">
+                        <h:outputLabel for="content" value="Content: " />
+                        <h:outputText id="content" value="#{EstateMBean.estate.estateContent}" />
 
-    </ui:define>
+                        <h:outputLabel for="driveway" value="Driveway: " />
+                        <h:outputText id="driveway" value="#{EstateMBean.estate.estateDriveway}" />
 
-    <ui:define name="col1_2">
+                        <h:outputLabel for="direction" value="Direction: " />
+                        <h:outputText id="direction" value="#{EstateMBean.estate.estateDirection}" />
 
-    </ui:define>
+                        <h:outputLabel for="price" value="Price: " style="font-weight: bolder;"/>
+                        <h:outputText id="price" value="#{EstateMBean.estate.estateValue}" style="font-weight: bolder;"/>
+                    </h:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
 
-    <ui:define name="col2_2">
+        </h:form>
 
-    </ui:define>
-
-    <ui:define name="body3">
 
     </ui:define>
+
+
 
 </ui:composition>

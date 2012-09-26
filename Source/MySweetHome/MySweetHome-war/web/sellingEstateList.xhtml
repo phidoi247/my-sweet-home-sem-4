@@ -24,14 +24,19 @@
                 </f:facet>
                 <h:panelGrid columns="2" cellpadding="10" cellspacing="5" >
                     <p:commandLink style="margin-right: 2px;" id="selectButton" actionListener="#{EstateMBean.goToEstateDetails()}" >
-                        <p:graphicImage url="./resources/images/page1_img1.jpg" width="100" height="100" style="cursor: pointer; border: 0px"/>
+                        <p:graphicImage url="./resources/images/page1_img1.jpg" width="150" height="130" style="cursor: pointer; border: 0px"/>
                         <f:setPropertyActionListener value="#{estate}" target="#{EstateMBean.selectedEstate}" />
                     </p:commandLink>
-                    
-                    <h:panelGrid columns="1">
-                        <h:outputText id="EstateContent" value="Content: #{estate.estateContent}" />
-                        <h:outputText id="EstateAddress" value="Address: #{estate.estateAddress}"  /> 
-                        <h:outputText id="EstateValue" value="Price: #{estate.estateValue}"  /> 
+
+                    <h:panelGrid columns="2" cellspacing="5"  cellpadding="5" style="font-size: 18px;">                        
+                        <h:outputLabel for="EstateContent" value="Content:" style="font-weight: bolder; "/>
+                        <h:outputText id="EstateContent" value=" #{estate.estateContent}" style="font-size: 16px;"/>
+                        
+                        <h:outputLabel for="EstateAddress" value="Address:" style="font-weight: bolder; "/>
+                        <h:outputText id="EstateAddress" value=" #{estate.estateAddress}" style="font-size: 16px;"/>
+                        
+                        <h:outputLabel for="EstateValue" value="Price:" style="font-weight: bolder; "/>
+                        <h:outputText id="EstateValue" value=" #{estate.estateValue}" style="font-size: 16px;" />
                     </h:panelGrid>
 
 
