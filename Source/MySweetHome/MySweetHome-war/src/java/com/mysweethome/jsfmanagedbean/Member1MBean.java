@@ -5,6 +5,7 @@
 package com.mysweethome.jsfmanagedbean;
 
 import com.mysweethome.entity.Member1;
+import com.mysweethome.entity.TypeOfMember;
 import com.mysweethome.helper.*;
 import com.mysweethome.session.Member1Facade;
 import com.mysweethome.session.TypeOfMemberFacade;
@@ -32,7 +33,7 @@ public class Member1MBean {
     @EJB
     private Member1Facade member1Facade;
     private Member1 mem;
-    private Member1 myProfile ;
+    private Member1 myProfile;
     private String idmem;
     private TypeOfMemberFacade typeOfMemberFace;
     public List<Member1> memberList;
@@ -53,10 +54,9 @@ public class Member1MBean {
     public void setIdmem(String idmem) {
         this.idmem = idmem;
     }
-    
 
     public List<Member1> getBuyerList() {
-        return buyerList=getMember1Facade().getBuyerList();
+        return buyerList = getMember1Facade().getBuyerList();
     }
 
     public void setBuyerList(List<Member1> buyerList) {
@@ -64,7 +64,7 @@ public class Member1MBean {
     }
 
     public List<Member1> getSellerList() {
-        return sellerList=getMember1Facade().getSellerList();
+        return sellerList = getMember1Facade().getSellerList();
     }
 
     public void setSellerList(List<Member1> sellerList) {
@@ -103,9 +103,141 @@ public class Member1MBean {
     public String typeOfMemberID;
     public String role;
     public String telephone;
+    //Hoang anh
+    private List<Member1> ltSeller;
+    private Member1 newSeller = new Member1();
+    private List<Member1> ltBuyer;
+    private Member1 newBuyer = new Member1();
+
+    public List<Member1> getLtBuyer() {
+        if (operationSession.getSession("MemberList") == null) {
+            ltBuyer = member1Facade.getBuyerList();
+            operationSession.createSession("MemberList", 1);
+
+        }
+        return ltBuyer;
+    }
+
+    public void setLtBuyer(List<Member1> ltBuyer) {
+        this.ltBuyer = ltBuyer;
+    }
+
+    public Member1 getNewBuyer() {
+        return newBuyer;
+    }
+
+    public void setNewBuyer(Member1 newBuyer) {
+        this.newBuyer = newBuyer;
+    }
+    public List<Member1> getLtSeller() {
+        if (operationSession.getSession("MemberList") == null) {
+            ltSeller = member1Facade.getSellerList();
+            operationSession.createSession("MemberList", 1);
+
+        }
+        return ltSeller;
+    }
+
+    public void setLtSeller(List<Member1> ltSeller) {
+        this.ltSeller = ltSeller;
+    }
+
+    public Member1 getNewSeller() {
+        return newSeller;
+    }
+
+    public void setNewSeller(Member1 newSeller) {
+        this.newSeller = newSeller;
+    }
+
+    public void createNewSeller() {
+
+        if (member1Facade.getUserName(newBuyer.getUserName()) != null) {
+            messages.taoTB(FacesMessage.SEVERITY_WARN, "User name had already", "This username had already. Please select another username.");
+        } else {
+            newBuyer.setIsEnabled("true");
+            newBuyer.setPassword(MD5.getMD5("12345"));
+            newBuyer.setTypeOfMemberID(new TypeOfMember("1"));
+            newBuyer.setRole("Member");
+            member1Facade.create(newBuyer);
+            System.out.println("*************" +newBuyer.getEmail());
+            //send mail to user to active account
+            try {
+                String from = "drleehoanh@gmail.com";
+                String to = newBuyer.getEmail();
+                String subject = "My Sweet Home";
+                String body = "Dear " + newBuyer.getUserName() + ",\n";
+                body += "Wellcome to my website!\n";
+                body += "You had registed a new account. Please active this account by clicking below link:\n";
+                body += "http://localhost:8080/MySweetHome-war/activeAccount.jsf?username=" + newSeller.getUserName() + "&code=" + newSeller.getCode() + "\n";
+                body += "Thanks you!\n";
+                body += "--------------------------\n";
+                body += "My group:\n";
+                body += "Ngo Quang Huy\n";
+                body += "Vu Long\n";
+                body += "Nguyen Anh Tan\n";
+                body += "Huynh Quang Vinh\n";
+                body += "Le Xuan Trung";
+                MailConfig config = new MailConfig();
+                Message message = config.createMessage(from, to, subject, body);
+                config.sendEmail(message);
+            } catch (MessagingException ex) {
+            }
+            messages.taoTB(FacesMessage.SEVERITY_INFO, "Register success", "Registration success. Please check your email to active account before login to system.");
+        }
+        toMember();
+    }
+public void createNewBuyer() {
+
+        if (member1Facade.getUserName(newSeller.getUserName()) != null) {
+            messages.taoTB(FacesMessage.SEVERITY_WARN, "User name had already", "This username had already. Please select another username.");
+        } else {
+            newSeller.setIsEnabled("true");
+            newSeller.setPassword(MD5.getMD5("12345"));
+            newSeller.setTypeOfMemberID(new TypeOfMember("2"));
+            newSeller.setRole("Member");
+            member1Facade.create(newSeller);
+            System.out.println("*************" +newSeller.getEmail());
+            //send mail to user to active account
+            try {
+                String from = "drleehoanh@gmail.com";
+                String to = newSeller.getEmail();
+                String subject = "My Sweet Home";
+                String body = "Dear " + newSeller.getUserName() + ",\n";
+                body += "Wellcome to my website!\n";
+                body += "You had registed a new account. Please active this account by clicking below link:\n";
+                body += "http://localhost:8080/MySweetHome-war/activeAccount.jsf?username=" + newSeller.getUserName() + "&code=" + newSeller.getCode() + "\n";
+                body += "Thanks you!\n";
+                body += "--------------------------\n";
+                body += "My group:\n";
+                body += "Ngo Quang Huy\n";
+                body += "Vu Long\n";
+                body += "Nguyen Anh Tan\n";
+                body += "Huynh Quang Vinh\n";
+                body += "Le Xuan Trung";
+                MailConfig config = new MailConfig();
+                Message message = config.createMessage(from, to, subject, body);
+                config.sendEmail(message);
+            } catch (MessagingException ex) {
+            }
+            messages.taoTB(FacesMessage.SEVERITY_INFO, "Register success", "Registration success. Please check your email to active account before login to system.");
+        }
+        toMember();
+    }
 
     public List<Member1> getMemberList() {
-        return memberList = member1Facade.findAll();
+        if (operationSession.getSession("MemberList") == null) {
+            memberList = member1Facade.findAll();
+            operationSession.createSession("MemberList", 1);
+
+        }
+        return memberList;
+    }
+
+    public void toMember() {
+        if (operationSession.getSession("MemberList") != null) {
+            operationSession.deleteGTsession("MemberList");
+        }
     }
 
     public void setMemberList(List<Member1> memberList) {
@@ -249,6 +381,7 @@ public class Member1MBean {
         member1Facade = new Member1Facade();
         memberList = new ArrayList<Member1>();
         filteredMember = new ArrayList<Member1>();
+       
     }
 
     public void createMember() {
@@ -298,34 +431,29 @@ public class Member1MBean {
             }
             messages.taoTB(FacesMessage.SEVERITY_INFO, "Register success", "Registration success. Please check your email to active account before login to system.");
         }
+        toMember();
     }
 
     public void removeMember() {
-        String str = getMem().getUserName();
-        getMem().setUserName(str);
-        getMember1Facade().remove(getMem());
+        
+        getMember1Facade().remove(mem);
+        toMember();
+        messages.taoTB(FacesMessage.SEVERITY_INFO, "Delete ok!", "Delete ok!");
+        
     }
 
     public void removeMember(String username) {
         Member1 memtemp = this.getMember1Facade().find(username);
 
         getMember1Facade().remove(memtemp);
+        toMember();
     }
 
     public void editMember() {
 
-        String str = getMem().getUserName();
-        Member1 member1;
-        member1 = getMember1Facade().getUserName(str);
-        member1.setEmail(email);
-        member1.setAddress(address);
-        member1.setFullName(fullName);
-        member1.setGender(gender);
-        member1.setCompany(company);
-        member1.setTelephone(phone);
-        member1.setRole(role);
-
-        getMember1Facade().edit(member1);
+        member1Facade.edit(mem);
+        toMember();
+        messages.taoTB(FacesMessage.SEVERITY_INFO, "Edit success", "Edit success!");
     }
 
     public void activeAccount() {
@@ -342,25 +470,25 @@ public class Member1MBean {
             }
         }
     }
-    public void changeProfile()
-    {
+
+    public void changeProfile() {
         member1Facade.edit(myProfile);
         messages.taoTB(FacesMessage.SEVERITY_INFO, "Change success", "Change success!");
-        
+
     }
-    public Member1 getProfile()
-    {
+
+    public Member1 getProfile() {
         String userN = operationSession.getSession("username").toString();
         myProfile = this.member1Facade.getUserName(userN);
         return myProfile;
     }
-    public void toProfile()
-    {
+
+    public void toProfile() {
         getProfile();
     }
 
     public void changePass() {
-        
+
         String passMD5 = MD5.getMD5(password);
         this.mem = getProfile();
         if (passMD5.equalsIgnoreCase(this.mem.getPassword())) {
@@ -369,18 +497,17 @@ public class Member1MBean {
                 String passNew = MD5.getMD5(passnew);
                 this.mem.setPassword(passNew);
                 this.member1Facade.edit(mem);
-                messages.taoTB(FacesMessage.SEVERITY_INFO,"Change Pass Successfull !", "Change Pass Successfull !");
-                
+                messages.taoTB(FacesMessage.SEVERITY_INFO, "Change Pass Successfull !", "Change Pass Successfull !");
+
             } else {
                 operationSession.createSession("Admin", idmem);
-                messages.taoTB(FacesMessage.SEVERITY_ERROR,"New pass not same !", "New pass not same !");
-               
+                messages.taoTB(FacesMessage.SEVERITY_ERROR, "New pass not same !", "New pass not same !");
+
             }
         } else {
 
             messages.taoTB(FacesMessage.SEVERITY_INFO, "", "Password Is Correct !");
-            
+
         }
     }
-
 }
