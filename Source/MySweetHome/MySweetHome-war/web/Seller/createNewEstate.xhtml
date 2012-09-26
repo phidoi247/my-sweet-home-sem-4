@@ -36,11 +36,7 @@
                         </p:selectOneMenu>
                         <p:message for="txtSubscribe"/>
                     </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="3">
-                        <h:outputText value="Value of posting: " />
-                        <p:inputText value="#{EstateMBean.value}" id="txtValue" readonly="true" />
-                        <p:message for="txtSubscribe"/>
-                    </h:panelGrid>
+                    
                 </h:panelGrid>
                 <h:panelGrid columns="1" cellpadding="3" style="font-size: 13px;">
                     <h:outputText value="You should select Vip subscribe for posting estate effect " />
@@ -192,7 +188,7 @@
             </p:fieldset>
 
             <p:commandButton id="btnCreateEstate" value="Create Estate" 
-                             action="#{EstateMBean.createEstate}"/> 
+                             action="#{EstateMBean.createEstate()}"/> 
         </h:form>
     </h:body>
 </html>
