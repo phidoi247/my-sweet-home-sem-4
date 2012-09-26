@@ -11,7 +11,51 @@
     </ui:define>
 
     <ui:define name="content">
-        content
+        <f:view>
+            <center>
+                <h:form>
+
+                    <p:panelGrid columns="2">
+                        <f:facet name="header">  
+                            MY PROFILE  
+                        </f:facet>
+                        <h:outputLabel value="UserName:" for="userName" />
+                        <h:outputLabel id="userName" value="#{Member1MBean.myProfile.userName}" title="UserName" style="font-weight: bold"/>
+                        <h:outputLabel value="Email:" for="email" />
+                        <h:inputText id="email" value="#{Member1MBean.myProfile.email}" title="Email" />
+                        <h:outputLabel value="FullName:" for="fullName" />
+                        <h:inputText id="fullName" value="#{Member1MBean.myProfile.fullName}" title="FullName" />
+                        <h:outputLabel value="DateOfBirth:" />
+                        <h:inputText value="#{Member1MBean.myProfile.dateOfBirth}" id="Date"/>
+                        <h:outputLabel value="Gender:" for="gender" />
+                        <h:inputText id="gender" value="#{Member1MBean.myProfile.gender}" title="Gender" />
+                        <h:outputLabel value="Address:" for="address" />
+                        <h:inputText id="address" value="#{Member1MBean.myProfile.address}" title="Address" />
+                        <h:outputLabel value="Telephone:" for="telephone" />
+                        <h:inputText id="telephone" value="#{Member1MBean.myProfile.telephone}" title="Telephone" />
+                        <h:outputLabel value="Company:" for="company" />
+                        <h:inputText id="company" value="#{Member1MBean.myProfile.company}" title="Company" />
+                        <h:outputLabel value="IsEnabled:" for="isEnabled" />
+                        <h:inputText id="isEnabled" value="#{Member1MBean.myProfile.isEnabled}" title="IsEnabled" />
+                        <h:outputLabel value="Code:" for="code" />
+                        <h:inputText id="code" value="#{Member1MBean.myProfile.code}" title="Code" />
+                        <h:outputLabel value="Role:" for="role" />
+                        <h:inputText id="role" value="#{Member1MBean.myProfile.role}" title="Role" />
+                        <h:outputLabel value="TypeOfMemberID:" for="typeOfMemberID" />
+                        <p:selectOneMenu id="typeOfMemberID" value="#{Member1MBean.myProfile.typeOfMemberID.typeOfMemberID}" title="TypeOfMemberID" >
+                            <!-- TODO: update below reference to list of available items-->
+                            <f:selectItems value="#{TypeOfMemberMBean.typeOfMember}"/>
+                        </p:selectOneMenu>
+                        <f:facet name="footer">
+                            <p:commandButton value="Change" action="#{Member1MBean.changeProfile()}" update="growl"/>
+                        </f:facet>
+
+                    </p:panelGrid>
+                    <p:growl id="growl"/>
+                </h:form>
+            </center>
+        </f:view>
+
     </ui:define>
 
 </ui:composition>
