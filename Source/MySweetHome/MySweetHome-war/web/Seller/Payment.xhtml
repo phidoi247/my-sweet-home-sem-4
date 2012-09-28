@@ -1,14 +1,33 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./../template/SellerTemplate.xhtml">
+                template="./../template/SellerTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="title">
         title
     </ui:define>
 
     <ui:define name="content">
-        
+        <f:view>
+            <h:form>
+                <h:panelGrid columns="1">
+                    <h:outputText value="Your card number: "/>
+                    <p:inputText value="#{transactionMBean.from}"/>                        
+
+                    <h:outputLabel value="Your password: "/>
+                    <p:password value="#{transactionMBean.password}" />                                        
+                    
+                    <h:outputLabel value="Your money must pay: "/>
+                    <p:inputText value="#{transactionMBean.balance}"/>
+                    
+                    <h:commandButton action="#{transactionMBean.transfer()}" value="Pay"/>
+                </h:panelGrid>
+            </h:form>
+        </f:view>
+
     </ui:define>
 
 </ui:composition>
