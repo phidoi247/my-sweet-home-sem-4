@@ -2,50 +2,40 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="./template/HomeTemplate.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
 
     <ui:define name="title">
         Contact Us
     </ui:define>
-    
+
     <ui:define name="col1">
         <div class="pad2">
             <h2 class="pad_bot1 pad_top1">Contact Information</h2>
-            <form id="ContactForm">
+            <h:form id="ContactForm">
+                <p:growl id="growl1" showDetail="true" life="3000" />
                 <div>
-                    <div  class="wrapper">
+                    <div class="wrapper">
                         <span>Your Name:</span>
-                        <h:inputText value="" />
-                        
+                        <h:inputText id="txtName" value="#{ContacDetailsMBean.name}" style="width: 250px;"/>
                     </div>
-                    <div  class="wrapper">
+                    <div class="wrapper">
                         <span>Your E-mail:</span>
-                        <h:inputText value="" />
+                        <h:inputText id="txtEmail" value="#{ContacDetailsMBean.email}" style="width: 250px;"/>
                     </div>
-                    <div  class="textarea_box">
+                    <div class="wrapper">
+                        <span>Title:</span>
+                        <h:inputText id="txtTitle" value="#{ContacDetailsMBean.title}" style="width: 250px;"/>
+                    </div>
+                    <div class="textarea_box">
                         <span>Your Message:</span>
-                        <h:inputTextarea value="" />
+                        <h:inputTextarea id="txtContent" value="#{ContacDetailsMBean.content}" />
                     </div>
                     <span>&nbsp;</span>
-                    <p:commandButton value="Send"  />                      
-                                     
-                    
+                    <h:commandButton value="Send" id="btnSend" styleClass="button" action="#{ContacDetailsMBean.sendContact()}" update="growl1"  />
                 </div>
-                
-            </form>
+            </h:form>
         </div>
     </ui:define>
-
-    
-    <ui:define name="col1_2">
-        
-    </ui:define>
-
-    
-    <ui:define name="col2_2">
-        
-    </ui:define>
-
 </ui:composition>
