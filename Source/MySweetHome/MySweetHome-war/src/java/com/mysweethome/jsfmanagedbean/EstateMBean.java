@@ -38,7 +38,24 @@ public class EstateMBean {
     String estateID, estateTitle, estateStartDay, estateEndDay, estateAddress,
             estateContent, estateArea, estateValue, estateDriveway, estateDirection,
             estateNumOfFloor, estateNumOfRoom, estateNumOfToilet, estateNumOfView;    
+    private String rangeArea;
+    private String rangePrice;
 
+    public String getRangeArea() {
+        return rangeArea;
+    }
+
+    public void setRangeArea(String rangeArea) {
+        this.rangeArea = rangeArea;
+    }
+
+    public String getRangePrice() {
+        return rangePrice;
+    }
+
+    public void setRangePrice(String rangePrice) {
+        this.rangePrice = rangePrice;
+    }
     public String getEstateContent() {
         return estate.getEstateContent();
     }
@@ -234,7 +251,15 @@ public class EstateMBean {
     String address;
     String cityID;
     List<Estate> filteredEstate;
+    List<Estate> searchEstate;
 
+    public List<Estate> getSearchEstate() {
+        return searchEstate;
+    }
+
+    public void setSearchEstate(List<Estate> searchEstate) {
+        this.searchEstate = searchEstate;
+    }
     public List<Estate> getFilteredEstate() {
         return filteredEstate = estateList;
     }
@@ -413,7 +438,7 @@ public class EstateMBean {
     }
 
     public List<District> getDistrictList() {
-        //districtList = estateFacade.getDistrictList();
+        districtList = estateFacade.getDistrictList();
         return districtList;
     }
 
@@ -661,30 +686,123 @@ public class EstateMBean {
     }
 
     public String searchAdvance() {
-//        String cityName=city.getCityName();
-//        String districtName=district.getDistrictName();
-//        String categoryName=category.getCategoryName();
-//        String typeOfEstateName=typeOfEstate.getTypeOfEstateName();
-        String estateNumberOfRooms = estate.getEstateNumberOfRooms();
-        String estateNumberOfToilets = estate.getEstateNumberOfToilets();
-//        int firstArea=this.firstArea;
-//        int lastArea=this.lastArea;
-//        int firstValue=this.firstValue;
-//        int lastValue=this.lastValue;
-//        if(lastArea==-1){
-//            lastArea=2147483647;
-//        }
-//        if(lastValue==-1){
-//            lastValue=2147483647;
-//        }
-        //get date time of system
-        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        String dateNow = format.format(date.getTime());
-        estateList = new ArrayList<Estate>();
-        //setEstateList(estateFacade.searchAdvance(cityName, districtName, categoryName, typeOfEstateName, estateNumberOfRooms, estateNumberOfToilets, firstArea, lastArea, firstValue, lastValue, dateNow));
-        setEstateList(estateFacade.searchAdvance("", "", "", "", estateNumberOfRooms, estateNumberOfToilets, firstArea, lastArea, firstValue, lastValue, dateNow));
-        return "/ViewEstate";
+        System.out.println("**************"+typeOfEstateID+categoryID+cityID+districtID+rangeArea+rangePrice+noFloor+noRoom);
+        float fiArea =0;
+        float laArea =0;
+        float fiPrice =0;
+        float laPrice=0;
+        List<Estate> search = estateFacade.searchAdvance(cityID, districtID, categoryID, typeOfEstateID, estateNumOfRoom, estateNumOfFloor);
+        if(search!=null)
+        {
+            if(rangeArea==null&&rangePrice==null)
+            {
+                searchEstate=search;
+            }else
+            {
+                if(rangeArea.equals("1"))
+                {
+                    fiArea=100;
+                    laArea=300;
+                }
+                if(rangeArea.equals("2"))
+                {
+                    fiArea=300;
+                    laArea=500;
+                }
+                if(rangeArea.equals("3"))
+                {
+                    fiArea=500;
+                    laArea=10000;
+                }
+                if(rangePrice.equals("1"))
+                {
+                    fiPrice=10000;
+                    laPrice=30000;
+                }
+                if(rangePrice.equals("2"))
+                {
+                    fiPrice=30000;
+                    laPrice=50000;
+                }
+                if(rangePrice.equals("3"))
+                {
+                    fiPrice=50000;
+                    laPrice=999999999;
+                }
+                List<Estate> searchArea= null;
+                List<Estate> searchPrice= null;
+                if(rangeArea!=null)
+                {
+                    
+                    for (int i = 0; i < search.size(); i++) {
+                        float area = Float.valueOf(search.get(i).getEstateArea()).floatValue();
+                        if(area>=fiArea&& area<= laArea)
+                        {
+                            searchArea.add(search.get(i));
+                        }
+                        
+                    }
+                }
+                if(rangePrice!=null)
+                {
+                    if(searchArea==null)
+                    {
+                        for (int i = 0; i < search.size(); i++) {
+                        float price = Float.valueOf(search.get(i).getSumValue()).floatValue();
+                        if(price>=fiPrice && price<= fiPrice)
+                        {
+                            searchPrice.add(search.get(i));
+                        }
+                        
+                         }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < searchArea.size(); i++) {
+                        float price = Float.valueOf(searchArea.get(i).getSumValue()).floatValue();
+                        if(price>=fiPrice && price<= fiPrice)
+                        {
+                            searchPrice.add(searchArea.get(i));
+                        }
+                        
+                         }
+                    }
+                }
+                if(searchPrice==null)
+                {
+                    searchEstate= searchArea;
+                }else
+                {
+                    searchEstate=searchPrice;
+                }
+                
+               
+            }
+        }
+////        String cityName=city.getCityName();
+////        String districtName=district.getDistrictName();
+////        String categoryName=category.getCategoryName();
+////        String typeOfEstateName=typeOfEstate.getTypeOfEstateName();
+//        String estateNumberOfRooms = estate.getEstateNumberOfRooms();
+//        String estateNumberOfToilets = estate.getEstateNumberOfToilets();
+////        int firstArea=this.firstArea;
+////        int lastArea=this.lastArea;
+////        int firstValue=this.firstValue;
+////        int lastValue=this.lastValue;
+////        if(lastArea==-1){
+////            lastArea=2147483647;
+////        }
+////        if(lastValue==-1){
+////            lastValue=2147483647;
+////        }
+//        //get date time of system
+//        Date date = new Date(System.currentTimeMillis());
+//        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+//        String dateNow = format.format(date.getTime());
+//        estateList = new ArrayList<Estate>();
+//        //setEstateList(estateFacade.searchAdvance(cityName, districtName, categoryName, typeOfEstateName, estateNumberOfRooms, estateNumberOfToilets, firstArea, lastArea, firstValue, lastValue, dateNow));
+//        setEstateList(estateFacade.searchAdvance("", "", "", "", estateNumberOfRooms, estateNumberOfToilets, firstArea, lastArea, firstValue, lastValue, dateNow));
+          return "/SearchResult";
     }
 
     public String getTodayDate() {
