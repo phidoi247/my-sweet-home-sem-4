@@ -8,6 +8,7 @@ import com.mysweethome.entity.*;
 import com.mysweethome.helper.messages;
 import com.mysweethome.helper.operationSession;
 import com.mysweethome.session.ContactDetailsFacade;
+import com.mysweethome.session.CurrencyFacade;
 import com.mysweethome.session.EstateFacade;
 import com.mysweethome.session.ImageCategoryFacade;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class EstateMBean {
     //define properties for view renting or selling estate
     String estateID, estateTitle, estateStartDay, estateEndDay, estateAddress,
             estateContent, estateArea, estateValue, estateDriveway, estateDirection,
-            estateNumOfFloor, estateNumOfRoom, estateNumOfToilet, estateNumOfView;
+            estateNumOfFloor, estateNumOfRoom, estateNumOfToilet, estateNumOfView;    
 
     public String getEstateContent() {
         return estate.getEstateContent();
@@ -280,15 +281,7 @@ public class EstateMBean {
 
     public void setSubscribeID(String subscribeID) {
         this.subscribeID = subscribeID;
-    }
-
-    public String getSumvalue() {
-        return sumvalue;
-    }
-
-    public void setSumvalue(String sumvalue) {
-        this.sumvalue = sumvalue;
-    }
+    } 
 
     public String getTypeOfEstateID() {
         return typeOfEstateID;
@@ -611,12 +604,12 @@ public class EstateMBean {
         estateNew.setEstateNumOfView("0");
         estateNew.setIsEnabled("false");
         estateNew.setIsPaid("false");
-        estateNew.setCurrencyID(estateFacade.getCurrencyByID(currencyID));
-        estateNew.setSubscribeID(estateFacade.getSubscribeByID(subscribeID));
-        estateNew.setTypeOfEstateID(estateFacade.getTypeOfEstateByID(typeOfEstateID));
-        estateNew.setCategoryID(estateFacade.getCategoryByID(categoryID));
-        estateNew.setUserName(estateFacade.getMember((String) operationSession.getSession("username")));
-        estateNew.setDistrictID(estateFacade.getDistrictByID(districtID));
+        estateNew.setCurrencyID(getEstateFacade().getCurrencyByID(currencyID));
+        estateNew.setSubscribeID(getEstateFacade().getSubscribeByID(subscribeID));
+        estateNew.setTypeOfEstateID(getEstateFacade().getTypeOfEstateByID(typeOfEstateID));
+        estateNew.setCategoryID(getEstateFacade().getCategoryByID(categoryID));
+        estateNew.setUserName(getEstateFacade().getMember((String) operationSession.getSession("username")));
+        estateNew.setDistrictID(getEstateFacade().getDistrictByID(districtID));
 
         //create new contactDetail object
         ContactDetails contactObj = new ContactDetails();
@@ -641,6 +634,21 @@ public class EstateMBean {
         //create
         estateFacade.create(estateNew);
         messages.taoTB(FacesMessage.SEVERITY_INFO, "Create estate success!", "Create estate success!");
+        
+        // Forward information to payment page
+//        try {
+//            FacesContext ctx = FacesContext.getCurrentInstance();
+//            ExternalContext ectx = ctx.getExternalContext();
+//            HttpServletRequest request = (HttpServletRequest) ectx.getRequest();
+//            HttpServletResponse response = (HttpServletResponse) ectx.getResponse();
+//            RequestDispatcher dispatcher = request.getRequestDispatcher("/Payment.jsf");
+//            dispatcher.forward(request, response);
+//            ctx.responseComplete();
+//        } catch (ServletException ex) {
+//            Logger.getLogger(EstateMBean.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(EstateMBean.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     public void editEstate(Estate estate) {
@@ -709,7 +717,7 @@ public class EstateMBean {
         }
     }
 
-    public int calculatePayment(String subscibe, Date startDay, Date endDay) {
+    public int calculatePayment(String subscribeID, Date startDay, Date endDay) {
         int total = 0;
         int noDate = endDay.compareTo(startDay);
         if (noDate > 0) {
@@ -794,9 +802,25 @@ public class EstateMBean {
             messages.taoTB(FacesMessage.SEVERITY_INFO, "Approval Success.", "Approval Success.");
         }
     }
+    CurrencyFacade currfacade= new CurrencyFacade();
 
-    public void rejectEstate(Estate estate) {
-        if (estate != null) {
+    public CurrencyFacade getCurrfacade() {
+        return currfacade;
+    }
+
+    public void setCurrfacade(CurrencyFacade currfacade) {
+        this.currfacade = currfacade;
+    }
+
+    public String getSumvalue() {
+        return sumvalue;
+    }
+
+    public void setSumvalue(String sumvalue) {
+        this.sumvalue = sumvalue;
+    }
+    public void RejectEstate(Estate estate) {
+        if(estate!=null){
             estate.setIsEnabled("false");
             getEstateFacade().edit(estate);
             messages.taoTB(FacesMessage.SEVERITY_INFO, "Reject Success.", "Reject Success.");
@@ -807,5 +831,13 @@ public class EstateMBean {
         if (!estate.getEstateStartDay().isEmpty()) {
             startDay = new Date(estate.getEstateStartDay());
         }
+    }
+    public double countSumValue(String estatevalue, String currencyvalue){
+        double Svalue;
+        
+        Currency currtemp = getCurrfacade().getbyCurrencyName(currencyvalue);
+        
+        Svalue= Double.parseDouble(currtemp.getVNDRate()) * Double.parseDouble(estatevalue);
+        return Svalue;
     }
 }
