@@ -16,7 +16,7 @@
                 <h:panelGrid columns="1">
                     <p:dataTable var="memvar" value="#{Member1MBean.buyerList}" rowKey="#{memvar.userName}" 
                                  selection="#{Member1MBean.mem}" selectionMode="single" filteredValue="#{Member1MBean.filteredMember}" id="membersTable"
-                                 paginator="true" rows="10"  
+                                 paginator="true" rows="10" style="margin-right: 2px"
                                  paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15">
                         <p:ajax event="rowSelect" update=":form:display" oncomplete="memberDialog.show()" />
@@ -43,10 +43,6 @@
 
                         <p:column headerText="Address" sortBy="#{memvar.address}" filterBy="#{memvar.address}" id="address">
                             #{memvar.address}
-                        </p:column>
-
-                        <p:column headerText="Phone" sortBy="#{memvar.telephone}" filterBy="#{memvar.telephone}" id="telephone">
-                            #{memvar.telephone}
                         </p:column>
 
                     </p:dataTable>

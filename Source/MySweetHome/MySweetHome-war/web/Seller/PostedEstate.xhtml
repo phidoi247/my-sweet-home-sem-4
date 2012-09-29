@@ -4,14 +4,117 @@
                 template="./../template/SellerTemplate.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="title">
         Posted estate
     </ui:define>
 
     <ui:define name="content">
-        content
+        <p:growl id="growl1" showDetail="true" life="3000" />
+
+        <h:form id="form">
+
+            <h:panelGrid columns="1" >
+                <p:dataTable var="estatevar" value="#{EstateMBean.estateList}" rowKey="#{estatevar.estateID}" 
+                             selection="#{EstateMBean.estate}" selectionMode="single" filteredValue="#{EstateMBean.filteredEstate}" id="estatesTable"
+                             paginator="true" rows="10" style="width: auto;"
+                             paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+                    <p:ajax event="rowSelect" update=":form2:display" oncomplete="estateDialog.show()" />
+                    <f:facet name="header">
+                        Estate Management
+                    </f:facet>
+                    <p:column headerText="Estate ID" sortBy="#{estatevar.estateID}" filterBy="#{estatevar.estateID}" style="width: 10px;">
+                        #{estatevar.estateID}
+                    </p:column>
+                    <p:column headerText="Estate Title" sortBy="#{estatevar.estateTitle}" filterBy="#{estatevar.estateTitle}">
+                        #{estatevar.estateTitle}
+                    </p:column>
+                    <p:column headerText="Subscribe" sortBy="#{estatevar.subscribeID}" filterBy="#{estatevar.subscribeID.subscribeName}">
+                        #{EstateMBean.selectSubscribeNameByID(estatevar.subscribeID)}
+                    </p:column>
+                    <p:column headerText="Category" sortBy="#{estatevar.categoryID}" filterBy="#{estatevar.categoryID.categoryName}">
+                        #{EstateMBean.selectCategoryNameByID(estatevar.categoryID)}
+                    </p:column>
+                    <p:column headerText="Date Post">
+                        <h:outputText value="#{estatevar.estateStartDay}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"  />
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+
+            </h:panelGrid>
+        </h:form>
+        <h:form id="form2">
+            <p:dialog header="Estate Details" widgetVar="estateDialog" resizable="false"  
+                      width="500" showEffect="explode" hideEffect="explode">
+                <h:panelGrid id="display" columns="2" cellpadding="4">
+                    <c:if test="#{!empty EstateMBean.estate.estateID.toString()}">
+                        <h:outputText value="Estate ID"/>
+                        <p:inputText value="#{EstateMBean.estate.estateID}" readonly="true"/>                        
+
+                        <h:outputText value="Estate Title"/>
+                        <p:inputText value="#{EstateMBean.estate.estateTitle}" readonly="true"/>
+
+                        <h:outputText value="Start date: " />
+                        <p:inputText value="#{EstateMBean.estate.estateStartDay}" readonly="true"/>
+
+                        <h:outputText value="End date: " />
+                        <p:inputText value="#{EstateMBean.estate.estateEndDay}" readonly="true"/>
+
+                        <h:outputText value="Address: "/>
+                        <p:inputText value="#{EstateMBean.estate.estateAddress}" readonly="true"/>
+
+                        <h:outputText value="Content: "/>
+                        <p:inputTextarea value="#{EstateMBean.estate.estateContent}" rows="5" cols="60" readonly="true"/>
+
+                        <h:outputText value="Area: "/>
+                        <h:panelGrid columns="2">
+                            <p:inputText value="#{EstateMBean.estate.estateArea}" readonly="true"/>
+                            <h:outputText value="m2"/>
+                        </h:panelGrid>
+
+                        <h:outputText value="Value: "/>
+                        <h:panelGrid columns="2">
+                            <p:inputText value="#{EstateMBean.estate.estateValue}" readonly="true"/>
+                            
+                        </h:panelGrid>
+                        <h:outputText value="Driveway: "/>
+                        <h:panelGrid columns="2">
+                            <p:inputText value="#{EstateMBean.estate.estateDriveway}" readonly="true"/>
+                            <h:outputText value="m"/>
+                        </h:panelGrid>
+                        <h:outputText value="Direction: "/>
+                        <p:inputText value="#{EstateMBean.estate.estateDirection}" readonly="true"/>
+                        <h:outputText value="Num of floor: "/>
+                        <p:inputText value="#{EstateMBean.estate.estateNumberOfFloors}" readonly="true"/>
+                        <h:outputText value="Num of rooms: "/>
+                        <p:inputText value="#{EstateMBean.estate.estateNumberOfRooms}" readonly="true"/>
+                        <h:outputText value="Num of toilet: "/>
+                        <p:inputText value="#{EstateMBean.estate.estateNumberOfToilets}" readonly="true"/>
+                        <h:outputText value="Contact Name: "/>
+                        <p:inputText value="#{EstateMBean.selectContactByID(EstateMBean.estate.contactDetailsID.contactDetailsID).contactName}" readonly="true"/>
+                        <h:outputText value="Contact Address: "/>
+                        <p:inputText value="#{EstateMBean.selectContactByID(EstateMBean.estate.contactDetailsID.contactDetailsID).contactAddress}" readonly="true"/>
+                        <h:outputText value="Contact Email: "/>
+                        <p:inputText value="#{EstateMBean.selectContactByID(EstateMBean.estate.contactDetailsID.contactDetailsID).contactEmail}" readonly="true"/>
+                        <h:outputText value="Contact Telephone: "/>
+                        <p:inputText value="#{EstateMBean.selectContactByID(EstateMBean.estate.contactDetailsID.contactDetailsID).contactTelephone}" />
+                        <h:outputText value="Approval Status: "/>
+                        <h:outputText value="#{EstateMBean.estate.isEnabled}" readonly="true"/>
+                        <p:separator/>
+                        <p:separator/>
+                        <h:outputText value=""/>
+                        <h:panelGrid columns="3">
+                            <h:commandButton value="Pay" action="#{EstateMBean.payEstate()}"/>
+                            <p:commandButton value="Delete" action="#{EstateMBean.deleteEstate(EstateMBean.estate)}" oncomplete="estateDialog.hide()" update=":form:estatesTable, :growl1" ajax="false"/>                          
+                        </h:panelGrid>
+                    </c:if>
+                </h:panelGrid>
+            </p:dialog>  
+        </h:form>
     </ui:define>
 
 </ui:composition>

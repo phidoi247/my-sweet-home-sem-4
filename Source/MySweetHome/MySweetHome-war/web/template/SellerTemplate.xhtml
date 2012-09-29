@@ -26,7 +26,7 @@
                 <header>
                     <h1><a href="index.jsf" id="logo"></a></h1>
                     <div align="right" >                     
-                        <c:if test="#{!empty loginBean.username}">
+                        <c:if test="#{!empty loginBean.username}"><br/>
                             Welcome,#{loginBean.username}<br/>
                             <h:form>
                                 <p:commandLink id="logout" ajax="false" actionListener="#{loginBean.doLogout}">
@@ -40,7 +40,6 @@
                             <li id="menu_active"><a href="../index.jsf">Main Page</a></li>
                             <li><a href="../sellingEstateList.jsf">Selling Estate</a></li>
                             <li><a href="../rentingEstateList.jsf">Renting Estate</a></li>
-                            <li><a href="../News.jsf">News</a></li>
                             <li><a href="../Contact.jsf">Contact Us</a></li>
                             <li class="end"><a href="../AboutUs.jsf">About Us</a></li>
                         </ul>
@@ -61,17 +60,14 @@
                                     <li><a href="PostedEstate.jsf">Posted estates </a></li>
                                     <li><a href="SavedEstate.jsf">Saved estates </a></li>
                                     <li><a href="WaitingEstate.jsf">Wait for approving</a></li>
-                                    <li><a href="createNewEstate.jsf">Create new estate</a></li>
+                                    <li><a href="CreateNewEstate.jsf">Create new estate</a></li>
                                 </ul>
                                 <h5>My Profile</h5>
                                 <ul class="list1">
                                     <li><a href="Profile.jsf">My Information</a></li>
                                     <li><a href="ChangePassword.jsf">Change password</a></li>
                                 </ul>
-                                <h5>Statistics</h5>
-                                <ul class="list1">
-                                    <li><a href="PostedHistory.jsf">Posting History</a></li>
-                                </ul>
+                                
 
                                 <h5>&nbsp;</h5>
                             </div>   

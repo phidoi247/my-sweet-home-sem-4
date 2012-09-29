@@ -14,48 +14,38 @@
 
         <h:form id="form">
 
-            <p:dataList value="" var="estateVar" id="estate"
-                        paginator="true" rows="5" 
+            <p:dataList value="#{EstateMBean.rentingEstateList}" var="estate" id="estates" style=" height: auto;"
+                        paginator="true" rows="5"  
                         paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="5,10,15" type="none">
 
                 <f:facet name="header">
-                    Renting Estate List
+                    Estate
                 </f:facet>
+                <h:panelGrid columns="2" cellpadding="10" cellspacing="5" >
+                    <p:commandLink style="margin-right: 2px;" id="selectButton" actionListener="#{EstateMBean.goToEstateDetails()}" >
+                        <p:graphicImage url="./resources/images/page1_img1.jpg" width="150" height="130" style="cursor: pointer; border: 0px"/>
+                        <f:setPropertyActionListener value="#{estate}" target="#{EstateMBean.selectedEstate}" />
+                    </p:commandLink>
 
-                <p:commandButton icon="ui-icon-search" update=":form:estateDetail" oncomplete="estateDialog.show()" title="View Detail">
-                    <f:setPropertyActionListener value="" target="" />
-                </p:commandButton> 
-                
-                <h:outputText value= "Title:      ---" style="margin-left:10px; font-weight: bold;" />
-                <h:outputText value= "Area:      ---" style="margin-left:10px; font-weight: bold;" />
-                <h:outputText value="Price: " style="margin-left:10px; font-weight: bolder;" />
+                    <h:panelGrid columns="2" cellspacing="5"  cellpadding="5" style="font-size: 18px;">                        
+                        <h:outputLabel for="EstateContent" value="Content:" style="font-weight: bolder; "/>
+                        <h:outputText id="EstateContent" value=" #{estate.estateContent}" style="font-size: 16px;"/>
+                        
+                        <h:outputLabel for="EstateAddress" value="Address:" style="font-weight: bolder; "/>
+                        <h:outputText id="EstateAddress" value=" #{estate.estateAddress}" style="font-size: 16px;"/>
+                        
+                        <h:outputLabel for="EstateValue" value="Price:" style="font-weight: bolder; "/>
+                        <h:outputText id="EstateValue" value=" #{estate.estateValue}" style="font-size: 16px;" />
+                    </h:panelGrid>
 
+
+                </h:panelGrid>
+
+                <h:outputText value="&lt;br/&gt;" escape="false" />
             </p:dataList>
 
-            <p:dialog header="Estate Detail" widgetVar="estateDialog" modal="true" showEffect="fade">
-                <p:outputPanel id="estateDetail" style="text-align:left;" layout="block">
-
-                    <p:graphicImage value="./resources/images/page1_img1.jpg"/>
-
-                    <h:panelGrid  columns="2" cellpadding="5">
-                        <h:outputLabel for="content" value="Content: " />
-                        <h:outputText id="content" value="" />
-
-                        <h:outputLabel for="driveway" value="Driveway: " />
-                        <h:outputText id="driveway" value="" />
-
-                        <h:outputLabel for="direction" value="Direction: " />
-                        <h:outputText id="direction" value="" />
-
-                        <h:outputLabel for="price" value="Price: " style="font-weight: bolder;"/>
-                        <h:outputText id="price" value="" style="font-weight: bolder;"/>
-                    </h:panelGrid>
-                </p:outputPanel>
-            </p:dialog>
-
         </h:form>
-
 
     </ui:define>
 

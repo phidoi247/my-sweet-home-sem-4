@@ -11,8 +11,9 @@
     </ui:define>
 
     <ui:define name="content">
+        <p:growl id="growl1" showDetail="true" life="3000" />
         <h:form id="form">
-            <p:growl id="growl1" showDetail="true" life="3000" />
+            
             <p:panel header="Input estate information to sell or rent" >  
                 <h:outputText value="Title: " />
                 <p:inputText id="txtTitle" value="#{EstateMBean.title}" required="true" style="width: 350px;"/>
@@ -195,7 +196,7 @@
                 </h:panelGrid>
             </p:fieldset>
 
-            <p:commandButton id="btnCreateEstate" value="Create Estate" update=":growl1"
+            <p:commandButton id="btnCreateEstate" value="Create Estate" 
                              action="#{EstateMBean.createEstate}"/> 
         </h:form>
     </ui:define>

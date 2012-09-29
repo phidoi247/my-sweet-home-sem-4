@@ -11,55 +11,57 @@
     </ui:define>
 
     <ui:define name="content">
+        <center>
         <p:growl id="growl1" showDetail="true" life="3000" />
+        
         <h:form id="form">
+            
+                <h:panelGrid columns="1">
+                    <h:panelGrid columns="1" >
+                        <p:dataTable var="cityvar" value="#{CityMBean.citylist}" rowKey="#{cityvar.cityID}" 
+                                     selection="#{CityMBean.city}" selectionMode="single" filteredValue="#{CityMBean.filteredCity}" id="citiesTable"
+                                     paginator="true" rows="10"  
+                                     paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15">
+                            <p:ajax event="rowSelect" update=":form:display" oncomplete="cityDialog.show()" />
 
-            <h:panelGrid columns="1">
-                <h:panelGrid columns="1" >
-                    <p:dataTable var="cityvar" value="#{CityMBean.citylist}" rowKey="#{cityvar.cityID}" 
-                                 selection="#{CityMBean.city}" selectionMode="single" filteredValue="#{CityMBean.filteredCity}" id="citiesTable"
-                                 paginator="true" rows="10"  
-                                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15">
-                        <p:ajax event="rowSelect" update=":form:display" oncomplete="cityDialog.show()" />
+                            <f:facet name="header">
+                                City Management
+                            </f:facet>
 
-                        <f:facet name="header">
-                            City Management
-                        </f:facet>
+                            <p:column headerText="City ID" style="width: 50%" sortBy="#{cityvar.cityID}" filterBy="#{cityvar.cityID}">
+                                #{cityvar.cityID}
+                            </p:column>
 
-                        <p:column headerText="City ID" style="width: 50%" sortBy="#{cityvar.cityID}" filterBy="#{cityvar.cityID}">
-                            #{cityvar.cityID}
-                        </p:column>
+                            <p:column headerText="City Name" style="width: 50%" sortBy="#{cityvar.cityName}" filterBy="#{cityvar.cityName}">
+                                #{cityvar.cityName}
+                            </p:column>
 
-                        <p:column headerText="City Name" style="width: 50%" sortBy="#{cityvar.cityName}" filterBy="#{cityvar.cityName}">
-                            #{cityvar.cityName}
-                        </p:column>
+                        </p:dataTable>
 
-                    </p:dataTable>
+                        <p:dialog header="City Detail" widgetVar="cityDialog" resizable="false"  
+                                  width="350" showEffect="explode" hideEffect="explode">
 
-                    <p:dialog header="City Detail" widgetVar="cityDialog" resizable="false"  
-                              width="350" showEffect="explode" hideEffect="explode">
+                            <h:panelGrid id="display" columns="2" cellpadding="4">
 
-                        <h:panelGrid id="display" columns="2" cellpadding="4">
+                                <h:outputText value="City ID"/>
+                                <h:inputText value="#{CityMBean.city.cityID}" readonly="true"/>                        
 
-                            <h:outputText value="City ID"/>
-                            <h:inputText value="#{CityMBean.city.cityID}" readonly="true"/>                        
+                                <h:outputText value="City Name"/>
+                                <h:inputText value="#{CityMBean.city.cityName}" />
 
-                            <h:outputText value="City Name"/>
-                            <h:inputText value="#{CityMBean.city.cityName}" />
+                                <p:commandButton value="Delete" action="#{CityMBean.removeCity(CityMBean.city.cityID)}" oncomplete="cityDialog.hide()" update=":form:citiesTable, :growl1"/>
+                                <p:commandButton value="Update" action="#{CityMBean.editCity(CityMBean.city)}" oncomplete="cityDialog.hide()" update=":form:citiesTable, :growl1"/>
 
-                            <p:commandButton value="Delete" action="#{CityMBean.removeCity(CityMBean.city.cityID)}" oncomplete="cityDialog.hide()" update=":form:citiesTable, :growl1"/>
-                            <p:commandButton value="Update" action="#{CityMBean.editCity(CityMBean.city)}" oncomplete="cityDialog.hide()" update=":form:citiesTable, :growl1"/>
+                            </h:panelGrid>
+                        </p:dialog>    
 
-                        </h:panelGrid>
-                    </p:dialog>    
+                    </h:panelGrid>
 
                 </h:panelGrid>
 
-            </h:panelGrid>
-
         </h:form>
-        
+
         <h:form>
             <h:panelGrid columns="1">
 
@@ -81,7 +83,9 @@
                 </p:dialog>
 
             </h:panelGrid>
+            
         </h:form>
+        </center>
     </ui:define>
 
 </ui:composition>
