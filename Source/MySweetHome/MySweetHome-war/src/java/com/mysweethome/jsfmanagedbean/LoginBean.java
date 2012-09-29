@@ -111,7 +111,7 @@ public class LoginBean {
             FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Admin/EstateManagement.jsf");
         }
         else
-            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Seller/EstateManagement.jsf");
+            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Seller/PostedEstate.jsf");
     }
 
     public void doLogout() throws IOException {
@@ -124,6 +124,6 @@ public class LoginBean {
         this.username = null;
         this.password = null;
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        response.sendRedirect("./index.jsf");
+        response.sendRedirect("../index.jsf");
     }
 }
