@@ -235,7 +235,7 @@ public class EstateMBean {
     List<Estate> filteredEstate;
 
     public List<Estate> getFilteredEstate() {
-        return filteredEstate=estateList;
+        return filteredEstate = estateList;
     }
 
     public void setFilteredEstate(List<Estate> filteredEstate) {
@@ -532,8 +532,8 @@ public class EstateMBean {
         //category = new Category();
         estateList = new ArrayList<Estate>();
         //category_name=category.getCategoryName();  
-        contactFacade=new ContactDetailsFacade();
-        imageFacade=new ImageCategoryFacade();
+        contactFacade = new ContactDetailsFacade();
+        imageFacade = new ImageCategoryFacade();
     }
 
     public void setEstateList(List<Estate> estateList) {
@@ -590,9 +590,10 @@ public class EstateMBean {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String id = estateFacade.getLastRecordID();
         int idNew = 0;
-        try{
-            idNew=Integer.parseInt(id)+1;
-        }catch(Exception e){}
+        try {
+            idNew = Integer.parseInt(id) + 1;
+        } catch (Exception e) {
+        }
         Estate estateNew = new Estate();
         estateNew.setEstateID(String.valueOf(idNew));
         estateNew.setEstateTitle(title);
@@ -644,9 +645,7 @@ public class EstateMBean {
 
     public void editEstate(Estate estate) {
         estateFacade.edit(estate);
-        FacesContext face = FacesContext.getCurrentInstance();
-        face.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Update Profile Success.", "Update Profile Success."));
-
+        messages.taoTB(FacesMessage.SEVERITY_INFO, "Update estate success.", "Update estate success.");
     }
 
     public void deleteEstate(Estate selectedEstate) {
@@ -697,15 +696,15 @@ public class EstateMBean {
     }
 
     public void goToAddEstate() throws IOException {
-        if(operationSession.getSession("role").toString().equalsIgnoreCase("admin")){
+        if (operationSession.getSession("role").toString().equalsIgnoreCase("admin")) {
             FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Admin/createNewEstate.jsf");
-        }
-        else
+        } else {
             FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Seller/createNewEstate.jsf");
+        }
     }
-    
+
     public void goToEstateManagement() throws IOException {
-        if(operationSession.getSession("role").toString().equalsIgnoreCase("admin")){
+        if (operationSession.getSession("role").toString().equalsIgnoreCase("admin")) {
             FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/Admin/EstateManagement.jsf");
         }
     }
@@ -751,13 +750,13 @@ public class EstateMBean {
     public void goToEstateDetails() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/estateDetails.jsf");
     }
-    
+
     public String selectSubscribeNameByID(String subscribeID) {
         String id = null;
         if (subscribeID != null) {
             id = subscribeID.substring(46, subscribeID.length() - 2);
         }
-        Subscribe subObj=getEstateFacade().getSubscribeByID(id);
+        Subscribe subObj = getEstateFacade().getSubscribeByID(id);
         return subObj.getSubscribeName();
     }
 
@@ -768,7 +767,7 @@ public class EstateMBean {
         }
         return imageList;
     }
-    
+
     public String selectCategoryNameByID(String cateID) {
         String id = null;
         if (cateID != null) {
@@ -777,34 +776,46 @@ public class EstateMBean {
         Category cateObj = getEstateFacade().getCategoryByID(id);
         return cateObj.getCategoryName();
     }
-    
+
     public String selectCurrencyNameByID(String currencyID) {
         Currency currencyObj = getEstateFacade().getCurrencyByID(currencyID);
         return currencyObj.getCurrencyName();
     }
-    
+
     public ContactDetails selectContactByID(String contactID) {
         ContactDetails contactObj = getEstateFacade().getContactDetailsByID(contactID);
         return contactObj;
     }
-    
-    public void ApprovalEstate(Estate estate) {
-        if(estate!=null){
+
+    public void approvalEstate(Estate estate) {
+        if (estate != null) {
+//            Estate obj=new Estate();
+//            obj=getEstateFacade().find(estateID);
+//            if(obj!=null){
+//                obj.setIsEnabled("true");
+//                getEstateFacade().edit(obj);
+//            }
             estate.setIsEnabled("true");
             getEstateFacade().edit(estate);
             messages.taoTB(FacesMessage.SEVERITY_INFO, "Approval Success.", "Approval Success.");
-        }
-        else
+        } else {
             messages.taoTB(FacesMessage.SEVERITY_ERROR, "Approval Failed.", "Approval Failed.");
+        }
     }
-    
-    public void RejectEstate(Estate estate) {
-        if(estate!=null){
+
+    public void rejectEstate(Estate estate) {
+        if (estate != null) {
             estate.setIsEnabled("false");
             getEstateFacade().edit(estate);
             messages.taoTB(FacesMessage.SEVERITY_INFO, "Reject Success.", "Reject Success.");
-        }
-        else
+        } else {
             messages.taoTB(FacesMessage.SEVERITY_ERROR, "Reject Failed.", "Reject Failed.");
+        }
+    }
+
+    public void setInitialDate() {
+        if (!estate.getEstateStartDay().isEmpty()) {
+            startDay = new Date(estate.getEstateStartDay());
+        }
     }
 }
