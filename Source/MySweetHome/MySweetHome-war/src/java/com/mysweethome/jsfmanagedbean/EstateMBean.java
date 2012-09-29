@@ -789,17 +789,9 @@ public class EstateMBean {
 
     public void approvalEstate(Estate estate) {
         if (estate != null) {
-//            Estate obj=new Estate();
-//            obj=getEstateFacade().find(estateID);
-//            if(obj!=null){
-//                obj.setIsEnabled("true");
-//                getEstateFacade().edit(obj);
-//            }
             estate.setIsEnabled("true");
             getEstateFacade().edit(estate);
             messages.taoTB(FacesMessage.SEVERITY_INFO, "Approval Success.", "Approval Success.");
-        } else {
-            messages.taoTB(FacesMessage.SEVERITY_ERROR, "Approval Failed.", "Approval Failed.");
         }
     }
 
@@ -808,9 +800,7 @@ public class EstateMBean {
             estate.setIsEnabled("false");
             getEstateFacade().edit(estate);
             messages.taoTB(FacesMessage.SEVERITY_INFO, "Reject Success.", "Reject Success.");
-        } else {
-            messages.taoTB(FacesMessage.SEVERITY_ERROR, "Reject Failed.", "Reject Failed.");
-        }
+        } 
     }
 
     public void setInitialDate() {

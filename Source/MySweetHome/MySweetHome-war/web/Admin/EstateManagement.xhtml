@@ -26,7 +26,7 @@
                     <f:facet name="header">
                         Estate Management
                     </f:facet>
-                    <p:column headerText="Estate ID" sortBy="#{estatevar.estateID}" filterBy="#{estatevar.estateID}">
+                    <p:column headerText="Estate ID" sortBy="#{estatevar.estateID}" filterBy="#{estatevar.estateID}" style="width: 10px;">
                         #{estatevar.estateID}
                     </p:column>
                     <p:column headerText="Estate Title" sortBy="#{estatevar.estateTitle}" filterBy="#{estatevar.estateTitle}">
@@ -43,43 +43,7 @@
                             <f:convertDateTime pattern="dd/MM/yyyy"  />
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Action">
-                        <c:if test="#{estatevar.isEnabled}">
-                            <p:commandLink onclick="confirmation.show()" id="approvalButton" disabled="true" 
-                                           style="cursor: pointer; border: 0px" value="Approval"  >
-                                <f:setPropertyActionListener value="#{estatevar}" target="#{EstateMBean.estate}" />
-                            </p:commandLink>&nbsp;&nbsp;
-                            <p:commandLink onclick="confirmation1.show()" id="rejectButton" disabled="false"
-                                           style="cursor: pointer; border: 0px" value="Reject"  >
-                                <f:setPropertyActionListener value="#{estatevar}" target="#{EstateMBean.estate}}" />
-                            </p:commandLink>
-                        </c:if>
-                        <c:if test="#{!estatevar.isEnabled}">
-                            <p:commandLink onclick="confirmation.show()" id="approvalButton" disabled="false" 
-                                           style="cursor: pointer; border: 0px" value="Approval"  >
-                                <f:setPropertyActionListener value="#{estatevar}" target="#{EstateMBean.estate}" />
-                            </p:commandLink>&nbsp;&nbsp;
-                            <p:commandLink onclick="confirmation1.show()" id="rejectButton" disabled="true"
-                                           style="cursor: pointer; border: 0px" value="Reject"  >
-                                <f:setPropertyActionListener value="#{estatevar}" target="#{EstateMBean.estate}}" />
-                            </p:commandLink>
-                        </c:if>
-                    </p:column>
-
                 </p:dataTable>
-
-                <p:confirmDialog id="confirmDialog" message="Are you sure want to approval this estate?"
-                                 header="Estate Infomation" severity="alert" widgetVar="confirmation">
-                    <p:commandButton id="confirm" value="Yes" update=":form:estatesTable,:growl1"
-                                     action="#{EstateMBean.approvalEstate(EstateMBean.estate)}" oncomplete="confirmation.hide()" ajax="false"/>
-                    <p:commandButton id="decline" value="No" onclick="confirmation.hide()" />
-                </p:confirmDialog>
-                <p:confirmDialog id="confirmDialog1" message="Are you sure want to reject this estate?"
-                                 header="Estate Infomation" severity="alert" widgetVar="confirmation1">
-                    <p:commandButton id="confirm1" value="Yes" update=":form:estatesTable,:growl1"
-                                     action="#{EstateMBean.rejectEstate(EstateMBean.estate)}" oncomplete="confirmation1.hide()" ajax="false" />
-                    <p:commandButton id="decline1" value="No" onclick="confirmation1.hide()" />
-                </p:confirmDialog>
 
             </h:panelGrid>
         </h:form>
@@ -143,16 +107,23 @@
                         <p:inputText value="#{EstateMBean.selectContactByID(EstateMBean.estate.contactDetailsID.contactDetailsID).contactEmail}" />
                         <h:outputText value="Contact Telephone: "/>
                         <p:inputText value="#{EstateMBean.selectContactByID(EstateMBean.estate.contactDetailsID.contactDetailsID).contactTelephone}" />
+                        <h:outputText value="Approval Status: "/>
+                        <h:outputText value="#{EstateMBean.estate.isEnabled}" />
                         <p:separator/>
                         <p:separator/>
                         <h:outputText value=""/>
-                        <h:panelGrid columns="2">
+                        <h:panelGrid columns="3">
                             <p:commandButton value="Update" action="#{EstateMBean.editEstate(EstateMBean.estate)}" oncomplete="estateDialog.hide()" update=":form:estatesTable, :growl1" ajax="false"/>
                             <p:commandButton value="Delete" action="#{EstateMBean.deleteEstate(EstateMBean.estate)}" oncomplete="estateDialog.hide()" update=":form:estatesTable, :growl1" ajax="false"/>
+                            <c:if test="#{EstateMBean.estate.isEnabled=='true'}">
+                                <p:commandButton value="Reject" onclick="confirmation1.show()" action="#{EstateMBean.rejectEstate(EstateMBean.estate)}" oncomplete="estateDialog.hide()" update=":form:estatesTable, :growl1" ajax="false"/>
+                            </c:if>
+                            <c:if test="#{EstateMBean.estate.isEnabled=='false'}">
+                                <p:commandButton value="Approval" onclick="confirmation.show()" action="#{EstateMBean.approvalEstate(EstateMBean.estate)}" oncomplete="estateDialog.hide()" update=":form:estatesTable, :growl1" ajax="false"/>
+                            </c:if>
                         </h:panelGrid>
                     </c:if>
                 </h:panelGrid>
-
             </p:dialog>  
         </h:form>
     </ui:define>
