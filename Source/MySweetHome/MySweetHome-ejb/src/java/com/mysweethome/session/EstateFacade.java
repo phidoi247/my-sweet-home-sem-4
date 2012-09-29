@@ -355,7 +355,7 @@ public class EstateFacade extends AbstractFacade<Estate> {
         Query q = em.createNamedQuery("Estate.findAll");
         List<Estate> estatelist = q.getResultList();
         if(estatelist.isEmpty()){
-            return "1";
+            return "0";
         }
         else
             return estatelist.get(estatelist.size()-1).getEstateID();
