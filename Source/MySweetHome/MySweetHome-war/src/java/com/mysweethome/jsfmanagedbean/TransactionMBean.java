@@ -68,8 +68,8 @@ public class TransactionMBean {
         this.password = password;
     }
 
-    public void transfer(){
-        String result = doTransfer(getFrom(), getPassword(),"MySweetHome", getBalance());
+    public void transfer(String balance){
+        String result = doTransfer(getFrom(), getPassword(),"MySweetHome", balance);
         if(result.equals("Transfer successful")){
             try {
                 messages.taoTB(FacesMessage.SEVERITY_WARN, "Success!", "Transfer successful");

@@ -24,14 +24,18 @@ import javax.faces.model.SelectItem;
 @SessionScoped
 public class CategoryMBean {
 
+    @EJB
+    Category category;
+    Category catenew;
+    CategoryFacade categoryFacede;
+    List<String> categoryName = new ArrayList<String>();
+    List<Category> catelist;
+    List<Category> filteredCategory;
     /**
      * Creates a new instance of CategoryMBean
      */
     public CategoryMBean() {
     }
-    @EJB
-    Category category;
-    Category catenew;
 
     public CategoryFacade getCategoryFacede() {
         return categoryFacede;
@@ -48,10 +52,7 @@ public class CategoryMBean {
     public void setCatenew(Category catenew) {
         this.catenew = catenew;
     }
-    CategoryFacade categoryFacede;
-    List<String> categoryName = new ArrayList<String>();
-    List<Category> catelist;
-    List<Category> filteredCategory;
+
 
     public List<Category> getFilteredCategory() {
         filteredCategory = catelist;
