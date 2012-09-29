@@ -14,6 +14,10 @@
         <f:view>
             <h:form>
                 <h:panelGrid columns="1">
+                    <h:outputText value="Your Estate title: "/>
+                    <p:inputText value="#{EstateMBean.estate.estateTitle}"/>
+                                       
+                    
                     <h:outputText value="Your card number: "/>
                     <p:inputText value="#{transactionMBean.from}"/>                        
 
@@ -21,9 +25,9 @@
                     <p:password value="#{transactionMBean.password}" />                                        
                     
                     <h:outputLabel value="Your money must pay: "/>
-                    <p:inputText value="#{transactionMBean.balance}"/>
+                    <p:inputText value="#{EstateMBean.payvalue}"/>
                     
-                    <h:commandButton action="#{transactionMBean.transfer()}" value="Pay"/>
+                    <h:commandButton action="#{transactionMBean.transfer(EstateMBean.payvalue)}" value="Pay"/>
                 </h:panelGrid>
             </h:form>
         </f:view>
