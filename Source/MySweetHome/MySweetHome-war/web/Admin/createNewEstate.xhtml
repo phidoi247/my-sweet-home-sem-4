@@ -12,6 +12,7 @@
 
     <ui:define name="content">
         <h:form id="form">
+            <p:growl id="growl1" showDetail="true" life="3000" />
             <p:panel header="Input estate information to sell or rent" >  
                 <h:outputText value="Title: " />
                 <p:inputText id="txtTitle" value="#{EstateMBean.title}" required="true" style="width: 350px;"/>
@@ -77,8 +78,9 @@
                     </p:selectOneMenu>
 
                     <h:outputText value="City: " />
-                    <p:selectOneMenu id="txtCity" value="#{EstateMBean.cityList}">  
+                    <p:selectOneMenu id="txtCity" value="#{EstateMBean.cityID}">  
                         <f:selectItem itemLabel="--Select city--" itemValue="" />  
+                        <f:ajax event="valueChange" render="txtDistrict" listener="#{EstateMBean.handleCityChange()}" />
                         <f:selectItems value="#{EstateMBean.cityList}" var="city" itemLabel="#{city.cityName}" itemValue="#{city.cityID}"/>  
                     </p:selectOneMenu>
                     <h:outputText value="District: " />
@@ -193,7 +195,7 @@
                 </h:panelGrid>
             </p:fieldset>
 
-            <p:commandButton id="btnCreateEstate" value="Create Estate" 
+            <p:commandButton id="btnCreateEstate" value="Create Estate" update=":growl1"
                              action="#{EstateMBean.createEstate}"/> 
         </h:form>
     </ui:define>

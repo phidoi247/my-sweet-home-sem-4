@@ -11,9 +11,8 @@
     </ui:define>
 
     <ui:define name="content">
-        <p:growl id="growl1" showDetail="true" life="3000" />
-        <h:form id="form">
-
+         <h:form id="form">
+            <p:growl id="growl" showDetail="true" life="3000" />
             <h:panelGrid columns="1">
                 <h:panelGrid columns="1" >
                     <p:dataTable var="categoryvar" value="#{CategoryMBean.catelist}" rowKey="#{categoryvar.categoryID}" 

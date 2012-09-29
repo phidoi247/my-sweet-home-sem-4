@@ -532,6 +532,8 @@ public class EstateMBean {
         //category = new Category();
         estateList = new ArrayList<Estate>();
         //category_name=category.getCategoryName();  
+        contactFacade=new ContactDetailsFacade();
+        imageFacade=new ImageCategoryFacade();
     }
 
     public void setEstateList(List<Estate> estateList) {
@@ -587,8 +589,12 @@ public class EstateMBean {
     public void createEstate() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String id = estateFacade.getLastRecordID();
+        int idNew = 0;
+        try{
+            idNew=Integer.parseInt(id)+1;
+        }catch(Exception e){}
         Estate estateNew = new Estate();
-        estateNew.setEstateID(id);
+        estateNew.setEstateID(String.valueOf(idNew));
         estateNew.setEstateTitle(title);
         estateNew.setEstateStartDay(formatter.format(startDay));
         estateNew.setEstateEndDay(formatter.format(endDay));
@@ -613,26 +619,27 @@ public class EstateMBean {
 
         //create new contactDetail object
         ContactDetails contactObj = new ContactDetails();
-        contactObj.setContactDetailsID(id);
+        contactObj.setContactDetailsID(String.valueOf(idNew));
         contactObj.setContactName(contactName);
         contactObj.setContactAddress(contactAddress);
         contactObj.setContactEmail(contactEmail);
         contactObj.setContactTelephone(contactTel);
-        contactFacade.create(contactObj);
+        estateFacade.create(contactObj);
 
         //create image category
         ImageCategory imageObj = new ImageCategory();
-        imageObj.setImageCategoryID(id);
+        imageObj.setImageCategoryID(String.valueOf(idNew));
         if (images != null && !images.isEmpty()) {
             imageObj.setImage1(images);
         }
-        imageFacade.create(imageObj);
+        estateFacade.create(imageObj);
 
         estateNew.setContactDetailsID(contactObj);
         estateNew.setImageCategoryID(imageObj);
 
         //create
         estateFacade.create(estateNew);
+        messages.taoTB(FacesMessage.SEVERITY_INFO, "Create estate success!", "Create estate success!");
     }
 
     public void editEstate(Estate estate) {
