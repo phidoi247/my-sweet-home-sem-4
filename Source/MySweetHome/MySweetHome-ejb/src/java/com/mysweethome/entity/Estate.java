@@ -39,16 +39,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     //search advance
     @NamedQuery(name = "Estate.searchAdvance", 
         query = "SELECT e FROM Category ct, TypeOfEstate t, City c, Subscribe s, IN(c.districtList) d, IN(d.estateList) e"
-        + " WHERE c.cityName LIKE '%:cityName%' AND d.districtName LIKE '%:districtName%' AND"
-              + " ct.categoryName LIKE '%:categoryName%' AND t.typeOfEstateName LIKE '%:typeOfEstateName%' AND"
-              + " e.estateNumberOfRooms LIKE '%:estateNumberOfRooms%' AND e.estateNumberOfToilets LIKE '%:estateNumberOfToilets%' AND"
-              + " e.estateArea BETWEEN :firstArea AND :lastArea AND"
-              + " e.sumValue BETWEEN :firstValue AND :lastValue AND"
-              + " :dateNow BETWEEN e.estateStartDay AND e.estateEndDay AND"
+        + " WHERE c.cityID LIKE '%:cityID%' AND d.districtID LIKE '%:districtID%' AND"
+              + " ct.categoryID LIKE '%:categoryID%' AND t.typeOfEstateID LIKE '%:typeOfEstateID%' AND"
+              + " e.estateNumberOfRooms LIKE '%:estateNumberOfRooms%' AND e.estateNumberOfFloors LIKE '%:estateNumberOfFloors%' AND"
               + " e.isEnabled = 'true' AND e.isPaid = 'true' AND"
               + " e MEMBER OF s.estateList"
               + " ORDER BY s.subscribeID DESC, e.estateStartDay DESC" ),
     
+       
     //search estate of member: dang duoc dang va chua het han
     @NamedQuery(name = "Estate.searchEstateOfMemberInPost", query = "SELECT e FROM Estate e, Subscribe s WHERE e.userName = :userName AND"
         + " e MEMBER OF s.estateList AND"
