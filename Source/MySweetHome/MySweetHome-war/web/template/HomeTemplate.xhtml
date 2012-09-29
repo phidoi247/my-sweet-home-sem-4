@@ -119,62 +119,116 @@
                             </ui:insert>
                         </article>
                         <article id="col2" class="col2">
-                            <form id="form_1" method="post">
+                            <h:form id="form_1" >
                                 <div class="pad1">
                                     <h3>Find Your Property</h3>
                                     <div class="row_select">
                                         <div class="cols">
                                             Type of estate:<br/>
-                                            <select><option>&nbsp;</option><option>...</option><option>...</option></select>
+                                            <h:selectOneMenu id="txtTypeOfEstate" value="#{EstateMBean.typeOfEstateID}">  
+                                                <f:selectItem itemLabel="--Select type--" itemValue="" />  
+                                                <f:selectItems value="#{EstateMBean.typeOfEstateList}" var="typeOfEstate" itemLabel="#{typeOfEstate.typeOfEstateName}" itemValue="#{typeOfEstate.typeOfEstateID}"/>  
+                                            </h:selectOneMenu>
                                         </div>
                                         <div class="cols pad_left1">
                                             Category:<br/>
-                                            <select><option>&nbsp;</option><option>...</option><option>...</option></select>
+                                            <h:selectOneMenu value="#{EstateMBean.categoryID}">
+                                                <f:selectItem itemLabel="--Select category--" itemValue="" />  
+                                                <f:selectItems value="#{EstateMBean.categoryList}" var="category" itemLabel="#{category.categoryName}" itemValue="#{category.categoryID}"/>
+                                            </h:selectOneMenu>
                                         </div>
                                     </div>
                                     <div class="row_select">
                                         <div class="cols">
                                             City:<br/>
-                                            <select><option>&nbsp;</option><option>...</option><option>...</option></select>
+                                            <h:selectOneMenu value="#{EstateMBean.cityID}">
+                                                <f:selectItem itemLabel="--Select city--" itemValue="" /> 
+                                                <f:selectItems value="#{EstateMBean.cityList}" var="city" itemLabel="#{city.cityName}" itemValue="#{city.cityID}"/>
+                                            </h:selectOneMenu>
                                         </div>
                                         <div class="cols pad_left1">
                                             District:<br/>
-                                            <select><option>&nbsp;</option><option>...</option><option>...</option></select>
+                                            <h:selectOneMenu value="#{EstateMBean.districtID}">
+                                                <f:selectItem itemLabel="--Select district--" itemValue="" /> 
+                                                <f:selectItems value="#{EstateMBean.districtList}" var="district" itemLabel="#{district.districtName}" itemValue="#{district.districtID}"/>
+                                            </h:selectOneMenu>
                                         </div>
                                     </div>
 
                                     <div class="row_select">
                                         Search Area:<br/>
-                                        <select><option>&nbsp;</option><option>...</option><option>...</option></select>
+                                        <h:selectOneMenu value="#{EstateMBean.rangeArea}">  
+                                            <f:selectItem itemLabel="--Select Area --" />  
+                                            <f:selectItem itemLabel="From 50=>100m" itemValue="1"/>  
+                                            <f:selectItem itemLabel="From 100=>200m" itemValue="2"/>  
+                                            <f:selectItem itemLabel="Greater than 200m" itemValue="3"/>  
+                                        </h:selectOneMenu>
+                                    </div>
+                                    <div class="row_select">
+
+                                        Price Range:<br/>
+                                        <h:selectOneMenu value="#{EstateMBean.rangePrice}">  
+                                            <f:selectItem itemLabel="--Select Price --" />  
+                                            <f:selectItem itemLabel="From 10000$=>30000$" itemValue="1"/>  
+                                            <f:selectItem itemLabel="From 30000$=>50000$" itemValue="2"/>  
+                                            <f:selectItem itemLabel="Greater than 50000$" itemValue="3"/>  
+                                        </h:selectOneMenu>
+
+
                                     </div>
                                     <div class="row_select">
                                         <div class="cols">
-                                            Price Range:<br/>
-                                            <select><option>&nbsp;</option><option>...</option><option>...</option></select>
+                                            Room(s):<br/>
+                                            <h:selectOneMenu id="txtnoOfRoom" value="#{EstateMBean.noRoom}">  
+                                                <f:selectItem itemLabel="--Select--" itemValue="" />  
+                                                <f:selectItem itemLabel="1" itemValue="1"/>  
+                                                <f:selectItem itemLabel="2" itemValue="2"/>  
+                                                <f:selectItem itemLabel="3" itemValue="3"/>  
+                                                <f:selectItem itemLabel="4" itemValue="4"/>  
+                                                <f:selectItem itemLabel="5" itemValue="5"/>  
+                                                <f:selectItem itemLabel="6" itemValue="6"/>  
+                                                <f:selectItem itemLabel="7" itemValue="7"/>  
+                                                <f:selectItem itemLabel="8" itemValue="8"/>  
+                                                <f:selectItem itemLabel="9" itemValue="9"/>  
+                                                <f:selectItem itemLabel="10" itemValue="10"/>
+                                                <f:selectItem itemLabel="11" itemValue="11"/>  
+                                                <f:selectItem itemLabel="12" itemValue="12"/>  
+                                                <f:selectItem itemLabel="13" itemValue="13"/>  
+                                                <f:selectItem itemLabel="14" itemValue="14"/>  
+                                                <f:selectItem itemLabel="15" itemValue="15"/>  
+                                            </h:selectOneMenu>
                                         </div>
                                         <div class="cols pad_left1">
-                                            to:<br/>
-                                            <select><option>&nbsp;</option><option>...</option><option>...</option></select>
-                                        </div>
-                                    </div>
-                                    <div class="row_select">
-                                        <div class="cols">
-                                            Bedroom(s):<br/>
-                                            <select><option>&nbsp;</option><option>...</option><option>...</option></select>
-                                        </div>
-                                        <div class="cols pad_left1">
-                                            Bathroom(s):<br/>
-                                            <select><option>&nbsp;</option><option>...</option><option>...</option></select>
+                                            Floor(s):<br/>
+                                            <h:selectOneMenu id="txtnoOfFloor" value="#{EstateMBean.noFloor}">  
+                                                <f:selectItem itemLabel="--Select--" itemValue="" />  
+                                                <f:selectItem itemLabel="1" itemValue="1"/>  
+                                                <f:selectItem itemLabel="2" itemValue="2"/>  
+                                                <f:selectItem itemLabel="3" itemValue="3"/>  
+                                                <f:selectItem itemLabel="4" itemValue="4"/>  
+                                                <f:selectItem itemLabel="5" itemValue="5"/>  
+                                                <f:selectItem itemLabel="6" itemValue="6"/>  
+                                                <f:selectItem itemLabel="7" itemValue="7"/>  
+                                                <f:selectItem itemLabel="8" itemValue="8"/>  
+                                                <f:selectItem itemLabel="9" itemValue="9"/>  
+                                                <f:selectItem itemLabel="10" itemValue="10"/>
+                                                <f:selectItem itemLabel="11" itemValue="11"/>  
+                                                <f:selectItem itemLabel="12" itemValue="12"/>  
+                                                <f:selectItem itemLabel="13" itemValue="13"/>  
+                                                <f:selectItem itemLabel="14" itemValue="14"/>  
+                                                <f:selectItem itemLabel="15" itemValue="15"/>  
+                                            </h:selectOneMenu>
                                         </div>
                                     </div>
                                     <div class="row_select pad_bot1">
                                         <div class="cols">
-                                            <a href="#" class="button" onClick="document.getElementById('form_1').submit()">Proposals</a>
+                                            <h:commandButton class="button" value="Proposals" action="#{EstateMBean.searchAdvance()}"/>
+                                            
                                         </div>
                                     </div>
 
                                 </div>
-                            </form>
+                            </h:form>
                         </article>
                     </div>
                     <div class="wrapper">
