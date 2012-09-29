@@ -13,56 +13,52 @@
     <ui:define name="col1">
 
 
-        <p:graphicImage value="./resources/images/img2.jpg" width="500" height="400" style="alignment-adjust: central;"/>
+        <p:panel header="Estate Details" >            
 
-        <p:carousel id="showImage" value="#{EstateMBean.estateList}" var="estateVar" itemStyleClass="estateItem">
+            <h:panelGrid columns="1" style="alignment-adjust: central; width: 100%;">
+                <p:graphicImage value="./resources/images/img2.jpg" style="alignment-adjust: central; width: 640px;"/>
 
-            <h:panelGrid columns="1" style="alignment-adjust: central;">
-
-
-                <h:panelGrid columns="1" style="alignment-adjust: central;">
-                    <p:fieldset legend="Basic info">  
-                        <h:panelGrid columns="1" cellpadding="10" style="alignment-adjust: central;">                        
-                            <h:panelGrid columns="1" style="alignment-adjust: central;">
-                                <h:outputText value="Title: #{estateVar.estateTitle} " />
-                                <h:outputText value="Area:  #{estateVar.estateArea} "/>
-                                <h:outputText value="Value: #{estateVar.estateValue}"/>
-                            </h:panelGrid>             
+                <h:panelGrid columns="1" style="alignment-adjust: central; width: 640px;">
+                    <p:fieldset legend="Contact information" style="width: 620px;">                           
+                        <h:panelGrid columns="1" cellpadding="10" style="alignment-adjust: central; width: 615px; border: 0 solid black;">                      
+                            <h:outputText value="Title: " style="font-weight: bold;"/>
+                            <h:outputText value="Area: " style="font-weight: bold;"/>
+                            <h:outputText value="Value: " style="font-weight: bold; font-size: 16px;"/>
                         </h:panelGrid>  
                     </p:fieldset>
 
-                    <p:fieldset legend="More info" toggleable="true" toggleSpeed="500">  
-                        <p:ajax event="toggle" listener="#{fieldsetBean.handleToggle}"  />  
-                        <h:panelGrid columns="1" cellpadding="10" style="alignment-adjust: central;">                      
-                            <p:panelGrid columns="1" style="alignment-adjust: central;">
-                                <h:outputText value="Address: #{estateVar.estateAddress}"/>
-                                <h:outputText value="Driveway: #{estateVar.estateDriveway}" />
-                                <h:outputText value="Direction: #{estateVar.estateDirection}"/>
-                                <h:outputText value="Number of rooms: #{estateVar.estateNumberOfRooms}"/>
-                                <h:outputText value="More detail: #{estateVar.estateContent}"/>           
-                            </p:panelGrid>
+                    <p:fieldset legend="More info">                           
+                        <h:panelGrid columns="1" cellpadding="10" style="alignment-adjust: central; width: 615px; border: 0 solid black;">                      
+                            <h:outputText value="Address: " style="font-weight: bold;"/>
+                            <h:outputText value="Driveway: " style="font-weight: bold;"/>
+                            <h:outputText value="Direction: " style="font-weight: bold;"/>
+                            <h:outputText value="Number of rooms: " style="font-weight: bold;"/>
+                            <h:outputText value="More detail: " style="font-weight: bold;"/>           
                         </h:panelGrid>  
-                    </p:fieldset>           
+                    </p:fieldset> 
+
+                    <p:fieldset legend="Contact information">                           
+                        <h:panelGrid columns="1" cellpadding="10" style="alignment-adjust: central; width: 615px; border: 0 solid black;">                      
+                            <h:outputText value="Name: " style="font-weight: bold;"/>
+                            <h:outputText value="Address: " style="font-weight: bold;"/>
+                            <h:outputText value="Email: " style="font-weight: bold;"/>
+                            <h:outputText value="Telephone: " style="font-weight: bold;"/>                            
+                        </h:panelGrid>  
+                    </p:fieldset>  
+
+                    <h:panelGrid columns="1" cellpadding="10" style="text-align: right; width: 615px; border: 0 solid black;">                      
+                        <h:outputText value="Poster: " style="font-weight: 500; font-style: italic; "/>
+                        <h:outputText value="Number of views: " style="font-weight: 500; font-style: italic; "/>
+                    </h:panelGrid>
+
                 </h:panelGrid>
 
             </h:panelGrid>
 
-        </p:carousel>  
+        </p:panel>
 
-        <p:resizable for="showImage" minWidth="400" maxWidth="500" minHeight="400" maxHeight="700" />
-        
-    </ui:define>
-
-    <ui:define name="col1_2">
 
     </ui:define>
 
-    <ui:define name="col2_2">
-
-    </ui:define>
-
-    <ui:define name="body3">
-
-    </ui:define>
 
 </ui:composition>
